@@ -69,3 +69,17 @@ footer{max-width:var(--maxw);margin:30px auto 0;padding:24px 22px 60px;color:var
   font-size:12.5px;font-family:"IBM Plex Mono";border-top:1px solid var(--line-soft)}
 footer a{color:var(--ink-dim)}
 :focus-visible{outline:2px solid var(--def);outline-offset:3px;border-radius:4px}
+
+/* ---------- per-item detail blocks (v2) ---------- */
+.item{border-top:1px solid var(--line-soft);padding:20px 0}
+.item:first-of-type{border-top:none}
+.item h3{font-family:"IBM Plex Mono";font-weight:600;font-size:17px;margin:0 0 8px;color:var(--ink);letter-spacing:-.01em}
+.item p{margin:0 0 10px}
+.item .meta{display:flex;flex-wrap:wrap;gap:8px 16px;align-items:center;margin-top:10px;font-size:13px}
+.item .meta a.more{font-family:"IBM Plex Mono";font-size:12.5px;color:var(--def);text-decoration:none;
+  border:1px solid rgba(53,207,224,.3);border-radius:6px;padding:4px 10px;transition:.15s;white-space:nowrap}
+.item .meta a.more:hover{background:rgba(53,207,224,.08);border-color:var(--def)}
+.item .meta .hrs{font-family:"IBM Plex Mono";font-size:12px;color:var(--ink-dim);display:flex;align-items:center;gap:6px}
+.item .meta .hrs b{color:var(--ink-mid);font-weight:500}
+.group-label{font-family:"IBM Plex Mono";font-size:11px;letter-spacing:.14em;text-transform:uppercase;
+  color:var(--off);margin:30px 0 4px;padding-top:8px}
