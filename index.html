@@ -78,6 +78,12 @@
   table.wx tbody tr:hover{background:var(--panel)}
   table.wx tbody tr.wk1 td.c-city{border-left:2px solid var(--off)}
   .wx-note{font-family:"IBM Plex Mono";font-size:12px;line-height:1.7;color:var(--ink-dim);margin-top:14px}
+  @media(max-width:600px){
+    table.wx{min-width:0;font-size:12px}
+    table.wx th,table.wx td{padding:8px 7px}
+    table.wx thead th{font-size:10px;letter-spacing:.02em}
+    table.wx td.c-hi,table.wx td.c-lo{font-size:12px}
+  }
 </style>
 </head>
 <body>
@@ -133,6 +139,7 @@
   <table class="wx">
     <thead><tr><th>Stop</th><th>Avg high</th><th>Avg low</th><th>Rain odds</th><th>Feel</th></tr></thead>
     <tbody>
+      <!-- WX:ROWS:START -->
       <tr class="wk1"><td class="c-city">🇮🇸 Reykjavík</td><td class="c-hi">12°C / 53°F</td><td class="c-lo">9°C / 47°F</td><td class="c-rain">~70%</td><td class="c-feel">Cool &amp; wet 🧥</td></tr>
       <tr class="wk1"><td class="c-city">🇩🇰 Copenhagen</td><td class="c-hi">27°C / 81°F</td><td class="c-lo">19°C / 66°F</td><td class="c-rain">~6%</td><td class="c-feel">Hot ☀️</td></tr>
       <tr class="wk1"><td class="c-city">🇸🇪 Stockholm</td><td class="c-hi">26°C / 79°F</td><td class="c-lo">18°C / 65°F</td><td class="c-rain">~14%</td><td class="c-feel">Hot ☀️</td></tr>
@@ -141,10 +148,11 @@
       <tr><td class="c-city">⛰️ Voss</td><td class="c-hi">20°C / 68°F</td><td class="c-lo">14°C / 57°F</td><td class="c-rain">~46%</td><td class="c-feel">Mild, showers 🌦️</td></tr>
       <tr><td class="c-city">🌉 Bergen</td><td class="c-hi">19°C / 65°F</td><td class="c-lo">13°C / 56°F</td><td class="c-rain">~36%</td><td class="c-feel">Mild, showers 🌧️</td></tr>
       <tr><td class="c-city">🇳🇱 Amsterdam</td><td class="c-hi">28°C / 83°F</td><td class="c-lo">20°C / 68°F</td><td class="c-rain">~8%</td><td class="c-feel">Hot ☀️</td></tr>
+      <!-- WX:ROWS:END -->
     </tbody>
   </table>
   </div>
-  <p class="wx-note">7-day average from Open-Meteo, pulled Jun 25 · amber bar = your first-week leg (Iceland → Stockholm).<br>Pack note: Iceland's cool and rainy while the mainland's having a heat wave — layers + a rain shell for Reykjavík and the fjords, light &amp; breathable for Copenhagen, Stockholm &amp; Amsterdam.</p>
+  <p class="wx-note">7-day average from Open-Meteo, pulled <span id="wx-updated">Jun 25</span> · amber bar = your first-week leg (Iceland → Stockholm).<br>Pack note: Iceland's cool and rainy while the mainland's having a heat wave — layers + a rain shell for Reykjavík and the fjords, light &amp; breathable for Copenhagen, Stockholm &amp; Amsterdam.</p>
 </section>
 </main>
 
