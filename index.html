@@ -66,6 +66,18 @@
   .callout{border-left:2px solid var(--def);background:rgba(53,207,224,.05);padding:14px 18px;border-radius:0 10px 10px 0;margin:8px 0 0;font-size:14.5px;color:var(--ink-mid)}
   footer{max-width:var(--maxw);margin:0 auto;padding:34px 22px 60px;color:var(--ink-dim);font-size:12.5px;font-family:"IBM Plex Mono"}
   :focus-visible{outline:2px solid var(--def);outline-offset:3px;border-radius:4px}
+
+  .wx-wrap{overflow-x:auto;margin-top:4px}
+  table.wx{width:100%;border-collapse:collapse;font-size:14px;min-width:560px}
+  table.wx th,table.wx td{text-align:left;padding:11px 14px;border-bottom:1px solid var(--line-soft)}
+  table.wx thead th{font-family:"IBM Plex Mono";font-size:11px;letter-spacing:.06em;text-transform:uppercase;color:var(--ink-dim);border-bottom:1px solid var(--line)}
+  table.wx td.c-city{font-weight:600;color:var(--ink);white-space:nowrap}
+  table.wx td.c-hi{color:var(--off-bright);font-family:"IBM Plex Mono";font-size:13px}
+  table.wx td.c-lo{color:var(--def);font-family:"IBM Plex Mono";font-size:13px}
+  table.wx td.c-rain,table.wx td.c-feel{color:var(--ink-mid)}
+  table.wx tbody tr:hover{background:var(--panel)}
+  table.wx tbody tr.wk1 td.c-city{border-left:2px solid var(--off)}
+  .wx-note{font-family:"IBM Plex Mono";font-size:12px;line-height:1.7;color:var(--ink-dim);margin-top:14px}
 </style>
 </head>
 <body>
@@ -113,6 +125,26 @@
     <a class="city cult" href="cities/amsterdam.html"><div class="top"><span class="flag">🇳🇱</span><h3>Amsterdam</h3><span class="dates">Jul 16–19</span></div><p class="one">Canal rings, Van Gogh &amp; Anne Frank, the cat boat, and the free Noord ferry.</p><span class="arrow">open →</span></a>
   </div>
   <div class="callout">Rituals — <em>City Rituals</em> &amp; <em>Daily Rituals</em> are reserved (you left them blank). Tell me what they are and I'll add a page.</div>
+</section>
+
+<section id="weather">
+  <div class="eyebrow">weather · next 7 days</div>
+  <div class="wx-wrap">
+  <table class="wx">
+    <thead><tr><th>Stop</th><th>Avg high</th><th>Avg low</th><th>Rain odds</th><th>Feel</th></tr></thead>
+    <tbody>
+      <tr class="wk1"><td class="c-city">🇮🇸 Reykjavík</td><td class="c-hi">12°C / 53°F</td><td class="c-lo">9°C / 47°F</td><td class="c-rain">~70%</td><td class="c-feel">Cool &amp; wet 🧥</td></tr>
+      <tr class="wk1"><td class="c-city">🇩🇰 Copenhagen</td><td class="c-hi">27°C / 81°F</td><td class="c-lo">19°C / 66°F</td><td class="c-rain">~6%</td><td class="c-feel">Hot ☀️</td></tr>
+      <tr class="wk1"><td class="c-city">🇸🇪 Stockholm</td><td class="c-hi">26°C / 79°F</td><td class="c-lo">18°C / 65°F</td><td class="c-rain">~14%</td><td class="c-feel">Hot ☀️</td></tr>
+      <tr class="wk1"><td class="c-city">🇳🇴 Oslo</td><td class="c-hi">25°C / 78°F</td><td class="c-lo">18°C / 64°F</td><td class="c-rain">~10%</td><td class="c-feel">Warm ☀️</td></tr>
+      <tr><td class="c-city">🏔️ Aurland / Flåm</td><td class="c-hi">21°C / 70°F</td><td class="c-lo">15°C / 58°F</td><td class="c-rain">~44%</td><td class="c-feel">Mild, showers 🌦️</td></tr>
+      <tr><td class="c-city">⛰️ Voss</td><td class="c-hi">20°C / 68°F</td><td class="c-lo">14°C / 57°F</td><td class="c-rain">~46%</td><td class="c-feel">Mild, showers 🌦️</td></tr>
+      <tr><td class="c-city">🌉 Bergen</td><td class="c-hi">19°C / 65°F</td><td class="c-lo">13°C / 56°F</td><td class="c-rain">~36%</td><td class="c-feel">Mild, showers 🌧️</td></tr>
+      <tr><td class="c-city">🇳🇱 Amsterdam</td><td class="c-hi">28°C / 83°F</td><td class="c-lo">20°C / 68°F</td><td class="c-rain">~8%</td><td class="c-feel">Hot ☀️</td></tr>
+    </tbody>
+  </table>
+  </div>
+  <p class="wx-note">7-day average from Open-Meteo, pulled Jun 25 · amber bar = your first-week leg (Iceland → Stockholm).<br>Pack note: Iceland's cool and rainy while the mainland's having a heat wave — layers + a rain shell for Reykjavík and the fjords, light &amp; breathable for Copenhagen, Stockholm &amp; Amsterdam.</p>
 </section>
 </main>
 
