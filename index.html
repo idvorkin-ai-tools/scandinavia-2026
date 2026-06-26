@@ -104,6 +104,32 @@
   .wx-cnote{font-family:"IBM Plex Mono";font-size:12px;line-height:1.55;color:var(--ink-dim);padding:4px 16px 2px}
   .wx-cmore{font-family:"IBM Plex Mono";font-size:11px;color:var(--ink-dim);opacity:.8;padding:7px 16px 0}
   .wx-note{font-family:"IBM Plex Mono";font-size:12px;line-height:1.7;color:var(--ink-dim);margin-top:16px}
+
+  /* ── gyms — drop-in day passes ── */
+  .gym-wrap{background:var(--panel);border:1px solid var(--line);border-radius:13px;overflow:hidden}
+  .gym-scroll{overflow-x:auto;-webkit-overflow-scrolling:touch;scrollbar-width:thin;scrollbar-color:var(--line) transparent}
+  .gym-scroll::-webkit-scrollbar{height:6px}
+  .gym-scroll::-webkit-scrollbar-thumb{background:var(--line);border-radius:3px}
+  .gym-scroll::-webkit-scrollbar-track{background:transparent}
+  table.gym{border-collapse:collapse;width:100%;min-width:640px;font-size:14px}
+  table.gym thead th{font-family:"IBM Plex Mono";font-size:11px;letter-spacing:.04em;text-transform:uppercase;color:var(--ink-dim);
+    text-align:left;font-weight:600;padding:13px 16px;border-bottom:1px solid var(--line);white-space:nowrap;background:var(--panel-2)}
+  table.gym tbody td{padding:14px 16px;border-bottom:1px solid var(--line-soft);vertical-align:top;color:var(--ink-mid)}
+  table.gym tbody tr:last-child td{border-bottom:none}
+  table.gym tbody tr:hover td{background:rgba(53,207,224,.035)}
+  table.gym tbody tr.cult td:first-child{box-shadow:inset 3px 0 0 var(--off)}
+  table.gym tbody tr.nat td:first-child{box-shadow:inset 3px 0 0 var(--def)}
+  .gym-city{font-family:"IBM Plex Mono";font-weight:600;font-size:14.5px;color:var(--ink);white-space:nowrap}
+  .gym-city .gd{display:block;font-family:"IBM Plex Mono";font-weight:400;font-size:10.5px;color:var(--ink-dim);margin-top:3px;letter-spacing:.02em}
+  .gym-pick{color:var(--ink);font-weight:500}
+  .gym-walk{font-family:"IBM Plex Mono";font-size:11.5px;color:var(--ink-dim);white-space:nowrap}
+  .gym-price{font-family:"IBM Plex Mono";font-size:14px;color:var(--off-bright);font-weight:600;white-space:nowrap}
+  .gym-price .loc{display:block;font-weight:400;font-size:10.5px;color:var(--ink-dim);margin-top:2px}
+  .gym-price.free{color:var(--def)}
+  .gym-notes{font-size:13.5px;color:var(--ink-mid);line-height:1.55}
+  .gym-notes .alt{display:block;margin-top:5px;font-family:"IBM Plex Mono";font-size:11.5px;color:var(--ink-dim)}
+  .gym-notes .alt b{color:var(--ink-mid);font-weight:500}
+  .gym-notes.rest{color:var(--ink-dim);font-style:italic}
 </style>
 </head>
 <body>
@@ -120,6 +146,7 @@
       <a href="cities/voss.html">Voss</a>
       <a href="cities/bergen.html">Bergen</a>
       <a href="cities/amsterdam.html">🇳🇱</a>
+      <a href="#gyms">🏋️ Gyms</a>
     </nav>
   </div>
 </header>
@@ -168,6 +195,84 @@
     <div class="wx-loading">Loading live forecast…</div>
   </div>
   <p class="wx-note">Each card shows only the days you’re actually in that city · forecasts fetched live from Open-Meteo in your browser · amber dot &amp; bar = your first-week leg (Iceland → Stockholm). Open-Meteo only forecasts ~16 days ahead, so later cities fill in as the trip nears — check back closer.<br>Pack note: Iceland tends cool &amp; rainy while the mainland can run warm — layers + a rain shell for Reykjavík and the fjords, light &amp; breathable for Copenhagen, Stockholm &amp; Amsterdam.</p>
+</section>
+
+<section id="gyms">
+  <div class="eyebrow">🏋️ Gyms — Drop-In Day Passes</div>
+  <div class="gym-wrap">
+    <div class="gym-scroll">
+      <table class="gym">
+        <thead>
+          <tr>
+            <th>City · stay</th>
+            <th>Pick</th>
+            <th>Walk</th>
+            <th>Day pass</th>
+            <th>Notes</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr class="nat">
+            <td><span class="gym-city">🇮🇸 Reykjavík<span class="gd">Lækur · 6/28–30</span></span></td>
+            <td><span class="gym-pick">World Class Laugar</span></td>
+            <td><span class="gym-walk">~8 min walk</span></td>
+            <td><span class="gym-price">~$17<span class="loc">2,100 ISK</span></span></td>
+            <td class="gym-notes">Open gym, full kit; in Laugardalur by the guesthouse. Book at reception or via the TrainAway app.</td>
+          </tr>
+          <tr class="cult">
+            <td><span class="gym-city">🇩🇰 Copenhagen<span class="gd">Gråbrødretorv · 6/30–7/3</span></span></td>
+            <td><span class="gym-pick">SHC Gothersgade</span></td>
+            <td><span class="gym-walk">~7 min walk</span></td>
+            <td><span class="gym-price">~$23<span class="loc">149 DKK</span></span></td>
+            <td class="gym-notes">Free weights + kettlebells.<span class="alt"><b>Full-kit alt:</b> Vesterbronx, 2.5 km, ~$15 (99 DKK).</span></td>
+          </tr>
+          <tr class="cult">
+            <td><span class="gym-city">🇸🇪 Stockholm<span class="gd">Gamla Stan · 7/3–7</span></span></td>
+            <td><span class="gym-pick">CrossFit Nordic</span></td>
+            <td><span class="gym-walk">~20 min (metro)</span></td>
+            <td><span class="gym-price">~$28<span class="loc">275 SEK</span></span></td>
+            <td class="gym-notes">Huge Eleiko box — email a day ahead.<span class="alt"><b>Walk-up alt:</b> SATS, ~$21 (200 SEK).</span></td>
+          </tr>
+          <tr class="cult">
+            <td><span class="gym-city">🇳🇴 Oslo<span class="gd">Bondeheimen · 7/7–10</span></span></td>
+            <td><span class="gym-pick">CrossFit Christiania</span></td>
+            <td><span class="gym-walk">~5 min walk</span></td>
+            <td><span class="gym-price free">free 1st<span class="loc">then ~$15 · 149 NOK</span></span></td>
+            <td class="gym-notes">Free first visit — message via FB/email ahead.<span class="alt"><b>Walk-up alt:</b> SATS Akersgata, ~$20 (200 NOK).</span></td>
+          </tr>
+          <tr class="nat">
+            <td><span class="gym-city">🏔️ Aurland<span class="gd">Winjum · 7/10–12</span></span></td>
+            <td><span class="gym-pick">No gym</span></td>
+            <td><span class="gym-walk">—</span></td>
+            <td><span class="gym-price free">—</span></td>
+            <td class="gym-notes rest">Hike Stegastein + fjord trails; bodyweight circuit in-room.</td>
+          </tr>
+          <tr class="nat">
+            <td><span class="gym-city">⛰️ Voss<span class="gd">Fleischer's · 7/12–13</span></span></td>
+            <td><span class="gym-pick">Fleischer's Hotel fitness room</span></td>
+            <td><span class="gym-walk">in hotel</span></td>
+            <td><span class="gym-price free">included</span></td>
+            <td class="gym-notes">In your hotel.<span class="alt"><b>Alt:</b> SKY Fitness Voss, 24/7, ~$15–20 (150–200 NOK).</span></td>
+          </tr>
+          <tr class="nat">
+            <td><span class="gym-city">🌉 Bergen<span class="gd">center · 7/13–16</span></span></td>
+            <td><span class="gym-pick">CrossFit Bryggen</span></td>
+            <td><span class="gym-walk">~3 min from Bryggen</span></td>
+            <td><span class="gym-price">~$20<span class="loc">200 NOK</span></span></td>
+            <td class="gym-notes">Book via Wodify, open-gym ok.<span class="alt"><b>Walk-up alt:</b> SATS LHG, ~$20.</span></td>
+          </tr>
+          <tr class="cult">
+            <td><span class="gym-city">🇳🇱 Amsterdam<span class="gd">Hoxton Lloyd · 7/16–19</span></span></td>
+            <td><span class="gym-pick">CrossFit Vastberaden</span></td>
+            <td><span class="gym-walk">~4 min walk (same quay)</span></td>
+            <td><span class="gym-price">~$26<span class="loc">€22.50</span></span></td>
+            <td class="gym-notes">Book online.<span class="alt"><b>Cheaper alt:</b> Vondelgym Oost, ~$22 (€19.50).</span></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+  <p class="wx-note"><b style="color:var(--ink-mid)">Same travel session everywhere:</b> 10×10 swings · 5 Turkish get-ups/side · 3×5 pull-ups or rows · goblet/split-squat technique — leave clean, no hero workout.<br>Prices converted at June 2026 rates — confirm at the door. CrossFit boxes prefer an email a day ahead; SATS/PureGym are walk-up. Ask for a “dagskort / dagspass / dagpas.”</p>
 </section>
 </main>
 
