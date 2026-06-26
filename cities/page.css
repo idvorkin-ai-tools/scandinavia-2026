@@ -87,3 +87,24 @@ footer a{color:var(--ink-dim)}
 .item .meta .hrs .vf{opacity:.55}
 .group-label{font-family:"IBM Plex Mono";font-size:11px;letter-spacing:.14em;text-transform:uppercase;
   color:var(--off);margin:30px 0 4px;padding-top:8px}
+
+/* ---------- scavenger hunt checklist ---------- */
+.hunt{margin:8px 0 4px;padding-left:0;list-style:none}
+.hunt li{color:var(--ink-mid);padding:7px 0 7px 30px;position:relative;max-width:68ch;
+  border-top:1px solid var(--line-soft)}
+.hunt li:first-child{border-top:none}
+.hunt li::before{content:"\2610";position:absolute;left:0;top:6px;color:var(--off);
+  font-size:17px;line-height:1;font-family:"IBM Plex Mono",ui-monospace,monospace}
+
+/* ---------- train / workout block ---------- */
+.train{border-top:1px solid var(--line-soft);padding:15px 0}
+.train h3{font-family:"IBM Plex Mono";font-weight:600;font-size:17px;margin:0 0 8px;
+  color:var(--ink);letter-spacing:-.01em}
+.train .gym{color:var(--ink-mid);margin:0 0 10px;max-width:68ch}
+.train .gym a{color:var(--def);text-decoration:none;border-bottom:1px solid rgba(53,207,224,.32);
+  transition:.15s;font-weight:600}
+.train .gym a:hover{color:var(--off-bright);border-bottom-color:var(--def)}
+.train .wod{border-left:2px solid var(--off);background:rgba(245,165,36,.05);
+  padding:11px 14px;border-radius:0 10px 10px 0;margin:0;font-size:14.5px;color:var(--ink-mid)}
+.train .wod .lbl{font-family:"IBM Plex Mono";font-size:10.5px;letter-spacing:.12em;
+  text-transform:uppercase;color:var(--ink-dim);display:block;margin-bottom:3px}
