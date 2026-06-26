@@ -130,6 +130,23 @@
   .gym-notes .alt{display:block;margin-top:5px;font-family:"IBM Plex Mono";font-size:11.5px;color:var(--ink-dim)}
   .gym-notes .alt b{color:var(--ink-mid);font-weight:500}
   .gym-notes.rest{color:var(--ink-dim);font-style:italic}
+  /* mobile: collapse the wide 5-col table into stacked per-city cards */
+  @media(max-width:720px){
+    .gym-scroll{overflow-x:visible}
+    table.gym{min-width:0;display:block;font-size:14px}
+    table.gym thead{display:none}
+    table.gym tbody{display:block}
+    table.gym tbody tr{display:block;padding:14px 16px;border-bottom:1px solid var(--line-soft)}
+    table.gym tbody tr:last-child{border-bottom:none}
+    table.gym tbody tr.cult{box-shadow:inset 3px 0 0 var(--off)}
+    table.gym tbody tr.nat{box-shadow:inset 3px 0 0 var(--def)}
+    table.gym tbody tr.cult td:first-child,table.gym tbody tr.nat td:first-child{box-shadow:none}
+    table.gym tbody td{display:block;border:none;padding:0;margin-top:5px}
+    table.gym tbody td:first-child{margin-top:0}
+    .gym-pick{font-weight:600;font-size:14.5px}
+    table.gym tbody td:nth-child(3),table.gym tbody td:nth-child(4){display:inline-block;margin-right:18px;margin-top:7px}
+    .gym-notes{margin-top:7px}
+  }
 </style>
 </head>
 <body>
