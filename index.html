@@ -84,6 +84,7 @@
   .wx-card .ct{display:flex;align-items:baseline;gap:9px;padding:0 16px 12px;flex-wrap:wrap}
   .wx-card .ct .flag{font-size:18px;line-height:1}
   .wx-card .ct h3{font-family:"IBM Plex Mono";font-weight:600;font-size:16px;margin:0;color:var(--ink)}
+  .wx-card .ct .span{font-family:"IBM Plex Mono";font-size:11px;color:var(--ink-dim);letter-spacing:.02em}
   .wx-card .ct .leg{width:6px;height:6px;border-radius:50%;background:var(--off);box-shadow:0 0 7px rgba(245,165,36,.6)}
   .wx-card .ct .cerr{font-family:"IBM Plex Mono";font-size:11.5px;color:var(--ink-dim);margin-left:auto}
   .wx-card .ct .cerr a{color:var(--def);cursor:pointer}
@@ -91,8 +92,8 @@
   .wx-strip::-webkit-scrollbar{height:6px}
   .wx-strip::-webkit-scrollbar-thumb{background:var(--line);border-radius:3px}
   .wx-strip::-webkit-scrollbar-track{background:transparent}
-  .wx-day{flex:0 0 auto;width:60px;background:var(--panel-2);border:1px solid var(--line-soft);border-radius:10px;padding:9px 5px;text-align:center;display:flex;flex-direction:column;align-items:center;gap:4px}
-  .wx-day .dow{font-family:"IBM Plex Mono";font-size:10.5px;letter-spacing:.04em;text-transform:uppercase;color:var(--ink-dim)}
+  .wx-day{flex:0 0 auto;width:68px;background:var(--panel-2);border:1px solid var(--line-soft);border-radius:10px;padding:9px 5px;text-align:center;display:flex;flex-direction:column;align-items:center;gap:4px}
+  .wx-day .dow{font-family:"IBM Plex Mono";font-size:10px;letter-spacing:.02em;text-transform:uppercase;color:var(--ink-dim);white-space:nowrap}
   .wx-day .ico{font-size:21px;line-height:1.1}
   .wx-day .tmp{font-family:"IBM Plex Mono";font-size:12px;line-height:1.25;white-space:nowrap}
   .wx-day .tmp .hi{color:var(--off-bright)} .wx-day .tmp .sep{color:var(--ink-dim)} .wx-day .tmp .lo{color:var(--def)}
@@ -100,6 +101,8 @@
   .wx-day .rain.dry{color:var(--ink-dim);opacity:.5}
   .wx-loading,.wx-cerr{font-family:"IBM Plex Mono";font-size:12.5px;color:var(--ink-dim);padding:6px 16px}
   .wx-cerr a{color:var(--def);cursor:pointer;text-decoration:underline}
+  .wx-cnote{font-family:"IBM Plex Mono";font-size:12px;line-height:1.55;color:var(--ink-dim);padding:4px 16px 2px}
+  .wx-cmore{font-family:"IBM Plex Mono";font-size:11px;color:var(--ink-dim);opacity:.8;padding:7px 16px 0}
   .wx-note{font-family:"IBM Plex Mono";font-size:12px;line-height:1.7;color:var(--ink-dim);margin-top:16px}
 </style>
 </head>
@@ -151,10 +154,10 @@
 </section>
 
 <section id="weather">
-  <div class="eyebrow">weather · live 10-day forecast</div>
+  <div class="eyebrow">weather · live · only your days in each city</div>
   <div class="wx-head">
     <div class="wx-live">
-      <span class="pulse"></span>Live · updates each time you open this page · source:&nbsp;<a href="https://open-meteo.com/" target="_blank" rel="noopener">Open-Meteo</a><span id="wx-updated"></span>
+      <span class="pulse"></span>Live · only your days in each city · updates each visit · source:&nbsp;<a href="https://open-meteo.com/" target="_blank" rel="noopener">Open-Meteo</a><span id="wx-updated"></span>
     </div>
     <div class="wx-toggle" role="group" aria-label="Temperature units">
       <button type="button" data-unit="C" class="on">°C</button>
@@ -164,7 +167,7 @@
   <div class="wx-cards" id="wx-cards">
     <div class="wx-loading">Loading live forecast…</div>
   </div>
-  <p class="wx-note">Forecasts fetched live from Open-Meteo in your browser · amber dot &amp; bar = your first-week leg (Iceland → Stockholm).<br>Pack note: Iceland tends cool &amp; rainy while the mainland can run warm — layers + a rain shell for Reykjavík and the fjords, light &amp; breathable for Copenhagen, Stockholm &amp; Amsterdam.</p>
+  <p class="wx-note">Each card shows only the days you’re actually in that city · forecasts fetched live from Open-Meteo in your browser · amber dot &amp; bar = your first-week leg (Iceland → Stockholm). Open-Meteo only forecasts ~16 days ahead, so later cities fill in as the trip nears — check back closer.<br>Pack note: Iceland tends cool &amp; rainy while the mainland can run warm — layers + a rain shell for Reykjavík and the fjords, light &amp; breathable for Copenhagen, Stockholm &amp; Amsterdam.</p>
 </section>
 </main>
 
@@ -172,15 +175,16 @@
 (function(){
   "use strict";
   // Trip cities in itinerary order. flag = same emoji used in the city nav/cards.
+  // start/end = inclusive itinerary date range (ISO, local). Only these days show per city.
   var CITIES = [
-    {name:"Reykjavík",       flag:"🇮🇸", lat:64.15, lon:-21.94, wk1:true},
-    {name:"Copenhagen",      flag:"🇩🇰", lat:55.68, lon:12.57, wk1:true},
-    {name:"Stockholm",       flag:"🇸🇪", lat:59.33, lon:18.07, wk1:true},
-    {name:"Oslo",            flag:"🇳🇴", lat:59.91, lon:10.75, wk1:false},
-    {name:"Aurland / Flåm",  flag:"🏔️", lat:60.91, lon:7.19,  wk1:false},
-    {name:"Voss",            flag:"⛰️", lat:60.63, lon:6.43,  wk1:false},
-    {name:"Bergen",          flag:"🌉", lat:60.39, lon:5.32,  wk1:false},
-    {name:"Amsterdam",       flag:"🇳🇱", lat:52.37, lon:4.90,  wk1:false}
+    {name:"Reykjavík",       flag:"🇮🇸", lat:64.15, lon:-21.94, wk1:true,  start:"2026-06-28", end:"2026-06-30"},
+    {name:"Copenhagen",      flag:"🇩🇰", lat:55.68, lon:12.57, wk1:true,  start:"2026-06-30", end:"2026-07-03"},
+    {name:"Stockholm",       flag:"🇸🇪", lat:59.33, lon:18.07, wk1:true,  start:"2026-07-03", end:"2026-07-07"},
+    {name:"Oslo",            flag:"🇳🇴", lat:59.91, lon:10.75, wk1:false, start:"2026-07-07", end:"2026-07-10"},
+    {name:"Aurland / Flåm",  flag:"🏔️", lat:60.91, lon:7.19,  wk1:false, start:"2026-07-10", end:"2026-07-12"},
+    {name:"Voss",            flag:"⛰️", lat:60.63, lon:6.43,  wk1:false, start:"2026-07-12", end:"2026-07-13"},
+    {name:"Bergen",          flag:"🌉", lat:60.39, lon:5.32,  wk1:false, start:"2026-07-13", end:"2026-07-16"},
+    {name:"Amsterdam",       flag:"🇳🇱", lat:52.37, lon:4.90,  wk1:false, start:"2026-07-16", end:"2026-07-19"}
   ];
 
   function wmoIcon(c){
@@ -198,11 +202,26 @@
   }
 
   var DOW = ["Sun","Mon","Tue","Wed","Thu","Fri","Sat"];
-  function dowFromISO(iso){
+  var MON = ["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"];
+  function dateFromISO(iso){
     // iso like "2026-06-28" — parse as local date to avoid TZ shift
     var p = iso.split("-");
-    var d = new Date(+p[0], +p[1]-1, +p[2]);
-    return DOW[d.getDay()];
+    return new Date(+p[0], +p[1]-1, +p[2]);
+  }
+  function dowFromISO(iso){ return DOW[dateFromISO(iso).getDay()]; }
+  function mdFromISO(iso){
+    // "2026-06-28" -> "Jun 28"
+    var d = dateFromISO(iso);
+    return MON[d.getMonth()] + " " + d.getDate();
+  }
+  // midnight-local today, for stable day-count math
+  function todayLocal(){
+    var n = new Date();
+    return new Date(n.getFullYear(), n.getMonth(), n.getDate());
+  }
+  // whole days from today to an ISO date (negative = in the past)
+  function daysUntil(iso){
+    return Math.round((dateFromISO(iso) - todayLocal()) / 86400000);
   }
 
   function url(city){
@@ -210,7 +229,7 @@
       + "?latitude=" + city.lat
       + "&longitude=" + city.lon
       + "&daily=weather_code,temperature_2m_max,temperature_2m_min,precipitation_probability_max"
-      + "&timezone=auto&forecast_days=10";
+      + "&timezone=auto&forecast_days=16";
   }
 
   function cToF(c){ return c*9/5 + 32; }
@@ -238,17 +257,28 @@
     var rainTxt = (day.rain===null||day.rain===undefined) ? "—%" : (day.rain + "%");
     var rainCls = (day.rain!==null && day.rain<20) ? " dry" : "";
     return '<div class="wx-day"' + (title?' title="'+title+'"':'') + '>'
-      + '<span class="dow">' + day.dow + '</span>'
+      + '<span class="dow">' + day.dow + ' · ' + day.md + '</span>'
       + '<span class="ico">' + wmoIcon(day.code) + '</span>'
       + '<span class="tmp"><span class="hi">' + fmtTemp(hiC,unit) + '</span><span class="sep">/</span><span class="lo">' + fmtTemp(loC,unit) + '</span></span>'
       + '<span class="rain' + rainCls + '">💧' + rainTxt + '</span>'
       + '</div>';
   }
 
+  // Keep only forecast days whose ISO date is within [start, end] inclusive.
+  function inRangeDays(days, city){
+    var out = [];
+    for(var i=0;i<days.length;i++){
+      var iso = days[i].iso;
+      if(iso >= city.start && iso <= city.end) out.push(days[i]); // ISO strings compare lexically = chronologically
+    }
+    return out;
+  }
+
   function renderCard(slot, idx){
     var c = slot.city;
     var html = '<div class="wx-card' + (c.wk1?' wk1':'') + '" data-idx="' + idx + '">';
     html += '<div class="ct"><span class="flag">' + c.flag + '</span><h3>' + c.name + '</h3>';
+    html += '<span class="span">' + mdFromISO(c.start) + '–' + mdFromISO(c.end) + '</span>';
     if(c.wk1) html += '<span class="leg" title="First-week leg"></span>';
     if(slot.error) html += '<span class="cerr">couldn’t load — <a data-retry="' + idx + '">tap to retry</a></span>';
     html += '</div>';
@@ -257,9 +287,31 @@
     } else if(!slot.data){
       html += '<div class="wx-loading">Loading…</div>';
     } else {
-      html += '<div class="wx-strip">';
-      for(var i=0;i<slot.data.length;i++){ html += dayCell(slot.data[i], unit); }
-      html += '</div>';
+      var avail = slot.data;                       // days the API actually returned (~16-day window)
+      var shown = inRangeDays(avail, c);           // of those, the ones inside this city's trip dates
+      if(shown.length === 0){
+        // None of this city's dates are inside the available forecast window.
+        var startsIn = daysUntil(c.start);
+        var endsIn   = daysUntil(c.end);
+        if(endsIn < 0){
+          // Whole trip range is in the past and the forecast no longer covers it.
+          html += '<div class="wx-cnote">Trip dates have passed — no forecast for these days.</div>';
+        } else {
+          // Future, but beyond the ~16-day forecast horizon.
+          var away = startsIn > 0 ? startsIn : 0;
+          html += '<div class="wx-cnote">Forecast opens ~16 days out — check back closer ('
+            + 'your dates are ~' + away + ' day' + (away===1?'':'s') + ' away).</div>';
+        }
+      } else {
+        html += '<div class="wx-strip">';
+        for(var i=0;i<shown.length;i++){ html += dayCell(shown[i], unit); }
+        html += '</div>';
+        // Some in-range dates are still beyond the forecast horizon.
+        var lastShownISO = shown[shown.length-1].iso;
+        if(lastShownISO < c.end){
+          html += '<div class="wx-cmore">+ more once they’re within the 16-day forecast.</div>';
+        }
+      }
     }
     html += '</div>';
     return html;
@@ -286,7 +338,9 @@
     var days = [];
     for(var i=0;i<d.time.length;i++){
       days.push({
+        iso: d.time[i],
         dow: dowFromISO(d.time[i]),
+        md: mdFromISO(d.time[i]),
         code: (d.weather_code && d.weather_code[i]!=null) ? d.weather_code[i] : null,
         hi: (d.temperature_2m_max && d.temperature_2m_max[i]!=null) ? d.temperature_2m_max[i] : null,
         lo: (d.temperature_2m_min && d.temperature_2m_min[i]!=null) ? d.temperature_2m_min[i] : null,
