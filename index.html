@@ -67,23 +67,40 @@
   footer{max-width:var(--maxw);margin:0 auto;padding:34px 22px 60px;color:var(--ink-dim);font-size:12.5px;font-family:"IBM Plex Mono"}
   :focus-visible{outline:2px solid var(--def);outline-offset:3px;border-radius:4px}
 
-  .wx-wrap{overflow-x:auto;margin-top:4px}
-  table.wx{width:100%;border-collapse:collapse;font-size:14px;min-width:560px}
-  table.wx th,table.wx td{text-align:left;padding:11px 14px;border-bottom:1px solid var(--line-soft)}
-  table.wx thead th{font-family:"IBM Plex Mono";font-size:11px;letter-spacing:.06em;text-transform:uppercase;color:var(--ink-dim);border-bottom:1px solid var(--line)}
-  table.wx td.c-city{font-weight:600;color:var(--ink);white-space:nowrap}
-  table.wx td.c-hi{color:var(--off-bright);font-family:"IBM Plex Mono";font-size:13px}
-  table.wx td.c-lo{color:var(--def);font-family:"IBM Plex Mono";font-size:13px}
-  table.wx td.c-rain,table.wx td.c-feel{color:var(--ink-mid)}
-  table.wx tbody tr:hover{background:var(--panel)}
-  table.wx tbody tr.wk1 td.c-city{border-left:2px solid var(--off)}
-  .wx-note{font-family:"IBM Plex Mono";font-size:12px;line-height:1.7;color:var(--ink-dim);margin-top:14px}
-  @media(max-width:600px){
-    table.wx{min-width:0;font-size:12px}
-    table.wx th,table.wx td{padding:8px 7px}
-    table.wx thead th{font-size:10px;letter-spacing:.02em}
-    table.wx td.c-hi,table.wx td.c-lo{font-size:12px}
-  }
+  /* ── live weather widget ── */
+  .wx-head{display:flex;align-items:center;gap:12px;flex-wrap:wrap;margin-bottom:18px}
+  .wx-live{font-family:"IBM Plex Mono";font-size:11px;color:var(--ink-dim);display:flex;align-items:center;gap:7px;flex-wrap:wrap;line-height:1.6}
+  .wx-live .pulse{width:7px;height:7px;border-radius:50%;background:#ff4d4d;box-shadow:0 0 0 0 rgba(255,77,77,.6);animation:wxpulse 2s infinite;flex:none}
+  @keyframes wxpulse{0%{box-shadow:0 0 0 0 rgba(255,77,77,.5)}70%{box-shadow:0 0 0 6px rgba(255,77,77,0)}100%{box-shadow:0 0 0 0 rgba(255,77,77,0)}}
+  .wx-live a{color:var(--def);text-decoration:none}
+  .wx-live a:hover{text-decoration:underline}
+  .wx-toggle{margin-left:auto;display:inline-flex;border:1px solid var(--line);border-radius:8px;overflow:hidden;font-family:"IBM Plex Mono";font-size:12px}
+  .wx-toggle button{appearance:none;background:transparent;color:var(--ink-dim);border:none;padding:6px 13px;cursor:pointer;font-family:inherit;font-size:inherit;transition:.15s}
+  .wx-toggle button:hover{color:var(--ink)}
+  .wx-toggle button.on{background:var(--off);color:#0A0C0F;font-weight:600}
+  .wx-cards{display:flex;flex-direction:column;gap:13px}
+  .wx-card{background:var(--panel);border:1px solid var(--line);border-radius:13px;padding:15px 0 15px 0;overflow:hidden}
+  .wx-card.wk1{border-left:2px solid var(--off)}
+  .wx-card .ct{display:flex;align-items:baseline;gap:9px;padding:0 16px 12px;flex-wrap:wrap}
+  .wx-card .ct .flag{font-size:18px;line-height:1}
+  .wx-card .ct h3{font-family:"IBM Plex Mono";font-weight:600;font-size:16px;margin:0;color:var(--ink)}
+  .wx-card .ct .leg{width:6px;height:6px;border-radius:50%;background:var(--off);box-shadow:0 0 7px rgba(245,165,36,.6)}
+  .wx-card .ct .cerr{font-family:"IBM Plex Mono";font-size:11.5px;color:var(--ink-dim);margin-left:auto}
+  .wx-card .ct .cerr a{color:var(--def);cursor:pointer}
+  .wx-strip{display:flex;gap:7px;overflow-x:auto;-webkit-overflow-scrolling:touch;padding:2px 16px 6px;scrollbar-width:thin;scrollbar-color:var(--line) transparent}
+  .wx-strip::-webkit-scrollbar{height:6px}
+  .wx-strip::-webkit-scrollbar-thumb{background:var(--line);border-radius:3px}
+  .wx-strip::-webkit-scrollbar-track{background:transparent}
+  .wx-day{flex:0 0 auto;width:60px;background:var(--panel-2);border:1px solid var(--line-soft);border-radius:10px;padding:9px 5px;text-align:center;display:flex;flex-direction:column;align-items:center;gap:4px}
+  .wx-day .dow{font-family:"IBM Plex Mono";font-size:10.5px;letter-spacing:.04em;text-transform:uppercase;color:var(--ink-dim)}
+  .wx-day .ico{font-size:21px;line-height:1.1}
+  .wx-day .tmp{font-family:"IBM Plex Mono";font-size:12px;line-height:1.25;white-space:nowrap}
+  .wx-day .tmp .hi{color:var(--off-bright)} .wx-day .tmp .sep{color:var(--ink-dim)} .wx-day .tmp .lo{color:var(--def)}
+  .wx-day .rain{font-family:"IBM Plex Mono";font-size:10px;color:var(--ink-mid)}
+  .wx-day .rain.dry{color:var(--ink-dim);opacity:.5}
+  .wx-loading,.wx-cerr{font-family:"IBM Plex Mono";font-size:12.5px;color:var(--ink-dim);padding:6px 16px}
+  .wx-cerr a{color:var(--def);cursor:pointer;text-decoration:underline}
+  .wx-note{font-family:"IBM Plex Mono";font-size:12px;line-height:1.7;color:var(--ink-dim);margin-top:16px}
 </style>
 </head>
 <body>
@@ -134,27 +151,202 @@
 </section>
 
 <section id="weather">
-  <div class="eyebrow">weather · next 7 days</div>
-  <div class="wx-wrap">
-  <table class="wx">
-    <thead><tr><th>Stop</th><th>Avg high</th><th>Avg low</th><th>Rain odds</th><th>Feel</th></tr></thead>
-    <tbody>
-      <!-- WX:ROWS:START -->
-      <tr class="wk1"><td class="c-city">🇮🇸 Reykjavík</td><td class="c-hi">12°C / 53°F</td><td class="c-lo">9°C / 47°F</td><td class="c-rain">~70%</td><td class="c-feel">Cool &amp; wet 🧥</td></tr>
-      <tr class="wk1"><td class="c-city">🇩🇰 Copenhagen</td><td class="c-hi">27°C / 81°F</td><td class="c-lo">19°C / 66°F</td><td class="c-rain">~6%</td><td class="c-feel">Hot ☀️</td></tr>
-      <tr class="wk1"><td class="c-city">🇸🇪 Stockholm</td><td class="c-hi">26°C / 79°F</td><td class="c-lo">18°C / 65°F</td><td class="c-rain">~14%</td><td class="c-feel">Hot ☀️</td></tr>
-      <tr class="wk1"><td class="c-city">🇳🇴 Oslo</td><td class="c-hi">25°C / 78°F</td><td class="c-lo">18°C / 64°F</td><td class="c-rain">~10%</td><td class="c-feel">Warm ☀️</td></tr>
-      <tr><td class="c-city">🏔️ Aurland / Flåm</td><td class="c-hi">21°C / 70°F</td><td class="c-lo">15°C / 58°F</td><td class="c-rain">~44%</td><td class="c-feel">Mild, showers 🌦️</td></tr>
-      <tr><td class="c-city">⛰️ Voss</td><td class="c-hi">20°C / 68°F</td><td class="c-lo">14°C / 57°F</td><td class="c-rain">~46%</td><td class="c-feel">Mild, showers 🌦️</td></tr>
-      <tr><td class="c-city">🌉 Bergen</td><td class="c-hi">19°C / 65°F</td><td class="c-lo">13°C / 56°F</td><td class="c-rain">~36%</td><td class="c-feel">Mild, showers 🌧️</td></tr>
-      <tr><td class="c-city">🇳🇱 Amsterdam</td><td class="c-hi">28°C / 83°F</td><td class="c-lo">20°C / 68°F</td><td class="c-rain">~8%</td><td class="c-feel">Hot ☀️</td></tr>
-      <!-- WX:ROWS:END -->
-    </tbody>
-  </table>
+  <div class="eyebrow">weather · live 10-day forecast</div>
+  <div class="wx-head">
+    <div class="wx-live">
+      <span class="pulse"></span>Live · updates each time you open this page · source:&nbsp;<a href="https://open-meteo.com/" target="_blank" rel="noopener">Open-Meteo</a><span id="wx-updated"></span>
+    </div>
+    <div class="wx-toggle" role="group" aria-label="Temperature units">
+      <button type="button" data-unit="C" class="on">°C</button>
+      <button type="button" data-unit="F">°F</button>
+    </div>
   </div>
-  <p class="wx-note">7-day average from Open-Meteo, pulled <span id="wx-updated">Jun 25</span> · amber bar = your first-week leg (Iceland → Stockholm).<br>Pack note: Iceland's cool and rainy while the mainland's having a heat wave — layers + a rain shell for Reykjavík and the fjords, light &amp; breathable for Copenhagen, Stockholm &amp; Amsterdam.</p>
+  <div class="wx-cards" id="wx-cards">
+    <div class="wx-loading">Loading live forecast…</div>
+  </div>
+  <p class="wx-note">Forecasts fetched live from Open-Meteo in your browser · amber dot &amp; bar = your first-week leg (Iceland → Stockholm).<br>Pack note: Iceland tends cool &amp; rainy while the mainland can run warm — layers + a rain shell for Reykjavík and the fjords, light &amp; breathable for Copenhagen, Stockholm &amp; Amsterdam.</p>
 </section>
 </main>
+
+<script>
+(function(){
+  "use strict";
+  // Trip cities in itinerary order. flag = same emoji used in the city nav/cards.
+  var CITIES = [
+    {name:"Reykjavík",       flag:"🇮🇸", lat:64.15, lon:-21.94, wk1:true},
+    {name:"Copenhagen",      flag:"🇩🇰", lat:55.68, lon:12.57, wk1:true},
+    {name:"Stockholm",       flag:"🇸🇪", lat:59.33, lon:18.07, wk1:true},
+    {name:"Oslo",            flag:"🇳🇴", lat:59.91, lon:10.75, wk1:false},
+    {name:"Aurland / Flåm",  flag:"🏔️", lat:60.91, lon:7.19,  wk1:false},
+    {name:"Voss",            flag:"⛰️", lat:60.63, lon:6.43,  wk1:false},
+    {name:"Bergen",          flag:"🌉", lat:60.39, lon:5.32,  wk1:false},
+    {name:"Amsterdam",       flag:"🇳🇱", lat:52.37, lon:4.90,  wk1:false}
+  ];
+
+  function wmoIcon(c){
+    if(c===0) return "☀️";
+    if(c===1||c===2) return "🌤️";
+    if(c===3) return "☁️";
+    if(c===45||c===48) return "🌫️";
+    if(c===51||c===53||c===55||c===56||c===57) return "🌦️";
+    if(c===61||c===63||c===65||c===66||c===67) return "🌧️";
+    if(c===71||c===73||c===75||c===77) return "🌨️";
+    if(c===80||c===81||c===82) return "🌧️";
+    if(c===85||c===86) return "🌨️";
+    if(c===95||c===96||c===99) return "⛈️";
+    return "•";
+  }
+
+  var DOW = ["Sun","Mon","Tue","Wed","Thu","Fri","Sat"];
+  function dowFromISO(iso){
+    // iso like "2026-06-28" — parse as local date to avoid TZ shift
+    var p = iso.split("-");
+    var d = new Date(+p[0], +p[1]-1, +p[2]);
+    return DOW[d.getDay()];
+  }
+
+  function url(city){
+    return "https://api.open-meteo.com/v1/forecast"
+      + "?latitude=" + city.lat
+      + "&longitude=" + city.lon
+      + "&daily=weather_code,temperature_2m_max,temperature_2m_min,precipitation_probability_max"
+      + "&timezone=auto&forecast_days=10";
+  }
+
+  function cToF(c){ return c*9/5 + 32; }
+  function fmtTemp(c, unit){
+    if(c===null||c===undefined||isNaN(c)) return "–";
+    var v = unit==="F" ? cToF(c) : c;
+    return Math.round(v) + "°";
+  }
+  function altTitle(hiC, loC, unit){
+    // title attribute shows the OTHER unit
+    if(unit==="C"){
+      return "hi " + fmtTemp(cToF(hiC),"C") + "F / lo " + fmtTemp(cToF(loC),"C") + "F";
+    }
+    return "hi " + fmtTemp(hiC,"C") + "C / lo " + fmtTemp(loC,"C") + "C";
+  }
+
+  var unit = "C";
+  var state = CITIES.map(function(c){ return {city:c, data:null, error:false}; });
+  var cardsEl = document.getElementById("wx-cards");
+  var updatedEl = document.getElementById("wx-updated");
+
+  function dayCell(day, unit){
+    var hiC = day.hi, loC = day.lo;
+    var title = day.code===null ? "" : altTitle(hiC, loC, unit);
+    var rainTxt = (day.rain===null||day.rain===undefined) ? "—%" : (day.rain + "%");
+    var rainCls = (day.rain!==null && day.rain<20) ? " dry" : "";
+    return '<div class="wx-day"' + (title?' title="'+title+'"':'') + '>'
+      + '<span class="dow">' + day.dow + '</span>'
+      + '<span class="ico">' + wmoIcon(day.code) + '</span>'
+      + '<span class="tmp"><span class="hi">' + fmtTemp(hiC,unit) + '</span><span class="sep">/</span><span class="lo">' + fmtTemp(loC,unit) + '</span></span>'
+      + '<span class="rain' + rainCls + '">💧' + rainTxt + '</span>'
+      + '</div>';
+  }
+
+  function renderCard(slot, idx){
+    var c = slot.city;
+    var html = '<div class="wx-card' + (c.wk1?' wk1':'') + '" data-idx="' + idx + '">';
+    html += '<div class="ct"><span class="flag">' + c.flag + '</span><h3>' + c.name + '</h3>';
+    if(c.wk1) html += '<span class="leg" title="First-week leg"></span>';
+    if(slot.error) html += '<span class="cerr">couldn’t load — <a data-retry="' + idx + '">tap to retry</a></span>';
+    html += '</div>';
+    if(slot.error){
+      html += '<div class="wx-cerr">No forecast right now. <a data-retry="' + idx + '">Retry</a></div>';
+    } else if(!slot.data){
+      html += '<div class="wx-loading">Loading…</div>';
+    } else {
+      html += '<div class="wx-strip">';
+      for(var i=0;i<slot.data.length;i++){ html += dayCell(slot.data[i], unit); }
+      html += '</div>';
+    }
+    html += '</div>';
+    return html;
+  }
+
+  function renderAll(){
+    var out = "";
+    for(var i=0;i<state.length;i++){ out += renderCard(state[i], i); }
+    cardsEl.innerHTML = out;
+    // wire retry links
+    var retries = cardsEl.querySelectorAll("[data-retry]");
+    for(var r=0;r<retries.length;r++){
+      retries[r].addEventListener("click", function(e){
+        var idx = +e.currentTarget.getAttribute("data-retry");
+        e.preventDefault();
+        loadCity(idx);
+      });
+    }
+  }
+
+  function parse(json){
+    var d = json && json.daily;
+    if(!d || !d.time) throw new Error("bad payload");
+    var days = [];
+    for(var i=0;i<d.time.length;i++){
+      days.push({
+        dow: dowFromISO(d.time[i]),
+        code: (d.weather_code && d.weather_code[i]!=null) ? d.weather_code[i] : null,
+        hi: (d.temperature_2m_max && d.temperature_2m_max[i]!=null) ? d.temperature_2m_max[i] : null,
+        lo: (d.temperature_2m_min && d.temperature_2m_min[i]!=null) ? d.temperature_2m_min[i] : null,
+        rain: (d.precipitation_probability_max && d.precipitation_probability_max[i]!=null) ? d.precipitation_probability_max[i] : null
+      });
+    }
+    return days;
+  }
+
+  function loadCity(idx){
+    var slot = state[idx];
+    slot.error = false;
+    slot.data = null;
+    renderAll();
+    return fetch(url(slot.city), {cache:"no-store"})
+      .then(function(res){ if(!res.ok) throw new Error("HTTP " + res.status); return res.json(); })
+      .then(function(json){ slot.data = parse(json); slot.error = false; })
+      .catch(function(){ slot.error = true; slot.data = null; })
+      .then(function(){ renderAll(); });
+  }
+
+  function stamp(){
+    try{
+      var now = new Date();
+      var t = now.toLocaleString(undefined, {hour:"numeric", minute:"2-digit"});
+      var dd = now.toLocaleDateString(undefined, {month:"short", day:"numeric"});
+      updatedEl.textContent = " · fetched " + dd + ", " + t;
+    }catch(e){ /* no-op */ }
+  }
+
+  // °C/°F toggle — re-render in place
+  var toggleBtns = document.querySelectorAll(".wx-toggle button");
+  for(var b=0;b<toggleBtns.length;b++){
+    toggleBtns[b].addEventListener("click", function(e){
+      var u = e.currentTarget.getAttribute("data-unit");
+      if(u===unit) return;
+      unit = u;
+      for(var k=0;k<toggleBtns.length;k++){
+        toggleBtns[k].classList.toggle("on", toggleBtns[k].getAttribute("data-unit")===unit);
+      }
+      renderAll();
+    });
+  }
+
+  function init(){
+    renderAll(); // shows per-card "Loading…"
+    stamp();
+    var jobs = CITIES.map(function(_, i){ return loadCity(i); });
+    if(window.Promise && Promise.allSettled){
+      Promise.allSettled(jobs).then(stamp);
+    }
+  }
+
+  if(document.readyState==="loading"){
+    document.addEventListener("DOMContentLoaded", init);
+  } else {
+    init();
+  }
+})();
+</script>
 
 <footer>
   A living trip map for the Dvorkins' summer 2026 tour. Hours, prices, and openings change — double-check before you go. Built from Igor's own pick-lists.
