@@ -122,6 +122,10 @@
   .gym-city{font-family:"IBM Plex Mono";font-weight:600;font-size:14.5px;color:var(--ink);white-space:nowrap}
   .gym-city .gd{display:block;font-family:"IBM Plex Mono";font-weight:400;font-size:10.5px;color:var(--ink-dim);margin-top:3px;letter-spacing:.02em}
   .gym-pick{color:var(--ink);font-weight:500}
+  a.gym-pick{text-decoration:none;border-bottom:1px solid rgba(53,207,224,.32);transition:.15s}
+  a.gym-pick:hover{color:var(--def);border-bottom-color:var(--def)}
+  a.gym-pick::after{content:" ↗";font-size:10px;color:var(--ink-dim)}
+  .gym-hrs{display:block;font-family:"IBM Plex Mono";font-weight:400;font-size:10.5px;color:var(--ink-dim);margin-top:4px;letter-spacing:.01em;line-height:1.45}
   .gym-walk{font-family:"IBM Plex Mono";font-size:11.5px;color:var(--ink-dim);white-space:nowrap}
   .gym-price{font-family:"IBM Plex Mono";font-size:14px;color:var(--off-bright);font-weight:600;white-space:nowrap}
   .gym-price .loc{display:block;font-weight:400;font-size:10.5px;color:var(--ink-dim);margin-top:2px}
@@ -231,28 +235,28 @@
         <tbody>
           <tr class="nat">
             <td><span class="gym-city">🇮🇸 Reykjavík<span class="gd">Lækur · 6/28–30</span></span></td>
-            <td><span class="gym-pick">World Class Laugar</span></td>
+            <td><a class="gym-pick" href="https://www.google.com/maps/search/?api=1&amp;query=World%20Class%20Laugar%20Reykjavik" target="_blank" rel="noopener">World Class Laugar</a><span class="gym-hrs">Mon–Fri 06:00–22:30 · Sat–Sun 08:00–22:00</span></td>
             <td><span class="gym-walk">~8 min walk</span></td>
             <td><span class="gym-price">~$17<span class="loc">2,100 ISK</span></span></td>
             <td class="gym-notes">Open gym, full kit; in Laugardalur by the guesthouse. Book at reception or via the TrainAway app.</td>
           </tr>
           <tr class="cult">
             <td><span class="gym-city">🇩🇰 Copenhagen<span class="gd">Gråbrødretorv · 6/30–7/3</span></span></td>
-            <td><span class="gym-pick">SHC Gothersgade</span></td>
+            <td><a class="gym-pick" href="https://www.google.com/maps/search/?api=1&amp;query=Sporting%20Health%20Club%20Gothersgade%20Copenhagen" target="_blank" rel="noopener">SHC Gothersgade</a><span class="gym-hrs">Mon–Thu 06–22 · Fri 06–19 · Sat–Sun 08–18</span></td>
             <td><span class="gym-walk">~7 min walk</span></td>
             <td><span class="gym-price">~$23<span class="loc">149 DKK</span></span></td>
             <td class="gym-notes">Free weights + kettlebells.<span class="alt"><b>Full-kit alt:</b> Vesterbronx, 2.5 km, ~$15 (99 DKK).</span></td>
           </tr>
           <tr class="cult">
             <td><span class="gym-city">🇸🇪 Stockholm<span class="gd">Gamla Stan · 7/3–7</span></span></td>
-            <td><span class="gym-pick">CrossFit Nordic</span></td>
+            <td><a class="gym-pick" href="https://www.google.com/maps/search/?api=1&amp;query=CrossFit%20Nordic%20Stockholm" target="_blank" rel="noopener">CrossFit Nordic</a><span class="gym-hrs">Mon–Thu 05:30–20 · Fri 05:30–19 · Sat 08–15 · Sun 08:30–15</span></td>
             <td><span class="gym-walk">~20 min (metro)</span></td>
             <td><span class="gym-price">~$28<span class="loc">275 SEK</span></span></td>
             <td class="gym-notes">Huge Eleiko box — email a day ahead.<span class="alt"><b>Walk-up alt:</b> SATS, ~$21 (200 SEK).</span></td>
           </tr>
           <tr class="cult">
             <td><span class="gym-city">🇳🇴 Oslo<span class="gd">Bondeheimen · 7/7–10</span></span></td>
-            <td><span class="gym-pick">CrossFit Christiania</span></td>
+            <td><a class="gym-pick" href="https://www.google.com/maps/search/?api=1&amp;query=CrossFit%20Christiania%20Oslo" target="_blank" rel="noopener">CrossFit Christiania</a><span class="gym-hrs">Mon–Fri 06:30–20:30 · Sat–Sun 10–15</span></td>
             <td><span class="gym-walk">~5 min walk</span></td>
             <td><span class="gym-price free">free 1st<span class="loc">then ~$15 · 149 NOK</span></span></td>
             <td class="gym-notes">Free first visit — message via FB/email ahead.<span class="alt"><b>Walk-up alt:</b> SATS Akersgata, ~$20 (200 NOK).</span></td>
@@ -266,21 +270,21 @@
           </tr>
           <tr class="nat">
             <td><span class="gym-city">⛰️ Voss<span class="gd">Fleischer's · 7/12–13</span></span></td>
-            <td><span class="gym-pick">Fleischer's Hotel fitness room</span></td>
+            <td><a class="gym-pick" href="https://www.google.com/maps/search/?api=1&amp;query=Fleischer's%20Hotel%20Voss" target="_blank" rel="noopener">Fleischer's Hotel fitness room</a><span class="gym-hrs">Hotel guest hours · confirm at desk</span></td>
             <td><span class="gym-walk">in hotel</span></td>
             <td><span class="gym-price free">included</span></td>
             <td class="gym-notes">In your hotel.<span class="alt"><b>Alt:</b> SKY Fitness Voss, 24/7, ~$15–20 (150–200 NOK).</span></td>
           </tr>
           <tr class="nat">
             <td><span class="gym-city">🌉 Bergen<span class="gd">center · 7/13–16</span></span></td>
-            <td><span class="gym-pick">CrossFit Bryggen</span></td>
+            <td><a class="gym-pick" href="https://www.google.com/maps/search/?api=1&amp;query=CrossFit%20Bryggen%20Bergen" target="_blank" rel="noopener">CrossFit Bryggen</a><span class="gym-hrs">Mon–Thu 09–21 · Fri 09–19:30 · Sat–Sun to 16</span></td>
             <td><span class="gym-walk">~3 min from Bryggen</span></td>
             <td><span class="gym-price">~$20<span class="loc">200 NOK</span></span></td>
             <td class="gym-notes">Book via Wodify, open-gym ok.<span class="alt"><b>Walk-up alt:</b> SATS LHG, ~$20.</span></td>
           </tr>
           <tr class="cult">
             <td><span class="gym-city">🇳🇱 Amsterdam<span class="gd">Hoxton Lloyd · 7/16–19</span></span></td>
-            <td><span class="gym-pick">CrossFit Vastberaden</span></td>
+            <td><a class="gym-pick" href="https://www.google.com/maps/search/?api=1&amp;query=CrossFit%20Vastberaden%20Amsterdam" target="_blank" rel="noopener">CrossFit Vastberaden</a><span class="gym-hrs">Mon–Thu 06–21 · Fri 06–20 · Sat–Sun 08–13</span></td>
             <td><span class="gym-walk">~4 min walk (same quay)</span></td>
             <td><span class="gym-price">~$26<span class="loc">€22.50</span></span></td>
             <td class="gym-notes">Book online.<span class="alt"><b>Cheaper alt:</b> Vondelgym Oost, ~$22 (€19.50).</span></td>
