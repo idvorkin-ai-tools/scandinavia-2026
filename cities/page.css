@@ -87,6 +87,19 @@ footer a{color:var(--ink-dim)}
 .item .meta .hrs .vf{opacity:.55}
 .group-label{font-family:"IBM Plex Mono";font-size:11px;letter-spacing:.14em;text-transform:uppercase;
   color:var(--off);margin:30px 0 4px;padding-top:8px}
+/* anchored sections sit below the sticky bar when jumped to */
+.group-label[id]{scroll-margin-top:72px}
+
+/* ---------- section table of contents ---------- */
+.toc{display:flex;flex-wrap:wrap;gap:7px 8px;align-items:center;
+  border:1px solid var(--line);border-radius:10px;background:var(--panel);
+  padding:11px 14px;margin:0 0 30px}
+.toc .toc-lbl{font-family:"IBM Plex Mono";font-size:10.5px;letter-spacing:.12em;text-transform:uppercase;
+  color:var(--ink-dim);margin-right:2px;flex:none}
+.toc a{font-family:"IBM Plex Mono";font-size:12px;color:var(--ink-mid);text-decoration:none;
+  padding:3px 9px;border-radius:6px;border:1px solid var(--line-soft);
+  background:var(--panel-2);transition:.15s;white-space:nowrap;line-height:1.4}
+.toc a:hover{color:var(--ink);border-color:var(--def);background:rgba(53,207,224,.07)}
 
 /* ---------- scavenger hunt checklist ---------- */
 .hunt{margin:8px 0 4px;padding-left:0;list-style:none}
