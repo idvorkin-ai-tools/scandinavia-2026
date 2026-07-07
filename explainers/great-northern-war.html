@@ -3,6 +3,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin="" />
   <title>Great Northern War: Sweden Falls, Russia Rises — War Context Pack</title>
   <style>
     :root{--ink:#172026;--muted:#5d6972;--bg:#f5f2eb;--card:#fffaf2;--accent:#8f3f2f;--accent2:#1f5f78;--line:#ded6c8;--shadow:0 12px 30px rgba(23,32,38,.10)}
@@ -17,6 +18,36 @@
     .callout{border-left:6px solid var(--accent);background:#fff4e8;padding:18px;border-radius:18px}.route{font-weight:800;color:var(--accent2)}
     table{width:100%;border-collapse:collapse;background:#fffaf2;border-radius:18px;overflow:hidden} th,td{padding:13px 14px;border-bottom:1px solid var(--line);text-align:left;vertical-align:top} th{background:#efe7da} tr:last-child td{border-bottom:0}
     .small{font-size:14px}.footer{padding:28px 0;color:var(--muted);font-size:14px}.hero{display:grid;grid-template-columns:1.15fr .85fr;gap:22px;align-items:stretch}@media(max-width:900px){.hero{grid-template-columns:1fr}}
+    /* -- war map (Leaflet, light/parchment) -- */
+    .warmap-wrap{background:var(--card);border:1px solid var(--line);border-radius:22px;overflow:hidden;box-shadow:var(--shadow)}
+    .warmap{height:clamp(380px,58vh,580px);width:100%;background:#e9edf0;z-index:1}
+    .warmap-cap{font-size:13px;color:var(--muted);margin:11px 2px 0}
+    .warmap-legend{display:flex;gap:9px 18px;flex-wrap:wrap;padding:13px 18px;border-top:1px solid var(--line);font-size:13px;color:var(--muted);line-height:1.6}
+    .wm-tag{display:inline-flex;align-items:center;gap:7px;white-space:nowrap;font-weight:700;color:#3a464e}
+    .wm-tag .sw{width:12px;height:12px;border-radius:50%;border:1.5px solid rgba(23,32,38,.28);flex:none}
+    .wm-tag .swln{width:22px;border-top:3px solid;border-radius:2px;flex:none}
+    .wm-hint{margin-left:auto;opacity:.85;font-weight:400}
+    .warmap-fallback{display:none;padding:26px 20px;font-size:14.5px;color:var(--muted);text-align:center;line-height:1.6}
+    .warmap.failed{height:auto}
+    .warmap.failed + .warmap-fallback{display:block}
+    .warmap-wrap .leaflet-container{font-family:inherit;background:#e9edf0}
+    .warmap-wrap .leaflet-div-icon{background:transparent;border:none}
+    .wm-pin{width:13px;height:13px;border-radius:50%;border:2px solid #fffaf2;box-shadow:0 1px 5px rgba(23,32,38,.45)}
+    .wm-pin.big{width:19px;height:19px;border-width:3px}
+    .wm-arrowhead{width:0;height:0;border-left:7px solid transparent;border-right:7px solid transparent;border-bottom:13px solid #000;filter:drop-shadow(0 1px 1px rgba(23,32,38,.4))}
+    .warmap-wrap .leaflet-tooltip.wm-label{background:rgba(255,250,242,.94);border:1px solid var(--line);border-radius:7px;color:var(--ink);font-weight:700;font-size:12px;padding:2px 7px;box-shadow:0 2px 8px rgba(23,32,38,.16)}
+    .warmap-wrap .leaflet-tooltip.wm-label::before{display:none}
+    .warmap-wrap .leaflet-tooltip.wm-tip{background:rgba(23,32,38,.9);border:0;color:#fff;font-weight:600;font-size:12px;box-shadow:0 2px 8px rgba(23,32,38,.28)}
+    .warmap-wrap .leaflet-tooltip.wm-tip::before{border-top-color:rgba(23,32,38,.9);border-bottom-color:rgba(23,32,38,.9)}
+    .warmap-wrap .leaflet-popup-content-wrapper{background:var(--card);color:var(--ink);border:1px solid var(--line);border-radius:12px;box-shadow:0 12px 30px rgba(23,32,38,.2)}
+    .warmap-wrap .leaflet-popup-tip{background:var(--card);border-right:1px solid var(--line);border-bottom:1px solid var(--line)}
+    .warmap-wrap .leaflet-popup-content{margin:11px 14px;font-size:13.5px;line-height:1.5}
+    .wm-pop-t{font-weight:800;font-size:15px;color:var(--ink);margin-bottom:3px}
+    .wm-pop-b{color:#3a464e;font-size:13px}
+    .warmap-wrap .leaflet-bar a{background:var(--card);color:var(--ink);border-bottom-color:var(--line)}
+    .warmap-wrap .leaflet-bar a:hover{background:#efe7da;color:var(--ink)}
+    .warmap-wrap .leaflet-control-attribution{background:rgba(255,250,242,.82)!important;color:var(--muted)!important}
+    .warmap-wrap .leaflet-control-attribution a{color:var(--accent2)!important}
   </style>
 </head>
 <body>
@@ -44,6 +75,17 @@
         <p><span class="route">The coalition</span> = Denmark-Norway, Saxony-Poland, later Prussia and Hanover.</p>
         <p><span class="route">The hinge</span> = Poltava, 1709 — Sweden loses battles' worth of momentum in a single day.</p>
       </div>
+    </section>
+
+    <section>
+      <h2>The geography: how far Charles marched</h2>
+      <p class="lede" style="font-size:18px">Charles XII's twenty-year campaign, drawn on modern geography. The point is the distance — how impossibly far from Stockholm the war ended up.</p>
+      <div class="warmap-wrap">
+        <div id="gnw-map" class="warmap" role="application" aria-label="Map of Charles XII's Great Northern War campaign from Sweden through Poland into Ukraine to Poltava and Ottoman exile"></div>
+        <div class="warmap-fallback">Map unavailable. In short: Charles XII marched from Sweden through Poland into Ukraine, lost at Poltava (1709) ~1,900 km from home, and fled into Ottoman lands.</div>
+        <div class="warmap-legend"><span class="wm-tag"><span class="swln" style="border-color:#8f3f2f"></span>Charles XII's march, 1700→Poltava→exile</span><span class="wm-tag"><span class="sw" style="background:#a5342a"></span>Poltava, 1709 — the defeat</span><span class="wm-tag"><span class="sw" style="background:#1f5f78"></span>St. Petersburg founded, 1703</span><span class="wm-hint">~1,900 km Stockholm→Poltava</span></div>
+      </div>
+      <p class="warmap-cap">Markers sit on real modern locations; the route line is a schematic of the campaign's direction, not an exact march track.</p>
     </section>
 
     <section>
@@ -99,5 +141,75 @@
       A travel-context explainer, not an academic history. General reference: Encyclopaedia Britannica and standard sources on the Great Northern War, Charles XII, the Battle of Poltava (1709), and the Treaty of Nystad (1721). Part of the <a href="wars.html">Scandinavia War Context Pack</a>.
     </div>
   </div>
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
+<script>
+window.WARMAP_GEO = {};
+window.WARMAP_CFG = {"el":"gnw-map","bounds":[[46.0,8.0],[61.6,37.0]],"arrows":[{"points":[[59.33,18.07],[59.38,28.19],[52.23,21.01],[53.9,27.56],[49.59,34.55],[46.83,29.48]],"color":"#8f3f2f","weight":3.4,"opacity":0.85}],"markers":[{"lat":59.33,"lon":18.07,"name":"Stockholm — home","color":"#5d6972","dir":"bottom"},{"lat":59.38,"lon":28.19,"name":"Narva 1700","color":"#8f3f2f","dir":"top","pop":"Charles XII routs a much larger Russian army — his brilliant early victory."},{"lat":59.94,"lon":30.31,"name":"St. Petersburg 1703","color":"#1f5f78","dir":"right","pop":"Peter the Great founds a new capital on captured Swedish ground — Russia's permanent Baltic window."},{"lat":49.59,"lon":34.55,"name":"Poltava 1709","color":"#a5342a","big":true,"dir":"right","pop":"The hinge. The Swedish field army is destroyed ~1,900 km from Stockholm; Charles flees south."},{"lat":46.83,"lon":29.48,"name":"Bender (Ottoman) 1709–13","color":"#5d6972","dir":"bottom","pop":"Charles takes refuge in Ottoman territory and stays for years before making his way home."},{"lat":59.12,"lon":11.39,"name":"Fredriksten 1718","color":"#8f3f2f","dir":"left","pop":"Charles XII is shot dead besieging this Norwegian fortress — the war reaches Norwegian soil."}]};
+</script>
+<script>
+// -- reusable war-map renderer: reads window.WARMAP_GEO + window.WARMAP_CFG --
+(function(){
+  "use strict";
+  var CFG = window.WARMAP_CFG || {}, GEO = window.WARMAP_GEO || {};
+  var el = document.getElementById(CFG.el);
+  function fail(){ if(el){ el.classList.add("failed"); } }
+  if(!el || typeof L === "undefined"){ fail(); return; }
+  try {
+    var map = L.map(el, {scrollWheelZoom:false, zoomControl:true, attributionControl:true, minZoom:2});
+    L.tileLayer("https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png", {
+      attribution:'&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors &copy; <a href="https://carto.com/attributions">CARTO</a>',
+      subdomains:"abcd", maxZoom:19, minZoom:2
+    }).addTo(map);
+
+    // establish a view up front so vector layers project correctly on first render
+    if(CFG.bounds){ map.fitBounds(CFG.bounds, {padding:[20,20]}); }
+    else if(CFG.center){ map.setView(CFG.center, CFG.zoom||4); }
+    else { map.setView([60,10], 4); }
+
+    (CFG.countries||[]).forEach(function(c){
+      var g = GEO[c.id]; if(!g) return;
+      var lyr = L.geoJSON(g, {style:{color:c.stroke||c.fill, weight:1.3, opacity:.9, fillColor:c.fill, fillOpacity:(c.fillOpacity==null?.3:c.fillOpacity)}}).addTo(map);
+      if(c.label){ lyr.bindTooltip(c.label, {sticky:true, className:"wm-tip"}); }
+    });
+
+    (CFG.rings||[]).forEach(function(r){
+      L.circle([r.lat,r.lon], {radius:r.m, color:r.color||"#8f3f2f", weight:1.3, opacity:.55, fill:false, dashArray:r.dash||"3 7"}).addTo(map)
+       .bindTooltip(r.label, {sticky:true, className:"wm-tip"});
+    });
+
+    function bearing(a,b){
+      var R=Math.PI/180, D=180/Math.PI;
+      var y=Math.sin((b[1]-a[1])*R)*Math.cos(b[0]*R);
+      var x=Math.cos(a[0]*R)*Math.sin(b[0]*R)-Math.sin(a[0]*R)*Math.cos(b[0]*R)*Math.cos((b[1]-a[1])*R);
+      return Math.atan2(y,x)*D;
+    }
+    (CFG.arrows||[]).forEach(function(a){
+      var pts=a.points;
+      L.polyline(pts, {color:a.color, weight:9, opacity:.1, lineJoin:"round", lineCap:"round"}).addTo(map);
+      L.polyline(pts, {color:a.color, weight:a.weight||3, opacity:(a.opacity==null?.82:a.opacity), dashArray:a.dash||null, lineJoin:"round", lineCap:"round"}).addTo(map);
+      if(!a.noHead){
+        var p1=pts[pts.length-2], p2=pts[pts.length-1], brg=bearing(p1,p2);
+        var ah=L.divIcon({className:"", html:'<div class="wm-arrowhead" style="transform:rotate('+brg+'deg);border-bottom-color:'+a.color+'"></div>', iconSize:[18,18], iconAnchor:[9,9]});
+        L.marker(p2, {icon:ah, interactive:false, keyboard:false}).addTo(map);
+      }
+    });
+
+    (CFG.markers||[]).forEach(function(m){
+      var cls="wm-pin"+(m.big?" big":""), sz=m.big?19:13, an=m.big?9.5:6.5;
+      var icon=L.divIcon({className:"", html:'<div class="'+cls+'" style="background:'+(m.color||"#8f3f2f")+'"></div>', iconSize:[sz,sz], iconAnchor:[an,an], popupAnchor:[0,-an-2]});
+      var mk=L.marker([m.lat,m.lon], {icon:icon, title:m.name}).addTo(map);
+      if(m.pop){ mk.bindPopup('<div class="wm-pop-t">'+m.name+'</div><div class="wm-pop-b">'+m.pop+'</div>'); }
+      if(m.label!==false){
+        var dir=m.dir||"right";
+        var off = dir==="left"?[-9,0] : dir==="top"?[0,-9] : dir==="bottom"?[0,9] : [9,0];
+        mk.bindTooltip(m.name, {permanent:true, direction:dir, offset:off, className:"wm-label"});
+      }
+    });
+
+    map.on("focus", function(){ map.scrollWheelZoom.enable(); });
+    map.on("blur",  function(){ map.scrollWheelZoom.disable(); });
+  } catch(err){ fail(); }
+})();
+</script>
 </body>
 </html>

@@ -3,6 +3,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin="" />
   <title>Cold War, NATO &amp; the Arctic North — War Context Pack</title>
   <style>
     :root{--ink:#172026;--muted:#5d6972;--bg:#f5f2eb;--card:#fffaf2;--accent:#8f3f2f;--accent2:#1f5f78;--line:#ded6c8;--shadow:0 12px 30px rgba(23,32,38,.10)}
@@ -17,6 +18,36 @@
     .callout{border-left:6px solid var(--accent);background:#fff4e8;padding:18px;border-radius:18px}.route{font-weight:800;color:var(--accent2)}
     table{width:100%;border-collapse:collapse;background:#fffaf2;border-radius:18px;overflow:hidden} th,td{padding:13px 14px;border-bottom:1px solid var(--line);text-align:left;vertical-align:top} th{background:#efe7da} tr:last-child td{border-bottom:0}
     .small{font-size:14px}.footer{padding:28px 0;color:var(--muted);font-size:14px}.hero{display:grid;grid-template-columns:1.15fr .85fr;gap:22px;align-items:stretch}@media(max-width:900px){.hero{grid-template-columns:1fr}}
+    /* -- war map (Leaflet, light/parchment) -- */
+    .warmap-wrap{background:var(--card);border:1px solid var(--line);border-radius:22px;overflow:hidden;box-shadow:var(--shadow)}
+    .warmap{height:clamp(380px,58vh,580px);width:100%;background:#e9edf0;z-index:1}
+    .warmap-cap{font-size:13px;color:var(--muted);margin:11px 2px 0}
+    .warmap-legend{display:flex;gap:9px 18px;flex-wrap:wrap;padding:13px 18px;border-top:1px solid var(--line);font-size:13px;color:var(--muted);line-height:1.6}
+    .wm-tag{display:inline-flex;align-items:center;gap:7px;white-space:nowrap;font-weight:700;color:#3a464e}
+    .wm-tag .sw{width:12px;height:12px;border-radius:50%;border:1.5px solid rgba(23,32,38,.28);flex:none}
+    .wm-tag .swln{width:22px;border-top:3px solid;border-radius:2px;flex:none}
+    .wm-hint{margin-left:auto;opacity:.85;font-weight:400}
+    .warmap-fallback{display:none;padding:26px 20px;font-size:14.5px;color:var(--muted);text-align:center;line-height:1.6}
+    .warmap.failed{height:auto}
+    .warmap.failed + .warmap-fallback{display:block}
+    .warmap-wrap .leaflet-container{font-family:inherit;background:#e9edf0}
+    .warmap-wrap .leaflet-div-icon{background:transparent;border:none}
+    .wm-pin{width:13px;height:13px;border-radius:50%;border:2px solid #fffaf2;box-shadow:0 1px 5px rgba(23,32,38,.45)}
+    .wm-pin.big{width:19px;height:19px;border-width:3px}
+    .wm-arrowhead{width:0;height:0;border-left:7px solid transparent;border-right:7px solid transparent;border-bottom:13px solid #000;filter:drop-shadow(0 1px 1px rgba(23,32,38,.4))}
+    .warmap-wrap .leaflet-tooltip.wm-label{background:rgba(255,250,242,.94);border:1px solid var(--line);border-radius:7px;color:var(--ink);font-weight:700;font-size:12px;padding:2px 7px;box-shadow:0 2px 8px rgba(23,32,38,.16)}
+    .warmap-wrap .leaflet-tooltip.wm-label::before{display:none}
+    .warmap-wrap .leaflet-tooltip.wm-tip{background:rgba(23,32,38,.9);border:0;color:#fff;font-weight:600;font-size:12px;box-shadow:0 2px 8px rgba(23,32,38,.28)}
+    .warmap-wrap .leaflet-tooltip.wm-tip::before{border-top-color:rgba(23,32,38,.9);border-bottom-color:rgba(23,32,38,.9)}
+    .warmap-wrap .leaflet-popup-content-wrapper{background:var(--card);color:var(--ink);border:1px solid var(--line);border-radius:12px;box-shadow:0 12px 30px rgba(23,32,38,.2)}
+    .warmap-wrap .leaflet-popup-tip{background:var(--card);border-right:1px solid var(--line);border-bottom:1px solid var(--line)}
+    .warmap-wrap .leaflet-popup-content{margin:11px 14px;font-size:13.5px;line-height:1.5}
+    .wm-pop-t{font-weight:800;font-size:15px;color:var(--ink);margin-bottom:3px}
+    .wm-pop-b{color:#3a464e;font-size:13px}
+    .warmap-wrap .leaflet-bar a{background:var(--card);color:var(--ink);border-bottom-color:var(--line)}
+    .warmap-wrap .leaflet-bar a:hover{background:#efe7da;color:var(--ink)}
+    .warmap-wrap .leaflet-control-attribution{background:rgba(255,250,242,.82)!important;color:var(--muted)!important}
+    .warmap-wrap .leaflet-control-attribution a{color:var(--accent2)!important}
   </style>
 </head>
 <body>
@@ -44,6 +75,17 @@
         <p><span class="route">The front door</span> = the GIUK gap and the Danish Straits.</p>
         <p><span class="route">The threat</span> = the Soviet Northern Fleet on Kola.</p>
       </div>
+    </section>
+
+    <section>
+      <h2>The geography: NATO's northern wall</h2>
+      <p class="lede" style="font-size:18px">The strategic map: NATO's northern members (blue) walling the Soviet Arctic behind the Greenland–Iceland–UK gap, with neutral Sweden and Finland (amber) as the buffer between.</p>
+      <div class="warmap-wrap">
+        <div id="cw-map" class="warmap" role="application" aria-label="Map of the Cold War Arctic showing NATO countries, neutral Sweden and Finland, the GIUK gap, the Kola Peninsula, Danish Straits, Keflavik base and Cod War limits"></div>
+        <div class="warmap-fallback">Map unavailable. In short: NATO's Norway, Denmark and Iceland walled the Soviet Arctic behind the Greenland–Iceland–UK gap; Sweden and Finland stayed neutral.</div>
+        <div class="warmap-legend"><span class="wm-tag"><span class="sw" style="background:#1f5f78"></span>NATO founders + UK, Greenland</span><span class="wm-tag"><span class="sw" style="background:#b8863c"></span>Armed neutrals: Sweden, Finland</span><span class="wm-tag"><span class="swln" style="border-color:#8f3f2f"></span>GIUK gap — the submarine barrier</span><span class="wm-tag"><span class="sw" style="background:#7a1f1f"></span>Soviet Northern Fleet (Kola)</span><span class="wm-hint">Dashed rings = Iceland's 12 / 50 / 200 nm Cod War limits</span></div>
+      </div>
+      <p class="warmap-cap">Whole modern countries are shaded by Cold-War alignment — accurate for the era (Finland's post-1944 borders shown). The GIUK line and Cod War rings are schematic.</p>
     </section>
 
     <section>
@@ -97,5 +139,75 @@
       A travel-context explainer, not an academic history. General reference: NATO's own historical materials, Encyclopaedia Britannica, and standard sources on the GIUK gap, the Keflavík base, the Cod Wars, the 1986 Reykjavík Summit, and the 2023–24 NATO enlargements. Part of the <a href="wars.html">Scandinavia War Context Pack</a>.
     </div>
   </div>
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
+<script>
+window.WARMAP_GEO = {"no":{"type":"MultiPolygon","coordinates":[[[[15.14,79.67],[15.52,80.02],[16.99,80.05],[18.25,79.7],[21.54,78.96],[19.03,78.56],[18.47,77.83],[17.59,77.64],[17.12,76.81],[15.91,76.77],[13.76,77.38],[14.67,77.74],[13.17,78.02],[11.22,78.87],[10.44,79.65],[13.17,80.01],[13.72,79.66],[15.14,79.67]]],[[[31.1,69.56],[29.4,69.16],[28.59,69.06],[29.02,69.77],[27.73,70.16],[26.18,69.83],[25.69,69.09],[24.74,68.65],[23.66,68.89],[22.36,68.84],[21.24,69.37],[20.65,69.11],[20.03,69.07],[19.88,68.41],[17.99,68.57],[17.73,68.01],[16.77,68.01],[16.11,67.3],[15.11,66.19],[13.56,64.79],[13.92,64.45],[13.57,64.05],[12.58,64.07],[11.93,63.13],[11.99,61.8],[12.63,61.29],[12.3,60.12],[11.47,59.43],[11.03,58.86],[10.36,59.47],[8.38,58.31],[7.05,58.08],[5.67,58.59],[5.31,59.66],[4.99,61.97],[5.91,62.61],[8.55,63.45],[10.53,64.49],[12.36,65.88],[14.76,67.81],[16.44,68.56],[19.18,69.82],[21.38,70.26],[23.02,70.2],[24.55,71.03],[26.37,70.99],[28.17,71.19],[31.29,70.45],[30.01,70.19],[31.1,69.56]]],[[[27.41,80.06],[25.92,79.52],[23.02,79.4],[20.08,79.57],[19.9,79.84],[18.46,79.86],[17.37,80.32],[20.46,80.6],[21.91,80.36],[22.92,80.66],[25.45,80.41],[27.41,80.06]]],[[[24.72,77.85],[22.49,77.44],[20.73,77.68],[21.42,77.94],[20.81,78.25],[22.88,78.45],[23.28,78.08],[24.72,77.85]]]]},"dk":{"type":"MultiPolygon","coordinates":[[[[9.92,54.98],[9.28,54.83],[8.53,54.96],[8.12,55.52],[8.09,56.54],[8.26,56.81],[8.54,57.11],[9.42,57.17],[9.78,57.45],[10.58,57.73],[10.55,57.22],[10.25,56.89],[10.37,56.61],[10.91,56.46],[10.67,56.08],[10.37,56.19],[9.65,55.47],[9.92,54.98]]],[[[12.37,56.11],[12.69,55.61],[12.09,54.8],[11.04,55.36],[10.9,55.78],[12.37,56.11]]]]},"is":{"type":"Polygon","coordinates":[[[-14.51,66.46],[-14.74,65.81],[-13.61,65.13],[-14.91,64.36],[-17.79,63.68],[-18.66,63.5],[-19.97,63.64],[-22.76,63.96],[-21.78,64.4],[-23.96,64.89],[-22.18,65.08],[-22.23,65.38],[-24.33,65.61],[-23.65,66.26],[-22.13,66.41],[-20.58,65.73],[-19.06,66.28],[-17.8,65.99],[-16.17,66.53],[-14.51,66.46]]]},"gb":{"type":"MultiPolygon","coordinates":[[[[-6.2,53.87],[-6.95,54.07],[-7.57,54.06],[-7.37,54.6],[-7.57,55.13],[-6.73,55.17],[-5.66,54.55],[-6.2,53.87]]],[[[-3.09,53.4],[-3.09,53.4],[-2.95,53.98],[-3.61,54.6],[-3.63,54.62],[-4.84,54.79],[-5.08,55.06],[-4.72,55.51],[-5.05,55.78],[-5.59,55.31],[-5.64,56.28],[-6.15,56.79],[-5.79,57.82],[-5.01,58.63],[-4.21,58.55],[-3.01,58.63],[-4.07,57.55],[-3.06,57.69],[-1.96,57.68],[-2.22,56.87],[-3.12,55.97],[-2.09,55.91],[-2.01,55.8],[-1.11,54.62],[-0.43,54.46],[0.18,53.33],[0.47,52.93],[1.68,52.74],[1.56,52.1],[1.05,51.81],[1.45,51.29],[0.55,50.77],[-0.79,50.77],[-2.49,50.5],[-2.96,50.7],[-3.62,50.23],[-4.54,50.34],[-5.25,49.96],[-5.78,50.16],[-4.31,51.21],[-3.41,51.43],[-3.42,51.43],[-4.98,51.59],[-5.27,51.99],[-4.22,52.3],[-4.77,52.84],[-4.58,53.5],[-3.09,53.4]]]]},"gl":{"type":"Polygon","coordinates":[[[-46.76,82.63],[-43.41,83.23],[-39.9,83.18],[-38.62,83.55],[-35.09,83.65],[-27.1,83.52],[-20.85,82.73],[-22.69,82.34],[-26.52,82.3],[-31.9,82.2],[-31.4,82.02],[-27.86,82.13],[-24.84,81.79],[-22.9,82.09],[-22.07,81.73],[-23.17,81.15],[-20.62,81.52],[-15.77,81.91],[-12.77,81.72],[-12.21,81.29],[-16.29,80.58],[-16.85,80.35],[-20.05,80.18],[-17.73,80.13],[-18.9,79.4],[-19.7,78.75],[-19.67,77.64],[-18.47,76.99],[-20.04,76.94],[-21.68,76.63],[-19.83,76.1],[-19.6,75.25],[-20.67,75.16],[-19.37,74.3],[-21.59,74.22],[-20.43,73.82],[-20.76,73.46],[-22.17,73.31],[-23.57,73.31],[-22.31,72.63],[-22.3,72.18],[-24.28,72.6],[-24.79,72.33],[-23.44,72.08],[-22.13,71.47],[-21.75,70.66],[-23.54,70.47],[-24.31,70.86],[-25.54,71.43],[-25.2,70.75],[-26.36,70.23],[-23.73,70.18],[-22.35,70.13],[-25.03,69.26],[-27.75,68.47],[-30.67,68.13],[-31.78,68.12],[-32.81,67.74],[-34.2,66.68],[-36.35,65.98],[-37.04,65.94],[-38.38,65.69],[-39.81,65.46],[-40.67,64.84],[-40.68,64.14],[-41.19,63.48],[-42.82,62.68],[-42.42,61.9],[-42.87,61.07],[-43.38,60.1],[-44.79,60.04],[-46.26,60.85],[-48.26,60.86],[-49.23,61.41],[-49.9,62.38],[-51.63,63.63],[-52.14,64.28],[-52.28,65.18],[-53.66,66.1],[-53.3,66.84],[-53.97,67.19],[-52.98,68.36],[-51.48,68.73],[-51.08,69.15],[-50.87,69.93],[-52.01,69.57],[-52.56,69.43],[-53.46,69.28],[-54.68,69.61],[-54.75,70.29],[-54.36,70.82],[-53.43,70.84],[-51.39,70.57],[-53.11,71.2],[-54.0,71.55],[-55,71.41],[-55.83,71.65],[-54.72,72.59],[-55.33,72.96],[-56.12,73.65],[-57.32,74.71],[-58.6,75.1],[-58.59,75.52],[-61.27,76.1],[-63.39,76.18],[-66.06,76.13],[-68.5,76.06],[-69.66,76.38],[-71.4,77.01],[-68.78,77.32],[-66.76,77.38],[-71.04,77.64],[-73.3,78.04],[-73.16,78.43],[-69.37,78.91],[-65.71,79.39],[-65.32,79.76],[-68.02,80.12],[-67.15,80.52],[-63.69,81.21],[-62.23,81.32],[-62.65,81.77],[-60.28,82.03],[-57.21,82.19],[-54.13,82.2],[-53.04,81.89],[-50.39,82.44],[-48.0,82.06],[-46.6,81.99],[-44.52,81.66],[-46.9,82.2],[-46.76,82.63]]]},"se":{"type":"Polygon","coordinates":[[[11.03,58.86],[11.47,59.43],[12.3,60.12],[12.63,61.29],[11.99,61.8],[11.93,63.13],[12.58,64.07],[13.57,64.05],[13.92,64.45],[13.56,64.79],[15.11,66.19],[16.11,67.3],[16.77,68.01],[17.73,68.01],[17.99,68.57],[19.88,68.41],[20.03,69.07],[20.65,69.11],[21.98,68.62],[23.54,67.94],[23.57,66.4],[23.9,66.01],[22.18,65.72],[21.21,65.03],[21.37,64.41],[19.78,63.61],[17.85,62.75],[17.12,61.34],[17.83,60.64],[18.79,60.08],[17.87,58.95],[16.83,58.72],[16.45,57.04],[15.88,56.1],[14.67,56.2],[14.1,55.41],[12.94,55.36],[12.63,56.31],[11.79,57.44],[11.03,58.86]]]},"fi":{"type":"Polygon","coordinates":[[[28.59,69.06],[28.45,68.36],[29.98,67.7],[29.05,66.94],[30.22,65.81],[29.54,64.95],[30.44,64.2],[30.04,63.55],[31.52,62.87],[31.14,62.36],[30.21,61.78],[28.07,60.5],[28.07,60.5],[28.07,60.5],[26.26,60.42],[24.5,60.06],[22.87,59.85],[22.29,60.39],[21.32,60.72],[21.54,61.71],[21.06,62.61],[21.54,63.19],[22.44,63.82],[24.73,64.9],[25.4,65.11],[25.29,65.53],[23.9,66.01],[23.57,66.4],[23.54,67.94],[21.98,68.62],[20.65,69.11],[21.24,69.37],[22.36,68.84],[23.66,68.89],[24.74,68.65],[25.69,69.09],[26.18,69.83],[27.73,70.16],[29.02,69.77],[28.59,69.06]]]}};
+window.WARMAP_CFG = {"el":"cw-map","bounds":[[54.0,-45.0],[71.5,43.0]],"countries":[{"id":"no","fill":"#1f5f78","fillOpacity":0.3,"label":"Norway — NATO founder, 1949"},{"id":"dk","fill":"#1f5f78","fillOpacity":0.3,"label":"Denmark — NATO founder, 1949"},{"id":"is","fill":"#1f5f78","fillOpacity":0.3,"label":"Iceland — NATO founder, 1949"},{"id":"gb","fill":"#1f5f78","fillOpacity":0.24,"label":"United Kingdom — NATO"},{"id":"gl","fill":"#1f5f78","fillOpacity":0.16,"label":"Greenland (Danish) — NATO"},{"id":"se","fill":"#b8863c","fillOpacity":0.32,"label":"Sweden — armed neutral"},{"id":"fi","fill":"#b8863c","fillOpacity":0.32,"label":"Finland — neutral ('Finlandization')"}],"arrows":[{"points":[[60.0,-43.5],[64.95,-18.9],[62.0,-6.8],[58.4,-5.5]],"color":"#8f3f2f","weight":3,"opacity":0.8,"dash":"2 7","noHead":true}],"rings":[{"lat":64.95,"lon":-18.9,"m":370400,"label":"200 nm limit (1975)","color":"#5a6b76","dash":"2 8"},{"lat":64.95,"lon":-18.9,"m":92600,"label":"50 nm limit (1972)","color":"#5a6b76","dash":"2 8"},{"lat":64.95,"lon":-18.9,"m":22224,"label":"12 nm limit (1958)","color":"#5a6b76","dash":"2 8"}],"markers":[{"lat":68.0,"lon":35.0,"name":"Kola Peninsula","color":"#7a1f1f","big":true,"dir":"right","pop":"Soviet Northern Fleet and ballistic-missile submarines — bases a few minutes' flight from NATO Norway."},{"lat":55.9,"lon":11.0,"name":"Danish Straits","color":"#8f3f2f","dir":"bottom","pop":"The Baltic's only saltwater exit — NATO Denmark as gatekeeper on the Soviet Baltic Fleet."},{"lat":63.99,"lon":-22.6,"name":"Keflavík base","color":"#1f5f78","dir":"left","pop":"US air base guarding the North Atlantic; the Cold War anchor of Icelandic defense."}]};
+</script>
+<script>
+// -- reusable war-map renderer: reads window.WARMAP_GEO + window.WARMAP_CFG --
+(function(){
+  "use strict";
+  var CFG = window.WARMAP_CFG || {}, GEO = window.WARMAP_GEO || {};
+  var el = document.getElementById(CFG.el);
+  function fail(){ if(el){ el.classList.add("failed"); } }
+  if(!el || typeof L === "undefined"){ fail(); return; }
+  try {
+    var map = L.map(el, {scrollWheelZoom:false, zoomControl:true, attributionControl:true, minZoom:2});
+    L.tileLayer("https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png", {
+      attribution:'&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors &copy; <a href="https://carto.com/attributions">CARTO</a>',
+      subdomains:"abcd", maxZoom:19, minZoom:2
+    }).addTo(map);
+
+    // establish a view up front so vector layers project correctly on first render
+    if(CFG.bounds){ map.fitBounds(CFG.bounds, {padding:[20,20]}); }
+    else if(CFG.center){ map.setView(CFG.center, CFG.zoom||4); }
+    else { map.setView([60,10], 4); }
+
+    (CFG.countries||[]).forEach(function(c){
+      var g = GEO[c.id]; if(!g) return;
+      var lyr = L.geoJSON(g, {style:{color:c.stroke||c.fill, weight:1.3, opacity:.9, fillColor:c.fill, fillOpacity:(c.fillOpacity==null?.3:c.fillOpacity)}}).addTo(map);
+      if(c.label){ lyr.bindTooltip(c.label, {sticky:true, className:"wm-tip"}); }
+    });
+
+    (CFG.rings||[]).forEach(function(r){
+      L.circle([r.lat,r.lon], {radius:r.m, color:r.color||"#8f3f2f", weight:1.3, opacity:.55, fill:false, dashArray:r.dash||"3 7"}).addTo(map)
+       .bindTooltip(r.label, {sticky:true, className:"wm-tip"});
+    });
+
+    function bearing(a,b){
+      var R=Math.PI/180, D=180/Math.PI;
+      var y=Math.sin((b[1]-a[1])*R)*Math.cos(b[0]*R);
+      var x=Math.cos(a[0]*R)*Math.sin(b[0]*R)-Math.sin(a[0]*R)*Math.cos(b[0]*R)*Math.cos((b[1]-a[1])*R);
+      return Math.atan2(y,x)*D;
+    }
+    (CFG.arrows||[]).forEach(function(a){
+      var pts=a.points;
+      L.polyline(pts, {color:a.color, weight:9, opacity:.1, lineJoin:"round", lineCap:"round"}).addTo(map);
+      L.polyline(pts, {color:a.color, weight:a.weight||3, opacity:(a.opacity==null?.82:a.opacity), dashArray:a.dash||null, lineJoin:"round", lineCap:"round"}).addTo(map);
+      if(!a.noHead){
+        var p1=pts[pts.length-2], p2=pts[pts.length-1], brg=bearing(p1,p2);
+        var ah=L.divIcon({className:"", html:'<div class="wm-arrowhead" style="transform:rotate('+brg+'deg);border-bottom-color:'+a.color+'"></div>', iconSize:[18,18], iconAnchor:[9,9]});
+        L.marker(p2, {icon:ah, interactive:false, keyboard:false}).addTo(map);
+      }
+    });
+
+    (CFG.markers||[]).forEach(function(m){
+      var cls="wm-pin"+(m.big?" big":""), sz=m.big?19:13, an=m.big?9.5:6.5;
+      var icon=L.divIcon({className:"", html:'<div class="'+cls+'" style="background:'+(m.color||"#8f3f2f")+'"></div>', iconSize:[sz,sz], iconAnchor:[an,an], popupAnchor:[0,-an-2]});
+      var mk=L.marker([m.lat,m.lon], {icon:icon, title:m.name}).addTo(map);
+      if(m.pop){ mk.bindPopup('<div class="wm-pop-t">'+m.name+'</div><div class="wm-pop-b">'+m.pop+'</div>'); }
+      if(m.label!==false){
+        var dir=m.dir||"right";
+        var off = dir==="left"?[-9,0] : dir==="top"?[0,-9] : dir==="bottom"?[0,9] : [9,0];
+        mk.bindTooltip(m.name, {permanent:true, direction:dir, offset:off, className:"wm-label"});
+      }
+    });
+
+    map.on("focus", function(){ map.scrollWheelZoom.enable(); });
+    map.on("blur",  function(){ map.scrollWheelZoom.disable(); });
+  } catch(err){ fail(); }
+})();
+</script>
 </body>
 </html>
