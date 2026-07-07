@@ -18,7 +18,22 @@
     .mini-map{display:grid;grid-template-columns:repeat(2,1fr);gap:12px}.pill{background:rgba(255,255,255,.06);border:1px solid var(--line);border-radius:16px;padding:14px}.pill b{display:block;color:#fff}.route{counter-reset:step}.route li{margin:10px 0}.route li::marker{color:var(--accent);font-weight:900}
     .place{border-top:1px solid var(--line);padding:14px 0}.place:first-child{border-top:0}.place h3{margin:0 0 4px}.footer{padding:32px 0 60px;color:var(--muted);font-size:14px}
     @media (max-width:800px){.span4,.span6,.span8{grid-column:span 12}.event{grid-template-columns:84px 1fr}.two{columns:1}.mini-map{grid-template-columns:1fr}.wrap{padding:18px}.hero{padding-top:32px}}
+    .exp-map-wrap{background:var(--panel);border:1px solid var(--line);border-radius:22px;overflow:hidden;box-shadow:var(--shadow)}
+    #exp-map{height:clamp(320px,50vh,480px);width:100%;background:#05090b;z-index:1}
+    .exp-map-cap{font-size:13px;color:var(--muted);padding:12px 16px;border-top:1px solid var(--line)}
+    .exp-map-fallback{display:none;padding:26px 20px;font-size:14px;color:var(--muted);text-align:center}
+    #exp-map.failed + .exp-map-fallback{display:block}
+    .leaflet-container{font-family:inherit;background:#05090b}
+    .exp-dot{width:14px;height:14px;border-radius:50%;background:var(--accent);border:2px solid #05090b;box-shadow:0 0 0 4px rgba(102,224,194,.25)}
+    .leaflet-tooltip.exp-tip{background:var(--panel2);color:var(--text);border:1px solid var(--line);border-radius:8px;font-weight:700;font-size:11.5px;padding:3px 7px;box-shadow:var(--shadow)}
+    .leaflet-tooltip.exp-tip:before{display:none}
+    .leaflet-popup-content-wrapper{background:var(--panel2);color:var(--text);border:1px solid var(--line);border-radius:12px}
+    .leaflet-popup-tip{background:var(--panel2);border:1px solid var(--line)}
+    .leaflet-control-attribution{background:rgba(7,19,23,.82)!important;color:var(--muted)!important}
+    .leaflet-control-attribution a{color:var(--accent2)!important}
+    .leaflet-bar a{background:var(--panel2);color:var(--text);border-bottom-color:var(--line)}
   </style>
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin="" />
 </head>
 <body>
 <a href="../index.html" aria-label="Back to the trip map" style="display:inline-block;margin:14px 24px 4px;padding:7px 14px;border-radius:8px;border:1px solid rgba(128,128,128,.42);background:rgba(128,128,128,.14);color:inherit;font-family:ui-sans-serif,system-ui,-apple-system,Segoe UI,Roboto,sans-serif;font-weight:700;font-size:13px;text-decoration:none">← Back to the trip map</a>
@@ -37,6 +52,18 @@
       <div class="card span4"><div class="big">139,804</div><div class="muted">Reykjavík municipality population on Jan. 1, 2026, per Statistics Iceland.</div></div>
       <div class="card span4"><div class="big">394,324</div><div class="muted">Iceland’s total population on Jan. 1, 2026. The whole country is smaller than many U.S. cities.</div></div>
       <div class="card span4"><div class="big">64°08′ N</div><div class="muted">Roughly Reykjavík’s latitude: the northernmost capital of a sovereign state.</div></div>
+    </section>
+
+    <section class="grid" style="margin-top:16px">
+      <div class="card span12">
+        <h2>Get oriented: the coast and the bay</h2>
+        <p class="muted">Reykjavík is a harbor town on Faxaflói bay, tiny and low-rise. Here is the walkable coast — concert hall, old harbor, church, and the sculpture on the seafront — with the bay opening north.</p>
+        <div class="exp-map-wrap">
+          <div id="exp-map" role="application" aria-label="Map of central Reykjavík, its old harbor and Faxaflói bay, with key sites marked"></div>
+          <div class="exp-map-fallback">Map couldn’t load (needs a network connection). The neighborhoods are decoded below.</div>
+          <div class="exp-map-cap">Harpa · Old Harbour / Grandi · Hallgrímskirkja · Sun Voyager · Perlan — the compact coast on Faxaflói bay. Tap a marker for the name.</div>
+        </div>
+      </div>
     </section>
 
     <section class="grid" style="margin-top:16px">
@@ -129,6 +156,20 @@
 
     <section class="grid" style="margin-top:16px">
       <div class="card span12">
+        <h2>Neighborhoods, translated to Seattle</h2>
+        <p class="muted">Igor lives in Seattle, so here is Reykjavík mapped onto home turf — shrunk hard, since the whole capital is Ballard-sized. Vibes over precision; the volcano has no Seattle twin.</p>
+        <div class="place"><h3>Downtown / 101 → Capitol Hill + downtown, at Ballard scale</h3><p>Cafés, bars, music, galleries, government and tourist density packed into a low-rise walkable core — Seattle’s downtown-and-Cap-Hill energy compressed into a few blocks.</p></div>
+        <div class="place"><h3>Old Harbour / Grandi → Fishermen’s Terminal / Ballard’s maritime edge</h3><p>A working harbor going foodie-creative: whale-watching and fishing boats alongside food halls and museums, the way Ballard/Interbay’s industrial waterfront keeps sprouting breweries and eateries.</p></div>
+        <div class="place"><h3>Laugardalur → Green Lake</h3><p>The family district of pools, sports fields and greenery — organized around a swim and a loop, not around sights.</p></div>
+        <div class="place"><h3>Perlan / Öskjuhlíð → Volunteer Park hill + a Pacific Science Center dome</h3><p>A wooded hill with the big city-and-water view and an indoor nature exhibit — the reliable bad-weather move.</p></div>
+        <div class="place"><h3>Hafnarfjörður → the southern suburbs toward SeaTac (Tukwila / Tacoma)</h3><p>A separate lava-town south of the capital that you stage from for the airport and the peninsula — the “on the way to the airport” town.</p></div>
+        <div class="place"><h3>Reykjanes Peninsula → (no analog)</h3><p>Airport plus lava fields, geothermal steam and the Blue Lagoon. Seattle has nothing geothermal; the nearest feeling is driving out to Rainier or St. Helens for “the landscape is actively doing something” — minus the airport and the black rock.</p></div>
+        <p class="callout warning"><b>Least sure:</b> everything here is scaled down hard — Reykjavík’s whole downtown is smaller than one Seattle neighborhood — and the Reykjanes volcano zone genuinely has no Seattle equivalent.</p>
+      </div>
+    </section>
+
+    <section class="grid" style="margin-top:16px">
+      <div class="card span12">
         <h2>Sources used</h2>
         <p class="source">Statistics Iceland population release, Visit Reykjavík history, Reykjavík City Museum / Settlement Exhibition, Nordics.info Iceland independence history, NATO history on Iceland and Keflavík, Visit Iceland official tourism context, and your Scandinavia 2026 itinerary page.</p>
       </div>
@@ -136,5 +177,37 @@
 
     <footer class="footer">Built as a travel-context explainer: not a full academic history, but enough to make the city and its sights legible while you are there.</footer>
   </main>
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
+<script>
+(function(){
+  "use strict";
+  var PLACES=[
+    {name:"Harpa", lat:64.1505, lon:-21.9327},
+    {name:"Old Harbour / Grandi", lat:64.1540, lon:-21.9440},
+    {name:"Hallgrímskirkja", lat:64.1417, lon:-21.9266},
+    {name:"Sun Voyager", lat:64.1475, lon:-21.9224},
+    {name:"Perlan", lat:64.1290, lon:-21.9190}
+  ];
+  var TILES="dark";
+  var el=document.getElementById("exp-map");
+  if(!el || typeof L==="undefined"){ if(el){el.classList.add("failed");} return; }
+  try{
+    var map=L.map(el,{scrollWheelZoom:false,zoomControl:true,attributionControl:true}).setView([64.147,-21.933],13);
+    var url=TILES==="dark"?"https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png":"https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png";
+    L.tileLayer(url,{attribution:'&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors &copy; <a href="https://carto.com/attributions">CARTO</a>',subdomains:"abcd",maxZoom:19,minZoom:3}).addTo(map);
+    var pts=[];
+    PLACES.forEach(function(p){
+      var icon=L.divIcon({html:'<div class="exp-dot"></div>',className:"",iconSize:[14,14],iconAnchor:[7,7],popupAnchor:[0,-8]});
+      var m=L.marker([p.lat,p.lon],{icon:icon,title:p.name}).addTo(map);
+      m.bindTooltip(p.name,{permanent:true,direction:"right",className:"exp-tip",offset:[8,0]});
+      m.bindPopup('<strong>'+p.name+'</strong>');
+      pts.push([p.lat,p.lon]);
+    });
+    if(pts.length){ map.fitBounds(L.latLngBounds(pts),{padding:[55,55],maxZoom:14}); }
+    map.on("focus",function(){map.scrollWheelZoom.enable();});
+    map.on("blur",function(){map.scrollWheelZoom.disable();});
+  }catch(err){ el.classList.add("failed"); }
+})();
+</script>
 </body>
 </html>
