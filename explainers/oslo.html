@@ -22,7 +22,21 @@
     section{padding:36px 0;border-bottom:1px solid var(--line)}
     .stat{font-size:34px;font-weight:900;letter-spacing:-.04em;color:var(--accent2)}.label{font-size:13px;text-transform:uppercase;letter-spacing:.08em;color:var(--muted);font-weight:800}
     .timeline{position:relative;margin-left:10px}.timeline:before{content:"";position:absolute;left:8px;top:4px;bottom:4px;width:2px;background:var(--line)}.event{position:relative;padding-left:36px;margin:0 0 20px}.event:before{content:"";position:absolute;left:0;top:5px;width:18px;height:18px;border-radius:50%;background:var(--accent);border:3px solid var(--bg)}.year{font-weight:900;color:var(--accent);font-size:18px}.rank{display:flex;gap:12px;align-items:flex-start;margin:0 0 14px}.num{flex:0 0 32px;height:32px;border-radius:50%;background:var(--ink);color:#fff;display:grid;place-items:center;font-weight:900}.callout{border-left:6px solid var(--accent);background:#fff;padding:18px 20px;border-radius:14px;margin:18px 0}.small{font-size:14px}.map{min-height:280px;background:radial-gradient(circle at 50% 72%,rgba(31,111,120,.22),transparent 34%),linear-gradient(145deg,#dce9eb,#f9f3e8);border:1px solid var(--line);border-radius:22px;padding:22px;position:relative;overflow:hidden}.map .dot{position:absolute;width:14px;height:14px;border-radius:50%;background:var(--accent);box-shadow:0 0 0 6px rgba(183,79,58,.16)}.map span{position:absolute;font-weight:800;background:rgba(255,255,255,.82);padding:5px 8px;border-radius:999px;font-size:12px}.footer{font-size:13px;color:var(--muted);padding:26px 0}.tagline{display:flex;gap:8px;flex-wrap:wrap;margin-top:18px}.source-list li{margin-bottom:8px}.itinerary-table{width:100%;border-collapse:collapse;background:#fff;border-radius:16px;overflow:hidden}.itinerary-table th,.itinerary-table td{padding:12px;border-bottom:1px solid var(--line);text-align:left;vertical-align:top}.itinerary-table th{background:#f0e8da;font-size:13px;text-transform:uppercase;letter-spacing:.06em}
+    .exp-map-wrap{background:var(--card);border:1px solid var(--line);border-radius:22px;overflow:hidden;box-shadow:var(--shadow)}
+    #exp-map{height:clamp(320px,50vh,480px);width:100%;background:#dce9eb;z-index:1}
+    .exp-map-cap{font-size:13px;color:var(--muted);padding:11px 16px;border-top:1px solid var(--line)}
+    .exp-map-fallback{display:none;padding:26px 20px;font-size:14px;color:var(--muted);text-align:center}
+    #exp-map.failed + .exp-map-fallback{display:block}
+    .leaflet-container{font-family:inherit;background:#dce9eb}
+    .exp-dot{width:14px;height:14px;border-radius:50%;background:var(--accent);border:2px solid #fff;box-shadow:0 0 0 4px rgba(0,0,0,.16)}
+    .leaflet-tooltip.exp-tip{background:var(--card);color:var(--ink);border:1px solid var(--line);border-radius:8px;font-weight:800;font-size:11.5px;padding:3px 7px;box-shadow:var(--shadow)}
+    .leaflet-tooltip.exp-tip:before{display:none}
+    .leaflet-popup-content-wrapper{background:var(--card);color:var(--ink);border:1px solid var(--line);border-radius:12px}
+    .leaflet-popup-tip{background:var(--card);border:1px solid var(--line)}
+    .leaflet-control-attribution{background:rgba(255,250,242,.85)!important;color:var(--muted)!important}
+    .leaflet-control-attribution a{color:var(--accent2)!important}
   </style>
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin="" />
 </head>
 <body>
 <a href="../index.html" aria-label="Back to the trip map" style="display:inline-block;margin:14px 24px 4px;padding:7px 14px;border-radius:8px;border:1px solid rgba(128,128,128,.42);background:rgba(128,128,128,.14);color:inherit;font-family:ui-sans-serif,system-ui,-apple-system,Segoe UI,Roboto,sans-serif;font-weight:700;font-size:13px;text-decoration:none">← Back to the trip map</a>
@@ -45,6 +59,16 @@
         <div class="card"><div class="label">Wider region</div><div class="stat">1.2m+</div><p class="small muted">The Oslo region is the country’s dominant urban/economic region.</p></div>
         <div class="card"><div class="label">Old fortress began</div><div class="stat">1299</div><p class="small muted">Akershus guarded the harbor and royal power.</p></div>
         <div class="card"><div class="label">Modern name restored</div><div class="stat">1925</div><p class="small muted">Christiania/Kristiania became Oslo again.</p></div>
+      </div>
+    </section>
+
+    <section>
+      <h2>Get oriented: the inner Oslofjord</h2>
+      <p class="muted small">Oslo only makes sense from the water. Here is the inner harbor with the places this guide keeps returning to — fortress, waterfront culture, and the museum peninsula across the fjord.</p>
+      <div class="exp-map-wrap">
+        <div id="exp-map" role="application" aria-label="Map of central Oslo and the inner Oslofjord with key sites marked"></div>
+        <div class="exp-map-fallback">Map couldn’t load (needs a network connection). The zones are described in “Where things are” below.</div>
+        <div class="exp-map-cap">Aker Brygge · Akershus · City Hall · Opera/Bjørvika · MUNCH · Bygdøy museums — arranged around the inner Oslofjord. Tap a marker for the name.</div>
       </div>
     </section>
 
@@ -174,6 +198,23 @@
     </section>
 
     <section>
+      <h2>Neighborhoods, translated to Seattle</h2>
+      <p class="muted small">Igor lives in Seattle, so here is the fastest way to feel Oslo’s districts — map them onto neighborhoods you already know. Vibes over GPS; argue with them.</p>
+      <table class="itinerary-table">
+        <thead><tr><th>Oslo</th><th>Seattle analog</th><th>Why</th></tr></thead>
+        <tbody>
+          <tr><td>Bjørvika</td><td>South Lake Union + the new downtown waterfront</td><td>A reclaimed industrial harbor rebuilt with new money (oil there, Amazon here) into a glassy civic showcase — Opera House / Deichman / MUNCH ≈ the rebuilt Alaskan Way park and SLU’s shiny campuses.</td></tr>
+          <tr><td>Grünerløkka</td><td>Ballard / Fremont</td><td>Post-industrial east-side turned brunch, breweries and vintage; the Mathallen food hall ≈ Ballard’s market energy, and Fremont supplies the self-aware quirk.</td></tr>
+          <tr><td>Frogner</td><td>Queen Anne</td><td>Leafy, moneyed west-side wrapped around the marquee park — Vigeland’s sculpture grounds ≈ a grander, hillier version of the old-money calm above downtown.</td></tr>
+          <tr><td>Grønland / Tøyen</td><td>Chinatown–International District / Columbia City</td><td>The diverse, working-class, immigrant counterweight to the postcard west side — the real city under the brochure, changing fast.</td></tr>
+          <tr><td>Gamlebyen (old Oslo)</td><td>Pioneer Square</td><td>The original medieval core, now shoved to the side and overshadowed by the rebuilt center — historic, but no longer the main stage.</td></tr>
+          <tr><td>Holmenkollen / Nordmarka</td><td>Snoqualmie / the Cascade foothills (no clean analog)</td><td>A ski jump and forest reachable by subway is deeply un-Seattle; the honest match is loading the car for the passes. Oslo keeps the mountains out the back door; Seattle keeps them an hour east.</td></tr>
+        </tbody>
+      </table>
+      <div class="callout small"><strong>Least sure:</strong> Frogner-as-Queen-Anne (Madison Park fits the old money just as well), and Holmenkollen has no real in-city Seattle twin.</div>
+    </section>
+
+    <section>
       <h2>Sources used</h2>
       <ul class="source-list small">
         <li>Statistics Norway / SSB population table and projections for Oslo.</li>
@@ -189,5 +230,38 @@
     </section>
     <div class="footer">Oslo Context Guide — built for a short family visit, not for completionism.</div>
   </div>
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
+<script>
+(function(){
+  "use strict";
+  var PLACES=[
+    {name:"Aker Brygge", lat:59.9106, lon:10.7285},
+    {name:"Akershus Fortress", lat:59.9076, lon:10.7365},
+    {name:"City Hall", lat:59.9127, lon:10.7332},
+    {name:"Opera / Bjørvika", lat:59.9075, lon:10.7533},
+    {name:"MUNCH", lat:59.9060, lon:10.7555},
+    {name:"Bygdøy museums", lat:59.9036, lon:10.6997}
+  ];
+  var TILES="light";
+  var el=document.getElementById("exp-map");
+  if(!el || typeof L==="undefined"){ if(el){el.classList.add("failed");} return; }
+  try{
+    var map=L.map(el,{scrollWheelZoom:false,zoomControl:true,attributionControl:true}).setView([59.905,10.73],13);
+    var url=TILES==="dark"?"https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png":"https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png";
+    L.tileLayer(url,{attribution:'&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors &copy; <a href="https://carto.com/attributions">CARTO</a>',subdomains:"abcd",maxZoom:19,minZoom:3}).addTo(map);
+    var pts=[];
+    PLACES.forEach(function(p){
+      var icon=L.divIcon({html:'<div class="exp-dot"></div>',className:"",iconSize:[14,14],iconAnchor:[7,7],popupAnchor:[0,-8]});
+      var m=L.marker([p.lat,p.lon],{icon:icon,title:p.name}).addTo(map);
+      m.bindTooltip(p.name,{permanent:true,direction:"right",className:"exp-tip",offset:[8,0]});
+      m.bindPopup('<strong>'+p.name+'</strong>');
+      pts.push([p.lat,p.lon]);
+    });
+    if(pts.length){ map.fitBounds(L.latLngBounds(pts),{padding:[55,55],maxZoom:14}); }
+    map.on("focus",function(){map.scrollWheelZoom.enable();});
+    map.on("blur",function(){map.scrollWheelZoom.disable();});
+  }catch(err){ el.classList.add("failed"); }
+})();
+</script>
 </body>
 </html>
