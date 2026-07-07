@@ -1,0 +1,533 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>The Road Cylinder, Water Test, and Buried Gas Pipe Protection</title>
+  <style>
+    :root {
+      --bg: #0f172a;
+      --panel: #111827;
+      --panel2: #1f2937;
+      --text: #e5e7eb;
+      --muted: #a3aab8;
+      --accent: #7dd3fc;
+      --good: #86efac;
+      --bad: #fca5a5;
+      --warn: #fde68a;
+      --line: #374151;
+      --steel: #cbd5e1;
+      --soil: #8b5e34;
+      --water: #38bdf8;
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      font-family: ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      background: radial-gradient(circle at top, #172554 0, var(--bg) 45%, #020617 100%);
+      color: var(--text);
+      line-height: 1.55;
+    }
+    header {
+      padding: 72px 22px 48px;
+      text-align: center;
+      max-width: 1000px;
+      margin: auto;
+    }
+    header h1 {
+      font-size: clamp(2.2rem, 5vw, 4.4rem);
+      line-height: 1;
+      margin: 0 0 18px;
+      letter-spacing: -0.06em;
+    }
+    header p {
+      max-width: 760px;
+      margin: auto;
+      font-size: 1.2rem;
+      color: var(--muted);
+    }
+    nav {
+      position: sticky;
+      top: 0;
+      z-index: 10;
+      background: rgba(2, 6, 23, 0.84);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid rgba(148,163,184,.25);
+    }
+    nav .inner {
+      max-width: 1100px;
+      margin: auto;
+      padding: 10px 18px;
+      display: flex;
+      gap: 12px;
+      overflow-x: auto;
+    }
+    nav a {
+      color: var(--muted);
+      text-decoration: none;
+      white-space: nowrap;
+      font-size: .92rem;
+      border: 1px solid rgba(148,163,184,.25);
+      border-radius: 999px;
+      padding: 6px 10px;
+    }
+    nav a:hover { color: var(--text); border-color: var(--accent); }
+    main {
+      max-width: 1100px;
+      margin: auto;
+      padding: 28px 18px 80px;
+    }
+    section {
+      margin: 32px 0;
+      padding: 28px;
+      border: 1px solid rgba(148,163,184,.2);
+      border-radius: 24px;
+      background: linear-gradient(180deg, rgba(31,41,55,.86), rgba(17,24,39,.88));
+      box-shadow: 0 20px 60px rgba(0,0,0,.18);
+    }
+    h2 {
+      margin: 0 0 14px;
+      font-size: clamp(1.5rem, 3vw, 2.25rem);
+      letter-spacing: -0.035em;
+    }
+    h3 { margin-top: 24px; color: #f8fafc; }
+    .lede { color: var(--muted); font-size: 1.08rem; }
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 16px;
+      margin-top: 18px;
+    }
+    .card {
+      background: rgba(15,23,42,.72);
+      border: 1px solid rgba(148,163,184,.22);
+      border-radius: 18px;
+      padding: 18px;
+    }
+    .card strong { color: #fff; }
+    .formula {
+      background: #020617;
+      border: 1px solid rgba(125,211,252,.28);
+      border-radius: 16px;
+      padding: 14px 16px;
+      font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+      overflow-x: auto;
+      color: #dbeafe;
+    }
+    .callout {
+      border-left: 4px solid var(--accent);
+      padding: 14px 16px;
+      background: rgba(14,165,233,.09);
+      border-radius: 10px;
+      margin: 18px 0;
+    }
+    .warning { border-left-color: var(--warn); background: rgba(250,204,21,.08); }
+    .good { border-left-color: var(--good); background: rgba(34,197,94,.08); }
+    .bad { border-left-color: var(--bad); background: rgba(239,68,68,.08); }
+    .diagram {
+      width: 100%;
+      min-height: 280px;
+      background: linear-gradient(#1e293b 0 32%, #6b4423 32% 100%);
+      border: 1px solid rgba(148,163,184,.3);
+      border-radius: 20px;
+      position: relative;
+      overflow: hidden;
+      margin: 18px 0;
+    }
+    .road {
+      position: absolute;
+      top: 0;
+      height: 32%;
+      width: 100%;
+      background: repeating-linear-gradient(90deg, #334155, #334155 24px, #3f4b5f 24px, #3f4b5f 48px);
+    }
+    .soil-label, .road-label, .pipe-label, .anode-label, .meter-label {
+      position: absolute;
+      font-size: .84rem;
+      color: #f8fafc;
+      background: rgba(2,6,23,.7);
+      padding: 4px 8px;
+      border-radius: 999px;
+      border: 1px solid rgba(255,255,255,.15);
+    }
+    .road-label { top: 12px; left: 18px; }
+    .soil-label { bottom: 18px; left: 18px; }
+    .pipe {
+      position: absolute;
+      left: 11%;
+      right: 16%;
+      top: 58%;
+      height: 44px;
+      background: linear-gradient(#e5e7eb, #94a3b8, #e2e8f0);
+      border-radius: 999px;
+      box-shadow: inset 0 -8px 12px rgba(0,0,0,.25);
+    }
+    .pipe-label { top: calc(58% + 52px); left: 26%; }
+    .rust {
+      position: absolute;
+      width: 48px;
+      height: 48px;
+      background: radial-gradient(circle, #fb923c, #7c2d12 70%, transparent 72%);
+      border-radius: 50%;
+      top: 55%;
+      left: 44%;
+      filter: blur(.2px);
+    }
+    .anode {
+      position: absolute;
+      width: 64px;
+      height: 96px;
+      background: linear-gradient(90deg, #fbbf24, #a16207);
+      border-radius: 12px;
+      top: 48%;
+      right: 7%;
+      box-shadow: inset -8px 0 12px rgba(0,0,0,.25);
+    }
+    .anode-label { top: 79%; right: 4%; }
+    .wire {
+      position: absolute;
+      border-top: 4px solid #93c5fd;
+      width: 28%;
+      right: 13%;
+      top: 47%;
+      transform: rotate(-11deg);
+      transform-origin: right center;
+    }
+    .electron {
+      position: absolute;
+      width: 10px;
+      height: 10px;
+      background: #bfdbfe;
+      border-radius: 50%;
+      box-shadow: 0 0 14px #7dd3fc;
+      animation: travel 2.2s linear infinite;
+    }
+    .e1 { top: 48%; right: 29%; animation-delay: 0s; }
+    .e2 { top: 51%; right: 38%; animation-delay: .7s; }
+    .e3 { top: 54%; right: 47%; animation-delay: 1.4s; }
+    @keyframes travel {
+      from { transform: translateX(160px) translateY(-20px); opacity: 0; }
+      15% { opacity: 1; }
+      85% { opacity: 1; }
+      to { transform: translateX(-260px) translateY(25px); opacity: 0; }
+    }
+    .testbox {
+      position: absolute;
+      top: 22%;
+      left: 72%;
+      width: 46px;
+      height: 46px;
+      border-radius: 50%;
+      background: radial-gradient(circle, #64748b, #1f2937);
+      border: 3px solid #cbd5e1;
+    }
+    .meter-label { top: 35%; left: 67%; }
+    .waterdrop {
+      position: absolute;
+      left: 75%;
+      top: 8%;
+      width: 14px;
+      height: 20px;
+      background: var(--water);
+      border-radius: 50% 50% 50% 0;
+      transform: rotate(-45deg);
+      opacity: .9;
+      animation: drop 1.3s ease-in infinite;
+    }
+    @keyframes drop {
+      from { transform: translateY(-22px) rotate(-45deg); opacity: 0; }
+      30% { opacity: 1; }
+      to { transform: translateY(84px) rotate(-45deg); opacity: 0; }
+    }
+    .interactive {
+      background: rgba(2,6,23,.65);
+      border: 1px solid rgba(125,211,252,.25);
+      border-radius: 20px;
+      padding: 18px;
+      margin-top: 18px;
+    }
+    label { display: block; margin: 12px 0 6px; color: var(--muted); }
+    input[type="range"] { width: 100%; }
+    .status {
+      margin-top: 16px;
+      padding: 16px;
+      border-radius: 16px;
+      background: #020617;
+      border: 1px solid rgba(148,163,184,.24);
+    }
+    .big {
+      font-size: 1.4rem;
+      font-weight: 750;
+      letter-spacing: -0.02em;
+    }
+    .bar {
+      height: 22px;
+      border-radius: 999px;
+      background: linear-gradient(90deg, var(--bad), var(--warn), var(--good));
+      position: relative;
+      margin: 18px 0 8px;
+    }
+    .marker {
+      position: absolute;
+      top: -7px;
+      width: 4px;
+      height: 36px;
+      background: white;
+      border-radius: 999px;
+      box-shadow: 0 0 12px rgba(255,255,255,.75);
+    }
+    .axis {
+      display: flex;
+      justify-content: space-between;
+      font-size: .85rem;
+      color: var(--muted);
+    }
+    .quiz button {
+      display: block;
+      width: 100%;
+      text-align: left;
+      margin: 8px 0;
+      padding: 12px 14px;
+      border-radius: 12px;
+      border: 1px solid rgba(148,163,184,.28);
+      background: rgba(15,23,42,.8);
+      color: var(--text);
+      cursor: pointer;
+    }
+    .quiz button:hover { border-color: var(--accent); }
+    .answer { color: var(--muted); margin-top: 10px; min-height: 30px; }
+    footer {
+      color: var(--muted);
+      text-align: center;
+      padding: 36px 18px 70px;
+    }
+    code { color: #bae6fd; }
+    @media (max-width: 680px) {
+      section { padding: 20px; }
+      .diagram { min-height: 360px; }
+      .pipe { left: 6%; right: 25%; }
+      .anode { right: 5%; }
+      .anode-label { right: 2%; }
+    }
+  </style>
+</head>
+<body>
+<a href="../index.html" aria-label="Back to the trip map" style="display:inline-block;margin:14px 24px 4px;padding:7px 14px;border-radius:8px;border:1px solid rgba(128,128,128,.42);background:rgba(128,128,128,.14);color:inherit;font-family:ui-sans-serif,system-ui,-apple-system,Segoe UI,Roboto,sans-serif;font-weight:700;font-size:13px;text-decoration:none">← Back to the trip map</a>
+  <header>
+    <h1>The Road Cylinder, the Water, and the Hidden Gas Pipe</h1>
+    <p>You saw a PSE crew replacing a small flush cylinder in the road and testing it by pouring water on it. This page starts with that street clue, then walks backward to the physics: atoms, electrons, rust, and how utilities prove a buried gas pipe is protected.</p>
+  </header>
+
+  <nav>
+    <div class="inner">
+      <a href="#saw">What you saw</a>
+      <a href="#problem">The problem</a>
+      <a href="#battery">Corrosion is a battery</a>
+      <a href="#fix">The fix</a>
+      <a href="#test">How they test it</a>
+      <a href="#water">Why pour water?</a>
+      <a href="#demo">Interactive demo</a>
+      <a href="#quiz">Check yourself</a>
+    </div>
+  </nav>
+
+  <main>
+    <section id="saw">
+      <h2>0. Start here: what you saw on the street</h2>
+      <p class="lede">A Puget Sound Energy crew was replacing a small cylindrical fitting set into the road. After installing or exposing it, they poured water around it and tested it.</p>
+      <div class="grid">
+        <div class="card"><strong>The object</strong><br/>A small flush cylinder in pavement. That shape matches a road-safe access point: something workers can open, test, and close without leaving a box sticking up in traffic.</div>
+        <div class="card"><strong>The crew</strong><br/>PSE in Seattle is a strong clue for natural-gas infrastructure. Buried gas pipes need corrosion protection and periodic testing.</div>
+        <div class="card"><strong>The water</strong><br/>Water improves electrical contact through pavement/soil. That makes sense if the worker is taking a voltage reading, not if the object is merely a traffic sensor.</div>
+      </div>
+      <div class="callout">
+        <strong>Best working theory:</strong> you were probably looking at a cathodic-protection test station or related gas-pipe access point. It lets workers check whether a buried steel pipe is electrically protected from corrosion.
+      </div>
+      <div class="callout warning">
+        <strong>Reality check:</strong> without reading the cap label, this is still an inference. Labels like <code>CP</code>, <code>TEST</code>, <code>GAS</code>, <code>ANODE</code>, or <code>PSE</code> would make the case much stronger.
+      </div>
+      <p>Now the physics question: <strong>why would a buried pipe need an electrical protection system at all?</strong></p>
+    </section>
+
+    <section id="problem">
+      <h2>1. The real problem: buried steel wants to become rust</h2>
+      <p class="lede">Under that road, a buried steel gas pipe is strong, but it lives in wet soil. Wet soil is not just dirt. It is a weak electrical conductor filled with water, dissolved salts, oxygen, and minerals.</p>
+      <div class="grid">
+        <div class="card"><strong>Steel pipe</strong><br/>Mostly iron atoms locked into a metal lattice.</div>
+        <div class="card"><strong>Wet soil</strong><br/>A weak electrolyte: it lets ions move, kind of like a bad battery fluid.</div>
+        <div class="card"><strong>Oxygen + water</strong><br/>The chemistry that lets iron slowly turn into rust.</div>
+      </div>
+      <div class="callout bad">
+        <strong>Blunt version:</strong> buried steel is sitting inside a crude natural battery. If left alone, parts of the pipe become the battery terminal that dissolves.
+      </div>
+    </section>
+
+    <section id="battery">
+      <h2>2. First principles: corrosion is an electron problem</h2>
+      <p>Start with an iron atom in the pipe. For iron to corrode, it has to lose electrons and leave the metal as an ion.</p>
+      <div class="formula">Fe → Fe²⁺ + 2e⁻</div>
+      <p>That equation says: one iron atom becomes a charged iron ion plus two electrons. The iron ion can leave the pipe and react with oxygen/water to become rust. That is the pipe losing real metal.</p>
+
+      <h3>Anode vs. cathode</h3>
+      <div class="grid">
+        <div class="card"><strong>Anode</strong><br/>The place where metal loses electrons. This is where corrosion happens.</div>
+        <div class="card"><strong>Cathode</strong><br/>The place that receives electrons. This side is protected from metal loss.</div>
+      </div>
+      <div class="callout">
+        Corrosion is not evenly polite. Tiny differences in metal, oxygen, moisture, soil chemistry, or scratches can make one spot on the pipe act like an anode while another spot acts like a cathode.
+      </div>
+    </section>
+
+    <section id="fix">
+      <h2>3. The fix: force the pipe to be the cathode</h2>
+      <p>Cathodic protection does exactly what the name says: it makes the pipe behave like a <strong>cathode</strong>. That means electrons are supplied to the pipe, so iron atoms are much less likely to give up their own electrons and dissolve.</p>
+
+      <div class="diagram" aria-label="Diagram of cathodic protection for a buried pipe">
+        <div class="road"></div>
+        <span class="road-label">road surface</span>
+        <span class="soil-label">wet soil: weak electrolyte</span>
+        <div class="testbox"></div>
+        <div class="waterdrop"></div>
+        <span class="meter-label">flush test station</span>
+        <div class="pipe"></div>
+        <span class="pipe-label">steel gas pipe protected as cathode</span>
+        <div class="anode"></div>
+        <span class="anode-label">sacrificial anode</span>
+        <div class="wire"></div>
+        <div class="electron e1"></div>
+        <div class="electron e2"></div>
+        <div class="electron e3"></div>
+      </div>
+
+      <h3>Method A: sacrificial anode</h3>
+      <p>A more reactive metal, often magnesium or zinc, is connected to the pipe. That metal is more willing to give up electrons than iron is. So it corrodes on purpose.</p>
+      <div class="formula">Mg → Mg²⁺ + 2e⁻</div>
+      <p>The electrons flow through the wire to the steel pipe. The magnesium gets consumed. The pipe is spared.</p>
+      <div class="callout good"><strong>Key idea:</strong> do not stop corrosion everywhere. Move corrosion to a cheap replaceable part.</div>
+
+      <h3>Method B: impressed current</h3>
+      <p>For larger systems, a DC power supply pushes current through buried anodes and into the pipe. This is like a controllable, powered version of the same idea.</p>
+      <div class="formula">DC source → anode bed → soil → pipe → return wire</div>
+    </section>
+
+    <section id="test">
+      <h2>4. How do workers know the pipe is protected?</h2>
+      <p>They measure the pipe’s electrical potential compared with a reference electrode. That flush road cylinder is probably a test station: it gives access to wires connected to the buried pipe or protection system.</p>
+      <div class="grid">
+        <div class="card"><strong>Pipe wire</strong><br/>A wire connects to the buried pipe.</div>
+        <div class="card"><strong>Reference electrode</strong><br/>A stable comparison point placed against wet soil or pavement.</div>
+        <div class="card"><strong>Voltmeter</strong><br/>Measures whether the pipe is negative enough to be protected.</div>
+      </div>
+      <p>The exact target depends on the standard, pipe coating, soil, and reference electrode. But conceptually, the reading answers one question:</p>
+      <div class="callout"><strong>Is the pipe electrically pushed far enough toward “cathode” behavior?</strong></div>
+    </section>
+
+    <section id="water">
+      <h2>5. Why pour water on the road cylinder?</h2>
+      <p>Because the measurement depends on an electrical path through the environment. Dry pavement and dry soil are poor conductors. Wetting the area improves contact for the reference electrode and makes the reading less garbage.</p>
+      <div class="grid">
+        <div class="card"><strong>Dry surface</strong><br/>High resistance. The meter may see a noisy or misleading potential.</div>
+        <div class="card"><strong>Wet surface</strong><br/>Lower resistance. Ions can move more easily, so the electrical measurement is more meaningful.</div>
+        <div class="card"><strong>Not magic</strong><br/>The water is probably not the thing being sensed. It helps complete the testing circuit.</div>
+      </div>
+      <div class="callout warning"><strong>Important:</strong> this is an inference from the field clues. The label on the cap would be the best evidence. <code>CP</code>, <code>TEST</code>, <code>GAS</code>, <code>ANODE</code>, or <code>PSE</code> would support this explanation.</div>
+    </section>
+
+    <section id="demo">
+      <h2>6. Interactive demo: is the pipe protected?</h2>
+      <p class="lede">This is a simplified teaching model. Slide the pipe potential. More negative means the pipe is being pushed more strongly into cathode behavior.</p>
+      <div class="interactive">
+        <label for="potential">Pipe potential vs. reference electrode: <span id="potentialText">-650 mV</span></label>
+        <input id="potential" type="range" min="-1200" max="-300" value="-650" step="10" />
+        <div class="bar"><div class="marker" id="marker"></div></div>
+        <div class="axis"><span>not negative enough</span><span>protected zone</span><span>very negative</span></div>
+        <div class="status" id="status"></div>
+      </div>
+      <p>Do not memorize the slider as a universal engineering rule. The learning point is the direction: <strong>the pipe must be made electrically negative enough that it no longer wants to dissolve as iron ions.</strong></p>
+    </section>
+
+    <section id="quiz" class="quiz">
+      <h2>7. Check yourself</h2>
+      <p>Pick an answer. The site will tell you why.</p>
+
+      <h3>Question 1: Where does corrosion happen?</h3>
+      <button onclick="answer(1, false)">At the cathode, because electrons arrive there.</button>
+      <button onclick="answer(1, true)">At the anode, because metal atoms lose electrons there.</button>
+      <button onclick="answer(1, false)">Only where water directly touches visible rust.</button>
+      <div id="a1" class="answer"></div>
+
+      <h3>Question 2: What is the sacrificial anode doing?</h3>
+      <button onclick="answer(2, true)">Corroding instead of the pipe.</button>
+      <button onclick="answer(2, false)">Blocking all electricity from reaching the pipe.</button>
+      <button onclick="answer(2, false)">Detecting rainwater.</button>
+      <div id="a2" class="answer"></div>
+
+      <h3>Question 3: Why might a worker pour water near the test station?</h3>
+      <button onclick="answer(3, false)">To cool the pipe.</button>
+      <button onclick="answer(3, true)">To improve electrical contact for a measurement.</button>
+      <button onclick="answer(3, false)">To make rust happen faster as a test.</button>
+      <div id="a3" class="answer"></div>
+    </section>
+
+    <section>
+      <h2>One-screen summary: from street clue to fix</h2>
+      <div class="grid">
+        <div class="card"><strong>What you saw</strong><br/>A road-safe cylinder being replaced and wetted before testing.</div>
+        <div class="card"><strong>Problem</strong><br/>Buried steel can become the anode in a tiny soil battery and lose iron atoms.</div>
+        <div class="card"><strong>Fix</strong><br/>Supply electrons so the pipe behaves like the cathode.</div>
+        <div class="card"><strong>Sacrificial version</strong><br/>A magnesium/zinc/aluminum anode corrodes instead.</div>
+        <div class="card"><strong>Powered version</strong><br/>A DC source pushes protective current to the pipe.</div>
+        <div class="card"><strong>Test station</strong><br/>A flush cylinder gives access to wires for measuring protection.</div>
+        <div class="card"><strong>Water</strong><br/>Improves conductivity/contact so the measurement is less flaky.</div>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    Built as a high-school physics explanation: not a field manual, not a substitute for utility engineering procedures.
+  </footer>
+
+  <script>
+    const slider = document.getElementById('potential');
+    const text = document.getElementById('potentialText');
+    const status = document.getElementById('status');
+    const marker = document.getElementById('marker');
+
+    function updateDemo() {
+      const v = Number(slider.value);
+      text.textContent = `${v} mV`;
+      const pct = ((v - (-1200)) / ((-300) - (-1200))) * 100;
+      marker.style.left = `calc(${pct}% - 2px)`;
+
+      if (v > -700) {
+        status.innerHTML = `<div class="big" style="color: var(--bad)">Not protected enough</div>
+        The pipe is not being pushed strongly enough toward cathode behavior. Some spots may still act like anodes and lose metal.`;
+      } else if (v >= -1050) {
+        status.innerHTML = `<div class="big" style="color: var(--good)">Protected in this simplified model</div>
+        The pipe is negative enough that iron atoms are much less likely to give up electrons and dissolve into the soil.`;
+      } else {
+        status.innerHTML = `<div class="big" style="color: var(--warn)">Very strongly driven</div>
+        More negative is not automatically better forever. Real systems avoid overprotection because coatings, nearby structures, and other chemistry can matter.`;
+      }
+    }
+
+    function answer(q, correct) {
+      const box = document.getElementById(`a${q}`);
+      if (correct) {
+        box.innerHTML = `<span style="color: var(--good)">Correct.</span> ${explain(q)}`;
+      } else {
+        box.innerHTML = `<span style="color: var(--bad)">Not quite.</span> ${explain(q)}`;
+      }
+    }
+
+    function explain(q) {
+      if (q === 1) return 'Corrosion happens at the anode: metal atoms lose electrons and can leave the pipe as ions.';
+      if (q === 2) return 'The sacrificial anode is intentionally chosen to corrode first, protecting the steel pipe.';
+      if (q === 3) return 'Water improves the electrical path through the surface/soil, making the voltage measurement more reliable.';
+    }
+
+    slider.addEventListener('input', updateDemo);
+    updateDemo();
+  </script>
+</body>
+</html>
