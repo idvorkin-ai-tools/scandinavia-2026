@@ -7,6 +7,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com" />
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
 <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600;700&family=IBM+Plex+Sans:wght@400;500;600;700&display=swap" rel="stylesheet" />
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin="" />
 <style>
   :root{
     --bg:#0A0C0F; --panel:#13171D; --panel-2:#171C23; --line:#262C35; --line-soft:#1d232b;
@@ -166,6 +167,38 @@
     table.gym tbody td:nth-child(3),table.gym tbody td:nth-child(4){display:inline-block;margin-right:18px;margin-top:7px}
     .gym-notes{margin-top:7px}
   }
+
+  /* ── trip route map (Leaflet) ── */
+  .map-wrap{background:var(--panel);border:1px solid var(--line);border-radius:14px;overflow:hidden}
+  #trip-map{height:clamp(360px,56vh,560px);width:100%;background:var(--panel-2);z-index:1}
+  .map-legend{display:flex;align-items:center;gap:8px 16px;flex-wrap:wrap;padding:11px 16px;border-top:1px solid var(--line);
+    font-family:"IBM Plex Mono";font-size:11.5px;color:var(--ink-dim);line-height:1.5}
+  .ml-tag{display:inline-flex;align-items:center;gap:6px;white-space:nowrap}
+  .ml-tag .swatch{width:11px;height:11px;border-radius:50%;border:1.5px solid #0A0C0F;flex:none}
+  .ml-tag.t-off .swatch{background:var(--off)} .ml-tag.t-off{color:var(--off-bright)}
+  .ml-tag.t-def .swatch{background:var(--def)} .ml-tag.t-def{color:var(--def)}
+  .ml-hint{margin-left:auto;opacity:.72}
+  .map-fallback{display:none;padding:30px 22px;font-family:"IBM Plex Mono";font-size:13px;color:var(--ink-dim);text-align:center}
+  #trip-map.failed + .map-fallback{display:block}
+  /* leaflet dark-theme overrides */
+  .leaflet-container{font-family:"IBM Plex Sans",system-ui,sans-serif;background:var(--panel-2)}
+  .leaflet-div-icon{background:transparent;border:none}
+  .stop-marker{display:flex;align-items:center;justify-content:center;font-family:"IBM Plex Mono";font-weight:700;font-size:13px;
+    width:28px;height:28px;border-radius:50%;border:2px solid #0A0C0F;box-shadow:0 2px 9px rgba(0,0,0,.55)}
+  .stop-marker.cult{background:var(--off);color:#0A0C0F} .stop-marker.nat{background:var(--def);color:#0A0C0F}
+  .leaflet-popup-content-wrapper{background:var(--panel);color:var(--ink);border:1px solid var(--line);border-radius:11px;box-shadow:0 12px 34px rgba(0,0,0,.55)}
+  .leaflet-popup-tip{background:var(--panel);border-right:1px solid var(--line);border-bottom:1px solid var(--line)}
+  .leaflet-popup-content{margin:12px 14px;font-size:13.5px;line-height:1.5}
+  .leaflet-popup-content .pop-city{font-family:"IBM Plex Mono";font-weight:600;font-size:15px;color:var(--ink);display:flex;align-items:center;gap:7px}
+  .leaflet-popup-content .pop-dates{font-family:"IBM Plex Mono";font-size:11.5px;color:var(--ink-dim);margin:4px 0 8px}
+  .leaflet-popup-content a.pop-link{color:var(--def);text-decoration:none;font-family:"IBM Plex Mono";font-size:12.5px;
+    border-bottom:1px solid rgba(53,207,224,.4)}
+  .leaflet-popup-content a.pop-link:hover{color:var(--off-bright);border-bottom-color:var(--off)}
+  .leaflet-popup-close-button{color:var(--ink-dim)!important}
+  .leaflet-bar a{background:var(--panel);color:var(--ink);border-bottom-color:var(--line)}
+  .leaflet-bar a:hover{background:var(--panel-2);color:var(--ink)}
+  .leaflet-control-attribution{background:rgba(10,12,15,.72)!important;color:var(--ink-dim)!important}
+  .leaflet-control-attribution a{color:var(--ink-mid)!important}
 </style>
 </head>
 <body>
@@ -192,6 +225,7 @@
   <div class="secnav-in">
     <span class="lab">On this page</span>
     <a href="#top"><span class="full">Overview</span><span class="ab">⌂</span></a>
+    <a href="#map"><span class="full">Route map</span><span class="ab">🗺️</span></a>
     <a href="#cities"><span class="full">Itinerary</span><span class="ab">Stops</span></a>
     <a href="#explainers"><span class="full">Deep dives</span><span class="ab">📚</span></a>
     <a href="#weather"><span class="full">Weather</span><span class="ab">Wx</span></a>
@@ -210,6 +244,19 @@
   <div class="legend">
     <span class="legend-tag t-off">▲ amber = city &amp; culture</span>
     <span class="legend-tag t-def">▼ cyan = nature &amp; fjords</span>
+  </div>
+</section>
+
+<section id="map">
+  <div class="eyebrow">the route · interactive map</div>
+  <div class="map-wrap">
+    <div id="trip-map" role="application" aria-label="Interactive map of the trip route, Reykjavík to Amsterdam, with a numbered stop for each city"></div>
+    <div class="map-fallback">Map couldn’t load (needs a network connection). The full route is in the itinerary below.</div>
+    <div class="map-legend">
+      <span class="ml-tag t-off"><span class="swatch"></span>city &amp; culture</span>
+      <span class="ml-tag t-def"><span class="swatch"></span>nature &amp; fjords</span>
+      <span class="ml-hint">numbered in itinerary order · tap a stop for its guide</span>
+    </div>
   </div>
 </section>
 
@@ -343,6 +390,48 @@
   <p class="wx-note"><b style="color:var(--ink-mid)">Same travel session everywhere:</b> 10×10 swings · 5 Turkish get-ups/side · 3×5 pull-ups or rows · goblet/split-squat technique — leave clean, no hero workout.<br>Prices converted at June 2026 rates — confirm at the door. CrossFit boxes prefer an email a day ahead; SATS/PureGym are walk-up. Ask for a “dagskort / dagspass / dagpas.”</p>
 </section>
 </main>
+
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
+<script>
+// ── trip route map ──
+(function(){
+  "use strict";
+  var STOPS = [
+    {n:1, name:"Reykjavík",  flag:"🇮🇸", lat:64.1466, lon:-21.9426, kind:"nat",  dates:"Jun 28–30",   href:"cities/iceland.html"},
+    {n:2, name:"Copenhagen", flag:"🇩🇰", lat:55.6761, lon:12.5683, kind:"cult", dates:"Jun 30–Jul 3", href:"cities/copenhagen.html"},
+    {n:3, name:"Stockholm",  flag:"🇸🇪", lat:59.3293, lon:18.0686, kind:"cult", dates:"Jul 3–7",      href:"cities/stockholm.html"},
+    {n:4, name:"Oslo",       flag:"🇳🇴", lat:59.9139, lon:10.7522, kind:"cult", dates:"Jul 7–10",     href:"cities/oslo.html"},
+    {n:5, name:"Aurland",    flag:"🏔️", lat:60.9080, lon:7.1900,  kind:"nat",  dates:"Jul 10–12",    href:"cities/aurland.html"},
+    {n:6, name:"Voss",       flag:"⛰️", lat:60.6297, lon:6.4419,  kind:"nat",  dates:"Jul 12–13",    href:"cities/voss.html"},
+    {n:7, name:"Bergen",     flag:"🌉", lat:60.3913, lon:5.3221,  kind:"nat",  dates:"Jul 13–16",    href:"cities/bergen.html"},
+    {n:8, name:"Amsterdam",  flag:"🇳🇱", lat:52.3676, lon:4.9041,  kind:"cult", dates:"Jul 16–19",    href:"cities/amsterdam.html"}
+  ];
+  var el = document.getElementById("trip-map");
+  if(!el || typeof L === "undefined"){ if(el){ el.classList.add("failed"); } return; }
+  try {
+    var map = L.map(el, {scrollWheelZoom:false, zoomControl:true, attributionControl:true});
+    L.tileLayer("https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png", {
+      attribution:'&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors &copy; <a href="https://carto.com/attributions">CARTO</a>',
+      subdomains:"abcd", maxZoom:19, minZoom:3
+    }).addTo(map);
+    var latlngs = STOPS.map(function(s){ return [s.lat, s.lon]; });
+    // route line — a soft glow under a dashed amber leg-line
+    L.polyline(latlngs, {color:"#F5A524", weight:7, opacity:.13, lineJoin:"round", lineCap:"round"}).addTo(map);
+    L.polyline(latlngs, {color:"#F5A524", weight:2.5, opacity:.72, dashArray:"5 8", lineJoin:"round", lineCap:"round"}).addTo(map);
+    STOPS.forEach(function(s){
+      var icon = L.divIcon({html:'<div class="stop-marker '+s.kind+'">'+s.n+'</div>', className:"", iconSize:[28,28], iconAnchor:[14,14], popupAnchor:[0,-15]});
+      var pop = '<div class="pop-city">'+s.flag+' '+s.name+'</div>'
+              + '<div class="pop-dates">Stop '+s.n+' · '+s.dates+'</div>'
+              + '<a class="pop-link" href="'+s.href+'">Open the '+s.name+' guide →</a>';
+      L.marker([s.lat, s.lon], {icon:icon, title:s.n+". "+s.name+" · "+s.dates}).addTo(map).bindPopup(pop);
+    });
+    map.fitBounds(L.latLngBounds(latlngs), {padding:[40,40]});
+    // don't hijack page scroll: wheel-zoom only after the map is clicked/focused
+    map.on("focus", function(){ map.scrollWheelZoom.enable(); });
+    map.on("blur",  function(){ map.scrollWheelZoom.disable(); });
+  } catch(err){ el.classList.add("failed"); }
+})();
+</script>
 
 <script>
 (function(){
