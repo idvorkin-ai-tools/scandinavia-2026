@@ -1,0 +1,274 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin="" />
+  <title>The Hanseatic League &amp; Bryggen: How German Merchants Built Bergen</title>
+  <style>
+    :root{--ink:#172026;--muted:#5d6972;--bg:#f5f2eb;--card:#fffaf2;--accent:#8f3f2f;--accent2:#1f5f78;--line:#ded6c8;--shadow:0 12px 30px rgba(23,32,38,.10);--cod:#2f7d55}
+    *{box-sizing:border-box} body{margin:0;font-family:ui-sans-serif,system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial;color:var(--ink);background:linear-gradient(180deg,#e8eef2 0,#f5f2eb 34%);line-height:1.5}
+    a{color:var(--accent2)} .wrap{max-width:1120px;margin:0 auto;padding:24px} header{padding:54px 0 30px;border-bottom:1px solid var(--line)}
+    .kicker{color:var(--accent);font-weight:800;letter-spacing:.08em;text-transform:uppercase;font-size:13px} h1{font-size:clamp(36px,6vw,68px);line-height:.96;margin:12px 0 18px;letter-spacing:-.05em}
+    h2{font-size:clamp(28px,4vw,44px);letter-spacing:-.04em;margin:0 0 14px} h3{font-size:22px;margin:0 0 8px} p{margin:0 0 14px}.lede{font-size:22px;max-width:900px;color:#2d3a41}.muted{color:var(--muted)}
+    .grid{display:grid;gap:18px}.g2{grid-template-columns:repeat(2,minmax(0,1fr))}.g3{grid-template-columns:repeat(3,minmax(0,1fr))}.g4{grid-template-columns:repeat(4,minmax(0,1fr))}@media(max-width:820px){.g2,.g3,.g4{grid-template-columns:1fr}.wrap{padding:18px}header{padding-top:28px}}
+    .card{background:rgba(255,250,242,.9);border:1px solid var(--line);border-radius:22px;padding:22px;box-shadow:var(--shadow)} .tight p{margin-bottom:8px}
+    .tag{display:inline-block;border:1px solid var(--line);border-radius:999px;padding:6px 10px;margin:4px 6px 4px 0;background:#fffdf8;color:#2d3a41;font-size:13px;font-weight:700}
+    section{padding:32px 0;border-bottom:1px solid var(--line)}
+    .callout{border-left:6px solid var(--accent);background:#fff4e8;padding:18px;border-radius:18px}
+    .callout.good{border-left-color:var(--cod);background:#eef7f0}
+    .callout.blue{border-left-color:var(--accent2);background:#eef4f7}
+    .route{font-weight:800;color:var(--accent2)}.fish{font-weight:800;color:var(--cod)}
+    .stat{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:14px;margin:6px 0 4px}
+    .stat .n{font-size:clamp(30px,4.5vw,46px);font-weight:900;letter-spacing:-.03em;line-height:1;color:var(--accent);margin-bottom:6px}
+    .stat .l{font-size:14px;color:var(--muted);line-height:1.35}
+    table{width:100%;border-collapse:collapse;background:#fffaf2;border-radius:18px;overflow:hidden} th,td{padding:13px 14px;border-bottom:1px solid var(--line);text-align:left;vertical-align:top} th{background:#efe7da} tr:last-child td{border-bottom:0}
+    .small{font-size:14px}.footer{padding:28px 0;color:var(--muted);font-size:14px}.hero{display:grid;grid-template-columns:1.15fr .85fr;gap:22px;align-items:stretch}@media(max-width:900px){.hero{grid-template-columns:1fr}}
+    .timeline{position:relative}.event{position:relative;display:grid;grid-template-columns:104px 1fr;gap:14px;padding:8px 0 22px 30px}.event::after{content:"";position:absolute;left:8px;top:0;bottom:0;width:2px;background:var(--line)}.event:first-child::after{top:16px}.event:last-child::after{bottom:auto;height:16px}.event::before{content:"";position:absolute;left:2px;top:9px;width:14px;height:14px;border-radius:50%;background:var(--accent);border:3px solid var(--card);box-shadow:0 0 0 1px var(--line);z-index:1}.year{font-weight:900;color:var(--accent);font-size:17px}
+    /* -- hanse map (Leaflet, light/parchment) -- */
+    .warmap-wrap{background:var(--card);border:1px solid var(--line);border-radius:22px;overflow:hidden;box-shadow:var(--shadow)}
+    .warmap{height:clamp(400px,60vh,600px);width:100%;background:#e9edf0;z-index:1}
+    .warmap-cap{font-size:13px;color:var(--muted);margin:11px 2px 0}
+    .warmap-legend{display:flex;gap:9px 18px;flex-wrap:wrap;padding:13px 18px;border-top:1px solid var(--line);font-size:13px;color:var(--muted);line-height:1.6}
+    .wm-tag{display:inline-flex;align-items:center;gap:7px;white-space:nowrap;font-weight:700;color:#3a464e}
+    .wm-tag .sw{width:12px;height:12px;border-radius:50%;border:1.5px solid rgba(23,32,38,.28);flex:none}
+    .wm-tag .swln{width:22px;border-top:3px dashed;border-radius:2px;flex:none}
+    .wm-hint{margin-left:auto;opacity:.85;font-weight:400}
+    .warmap-fallback{display:none;padding:26px 20px;font-size:14.5px;color:var(--muted);text-align:center;line-height:1.6}
+    .warmap.failed{height:auto}
+    .warmap.failed + .warmap-fallback{display:block}
+    .warmap-wrap .leaflet-container{font-family:inherit;background:#e9edf0}
+    .warmap-wrap .leaflet-div-icon{background:transparent;border:none}
+    .wm-pin{width:13px;height:13px;border-radius:50%;border:2px solid #fffaf2;box-shadow:0 1px 5px rgba(23,32,38,.45)}
+    .wm-pin.big{width:19px;height:19px;border-width:3px}
+    .wm-arrowhead{width:0;height:0;border-left:7px solid transparent;border-right:7px solid transparent;border-bottom:13px solid #000;filter:drop-shadow(0 1px 1px rgba(23,32,38,.4))}
+    .warmap-wrap .leaflet-tooltip.wm-label{background:rgba(255,250,242,.94);border:1px solid var(--line);border-radius:7px;color:var(--ink);font-weight:700;font-size:12px;padding:2px 7px;box-shadow:0 2px 8px rgba(23,32,38,.16)}
+    .warmap-wrap .leaflet-tooltip.wm-label::before{display:none}
+    .warmap-wrap .leaflet-tooltip.wm-tip{background:rgba(23,32,38,.9);border:0;color:#fff;font-weight:600;font-size:12px;box-shadow:0 2px 8px rgba(23,32,38,.28)}
+    .warmap-wrap .leaflet-tooltip.wm-tip::before{border-top-color:rgba(23,32,38,.9);border-bottom-color:rgba(23,32,38,.9)}
+    .warmap-wrap .leaflet-popup-content-wrapper{background:var(--card);color:var(--ink);border:1px solid var(--line);border-radius:12px;box-shadow:0 12px 30px rgba(23,32,38,.2)}
+    .warmap-wrap .leaflet-popup-tip{background:var(--card);border-right:1px solid var(--line);border-bottom:1px solid var(--line)}
+    .warmap-wrap .leaflet-popup-content{margin:11px 14px;font-size:13.5px;line-height:1.5}
+    .wm-pop-t{font-weight:800;font-size:15px;color:var(--ink);margin-bottom:3px}
+    .wm-pop-b{color:#3a464e;font-size:13px}
+    .warmap-wrap .leaflet-bar a{background:var(--card);color:var(--ink);border-bottom-color:var(--line)}
+    .warmap-wrap .leaflet-bar a:hover{background:#efe7da;color:var(--ink)}
+    .warmap-wrap .leaflet-control-attribution{background:rgba(255,250,242,.82)!important;color:var(--muted)!important}
+    .warmap-wrap .leaflet-control-attribution a{color:var(--accent2)!important}
+  </style>
+</head>
+<body>
+<a href="../index.html" aria-label="Back to the trip map" style="display:inline-block;margin:14px 24px 4px;padding:7px 14px;border-radius:8px;border:1px solid rgba(128,128,128,.42);background:rgba(128,128,128,.14);color:inherit;font-family:ui-sans-serif,system-ui,-apple-system,Segoe UI,Roboto,sans-serif;font-weight:700;font-size:13px;text-decoration:none">← Back to the trip map</a>
+  <div class="wrap">
+    <header>
+      <div class="callout good" style="margin:14px 0 4px;font-size:16px"><strong>TL;DR —</strong> For roughly four centuries the wharf you'll walk in Bergen — <strong>Bryggen</strong> — was effectively a German company town. Merchants from the Hanseatic League ran the dried-cod trade out of it, lived apart under their own laws, and made Bergen rich by selling northern Norway's fish to Catholic Europe.</div>
+      <div class="kicker">Trip context guide · cross-cutting rabbit hole</div>
+      <h1>The Hanseatic League &amp; Bryggen<br />How German merchants built Bergen</h1>
+      <p class="lede">Those photogenic wooden warehouses on the Bergen waterfront aren't a quaint old town — they're the last surviving trading post of a medieval commercial superpower. For centuries the men working them weren't Norwegian at all; they were Germans, running an outpost of a merchant network that stretched from London to Russia. This is what they were doing there, and why dried fish was worth building an empire on.</p>
+      <div><span class="tag">Bergen &amp; Bryggen</span><span class="tag">Hanseatic League</span><span class="tag">Lübeck</span><span class="tag">stockfish / cod</span><span class="tag">Lofoten</span><span class="tag">medieval trade</span></div>
+    </header>
+
+    <section class="hero">
+      <div class="card">
+        <h2>The short version</h2>
+        <p>The <strong>Hanseatic League</strong> was a confederation of German-speaking merchant towns — led by <strong>Lübeck</strong> — that dominated trade across the Baltic and North Sea from the 1200s to the 1500s. It had no king, no army, and no fixed borders: it was a cartel of merchants who used shared privileges, credit, and the occasional trade blockade to control the flow of goods across northern Europe.</p>
+        <p>Bergen was one of the League's four great foreign <strong>Kontors</strong> (permanent overseas trading stations). The Germans there had one job: buy the <strong>stockfish</strong> — air-dried cod — that came down from the Arctic, and sell it into a Europe that ate fish on every fast day. In exchange they shipped grain, beer, and cloth north.</p>
+        <p><strong>Result:</strong> from around 1350 to 1754, the Bergen waterfront was run as a semi-autonomous German enclave. Bryggen — literally "the wharf" — is the physical leftover, rebuilt after fire after fire, and today the only surviving Hanseatic Kontor buildings in the world.</p>
+      </div>
+      <div class="card tight">
+        <h3>Mental model</h3>
+        <p><span class="fish">The fish</span> = the whole reason. Dried Arctic cod that kept for years and fed Catholic Europe on its ~150 meatless days a year.</p>
+        <p><span class="route">The League</span> = a merchants' network, not a country. Power came from monopoly privileges and boycotts, not conquest.</p>
+        <p><span class="route">The Kontor</span> = Bergen as a foreign branch office — German staff, German law, walled off from the Norwegian town around it.</p>
+        <p class="muted small" style="margin-top:10px">Think medieval multinational: HQ in Lübeck, a branch on the Bergen wharf, staffed by expats who never went home for winter.</p>
+      </div>
+    </section>
+
+    <section>
+      <h2>The network: from the Arctic to a company town</h2>
+      <p class="lede" style="font-size:18px">The Hanse was a web of ports. Bergen sat at its far northern edge — the funnel through which the Arctic's cod entered the European market.</p>
+      <div class="warmap-wrap">
+        <div id="hanse-map" class="warmap" role="application" aria-label="Map of the Hanseatic trade world: Lofoten in the Arctic supplies dried cod that flows through Bergen to Lübeck and the Kontors at London, Bruges and Novgorod"></div>
+        <div class="warmap-fallback">Map unavailable. In short: dried cod from the Lofoten islands in Arctic Norway flowed south to Bergen, the Hanseatic League's northern Kontor. From there German ships carried it to Lübeck (the League's leading city) and on to the other great Kontors — Bruges, London, and Novgorod — and across the Baltic ports.</div>
+        <div class="warmap-legend"><span class="wm-tag"><span class="sw" style="background:#1f5f78"></span>Cod source (Lofoten)</span><span class="wm-tag"><span class="sw" style="background:#9d3d4f"></span>Bergen Kontor</span><span class="wm-tag"><span class="sw" style="background:#8f3f2f"></span>Lübeck — League capital</span><span class="wm-tag"><span class="sw" style="background:#b8863c"></span>The other 3 Kontors</span><span class="wm-tag"><span class="swln" style="border-color:#2f7d55"></span>The cod route</span><span class="wm-hint">Small dots are other major Hanse towns</span></div>
+      </div>
+      <p class="warmap-cap">The fish came from the far north (Lofoten), was collected and traded at Bergen, then moved through Lübeck into the League's markets — including its three other Kontors at Bruges, London, and Novgorod. Arrows show the direction of the cod trade, not exact sailing routes.</p>
+    </section>
+
+    <section>
+      <h2>What the Hanseatic League actually was</h2>
+      <div class="grid g3">
+        <div class="card"><h3>A club of towns, not a state</h3><p>At its height the Hanse loosely bound together <strong>~200 towns</strong> across German-speaking Europe and the Baltic — Lübeck, Hamburg, Bremen, Danzig (Gdańsk), Riga, Visby and more. There was no capital, no ruler, no citizenship. Towns joined for the trading privileges and sent delegates to an occasional assembly, the <em>Hansetag</em>.</p></div>
+        <div class="card"><h3>Power through privilege</h3><p>Its weapon wasn't armies but <strong>monopoly deals</strong>: tax breaks, exclusive trading rights, and their own legal quarters, wrung out of foreign kings who wanted the trade. If a ruler crossed the League, it could answer with a <strong>trade embargo</strong> — and did, even helping wage war on the Danish crown in the 1360s.</p></div>
+        <div class="card"><h3>Lübeck at the head</h3><p><strong>Lübeck</strong> on the Baltic was the League's leading city — the "Queen of the Hansa." Its law, coinage, and merchant families set the standard the whole network ran on, including the rulebook the Germans lived under in Bergen.</p></div>
+      </div>
+      <div class="callout blue" style="margin-top:20px">
+        <p style="margin-bottom:0">The genius of the Hanse was <strong>logistics, not production</strong>. It made almost nothing itself. It got rich moving bulk goods between places that each had a surplus of one thing and a shortage of another — Baltic grain and timber, Flemish cloth, Russian furs and wax, English wool, German beer and salt, and, at the northern end, <span class="fish">Norwegian fish</span>.</p>
+      </div>
+    </section>
+
+    <section>
+      <h2>The four Kontors — and Bergen as one of them</h2>
+      <p class="lede" style="font-size:18px">Beyond the member towns, the League ran a handful of walled-off trading stations on foreign soil, called <strong>Kontors</strong>. Four were the great ones — and Bergen was the northern anchor.</p>
+      <table>
+        <thead><tr><th>Kontor</th><th>Where</th><th>What flowed through it</th></tr></thead>
+        <tbody>
+          <tr><td><strong>Bergen</strong> 🇳🇴</td><td>Norway (the Bryggen wharf)</td><td><span class="fish">Stockfish</span> — dried cod from Arctic Norway — traded out; grain, beer, and cloth traded in. The only Kontor whose buildings still stand.</td></tr>
+          <tr><td><strong>Bruges</strong> 🇧🇪</td><td>Flanders (today Belgium)</td><td>The gateway to western Europe's cloth and finished-goods markets; later shifted to Antwerp as Bruges' harbour silted up.</td></tr>
+          <tr><td><strong>London</strong> 🇬🇧</td><td>England (the "Steelyard")</td><td>English wool and cloth. The Hanse held a walled riverside compound on the Thames for centuries.</td></tr>
+          <tr><td><strong>Novgorod</strong> 🇷🇺</td><td>Russia (the "Peterhof")</td><td>Russian furs, wax, and honey — the League's eastern frontier and its most remote outpost.</td></tr>
+        </tbody>
+      </table>
+      <p class="muted small" style="margin-top:12px">Bruges = the west, London = wool, Novgorod = furs, <strong>Bergen = fish</strong>. Each Kontor specialized in whatever its corner of Europe produced.</p>
+    </section>
+
+    <section>
+      <h2>Stockfish: the product that built the wharf</h2>
+      <p class="lede" style="font-size:18px">Everything at Bergen turned on one commodity — and it's a genuinely clever one.</p>
+      <div class="grid g3">
+        <div class="card"><h3>What it is</h3><p><strong>Stockfish</strong> is cod that's been gutted and hung on wooden racks to <em>air-dry</em> in the cold, dry late-winter wind of the Arctic coast — no salt needed. It ends up hard as a board, loses most of its weight, and keeps for <strong>years</strong>. That durability is what made it a long-distance trade good centuries before refrigeration.</p></div>
+        <div class="card"><h3>Where it came from</h3><p>Every winter, cod swim from the Barents Sea to spawn off the <strong>Lofoten</strong> islands in northern Norway. Fishermen there caught and dried it, then it was shipped south. By royal rule, much of that northern fish had to pass through <strong>Bergen</strong> to be sold — which is exactly why the Germans set up shop there.</p></div>
+        <div class="card"><h3>Why Europe wanted it</h3><p>The medieval Catholic calendar banned meat on <strong>fast days</strong> — all of Lent, most Fridays, and more, adding up to well over a third of the year. Fish was the allowed protein. A cheap, storable, transportable fish was gold, and stockfish was it — sold as far as the Mediterranean.</p></div>
+      </div>
+      <div class="stat" style="margin-top:22px">
+        <div><div class="n">~150+</div><div class="l">Meatless fast days a year in Catholic Europe — the demand behind the trade</div></div>
+        <div><div class="n">Years</div><div class="l">How long dried stockfish keeps without spoiling — the whole trick</div></div>
+        <div><div class="n">4</div><div class="l">Great Hanseatic Kontors; Bergen was the fish one</div></div>
+        <div><div class="n">1 of 1</div><div class="l">Bryggen: the only Kontor buildings left standing anywhere</div></div>
+      </div>
+    </section>
+
+    <section>
+      <h2>Bryggen: a German town inside a Norwegian one</h2>
+      <p class="lede" style="font-size:18px">The Kontor wasn't just a market — it was a walled-off society with its own rules, and it kept the Germans deliberately separate from the Norwegians around them.</p>
+      <div class="grid g2">
+        <div class="card">
+          <h3>Living apart, under Lübeck's law</h3>
+          <p>The merchants and clerks of the Kontor lived and worked in tight rows of wooden <em>gårds</em> (courtyard tenements) along the wharf, governed by their own German law and officials — not Bergen's. They were mostly <strong>unmarried men</strong>: marrying a local was forbidden, which kept the Kontor a rotating, all-German bachelor colony rather than a community that put down Norwegian roots.</p>
+          <p>Newcomers were young apprentices who worked their way up through years of service — and endured brutal, sometimes dangerous initiation "games." It was a closed, hierarchical, and famously harsh world.</p>
+        </div>
+        <div class="card">
+          <h3>Fire, and rebuilding the same thing</h3>
+          <p>A dense district of wooden warehouses with open hearths was a tinderbox. Bryggen <strong>burned repeatedly</strong> over the centuries; the great fire of <strong>1702</strong> destroyed most of the city. Each time, it was rebuilt on the <em>same</em> medieval property lines with the <em>same</em> techniques — which is why today's buildings look ancient even though the timber is newer.</p>
+          <p>That stubborn continuity is exactly what earned it recognition: in <strong>1979</strong> Bryggen became one of Norway's first <strong>UNESCO World Heritage Sites</strong>.</p>
+        </div>
+      </div>
+      <div class="callout" style="margin-top:20px">
+        <strong>Why it was called "Tyskebryggen":</strong> for most of its history the wharf was known as <em>Tyskebryggen</em> — the <strong>German Wharf</strong>. Only after World War II, with anti-German feeling running high, was the "Tyske" quietly dropped and the district renamed simply <strong>Bryggen</strong>. The name change is its own little fossil of how central — and how foreign — the Germans once were.
+      </div>
+    </section>
+
+    <section>
+      <h2>The long decline</h2>
+      <p class="lede" style="font-size:18px">No one conquered the Hanse. It was slowly out-competed — and Bergen, its northern outpost, was one of the very last pieces to fall away.</p>
+      <div class="timeline card">
+        <div class="event"><div class="year">1200s</div><div><strong>The League takes shape.</strong> German merchant towns, led by Lübeck, band together to control Baltic and North Sea trade.</div></div>
+        <div class="event"><div class="year">~1350</div><div><strong>The Bergen Kontor is formalized.</strong> The Germans consolidate control of Bryggen and the stockfish trade under privileges granted by the Norwegian crown.</div></div>
+        <div class="event"><div class="year">1300s–1400s</div><div><strong>Peak power.</strong> The Hanse dominates northern trade, embargoes and even defeats the Danish king, and runs its four great Kontors from Novgorod to Bergen.</div></div>
+        <div class="event"><div class="year">1500s–1600s</div><div><strong>The tide turns.</strong> Rising nation-states (the Dutch, English, Danish-Norwegian crown), Atlantic trade routes, and their own navies squeeze the League out of its monopolies. The last general assembly meets in <strong>1669</strong>.</div></div>
+        <div class="event"><div class="year">1754</div><div><strong>Bergen goes local.</strong> The German Kontor is dissolved and replaced by a Norwegian-run trading office — many of whose members were descendants of the old German families. Four centuries of German control of the wharf formally end.</div></div>
+        <div class="event"><div class="year">1899</div><div><strong>The last flicker.</strong> That successor Norwegian office keeps the old Bryggen trade going until the very end of the 19th century — a remarkably long afterlife for a medieval institution.</div></div>
+      </div>
+    </section>
+
+    <section>
+      <h2>What you're really seeing in Bergen</h2>
+      <div class="grid g2">
+        <div class="card"><h3>Walk it as an office park, not a postcard</h3><p>The gaps between the buildings, the deep narrow gårds, the storerooms, the hoists — this was warehousing and logistics, not a charming village. Picture ledgers, stacked dried fish, credit, and homesick German clerks. The <a href="bergen.html">Bergen field guide</a> and the Hanseatic Museum on site walk you through it.</p></div>
+        <div class="card"><h3>It explains the whole city</h3><p>Bergen was Norway's biggest, richest medieval town precisely <em>because</em> it was the fish gateway — and it faced outward to Germany and the North Sea more than inward to Norway. That outward, trading, slightly-foreign character is still the city's personality today.</p></div>
+      </div>
+      <div class="callout good" style="margin-top:20px">
+        <p style="margin-bottom:0"><strong>One thing to do on Bryggen:</strong> step off the photogenic front row and into one of the narrow passages between the gårds. That cramped, timbered, fish-and-tar world — not the painted façades — is the actual Hanseatic League you came to see.</p>
+      </div>
+    </section>
+
+    <section style="border-bottom:0">
+      <h2>The one-liner</h2>
+      <div class="card"><p class="lede" style="margin:0">Bergen got rich as the door between the Arctic's dried cod and Catholic Europe's fast days — and for four centuries a German merchants' league held that door. Bryggen is the door, still standing.</p></div>
+    </section>
+
+    <div class="footer">
+      Sources consulted include UNESCO's World Heritage listing for Bryggen (inscribed 1979) and the Hanseatic League's own historical association (hanse.org) for the four great Kontors (Bergen, Bruges, London, Novgorod) and the structure of the League; Encyclopaedia Britannica and standard references for the League's Lübeck-led membership, the Hansetag, and its 13th–17th-century arc; Wikipedia and reporting (Forbes/David Nikel) for Bryggen's fires (notably 1702), its repeated faithful rebuilding, the ~1350 Hanseatic office, the crown-granted stockfish monopoly from Lofoten/northern Norway, the German Kontor's dissolution in 1754 and its Norwegian successor, and the "Tyskebryggen"/German Wharf naming. Dates for the Kontor's founding vary in the sources between the 1340s and ~1360; "around 1350" is used here. Trip-context reading, not a scholarly citation.
+    </div>
+  </div>
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
+<script>
+window.WARMAP_GEO = {};
+window.WARMAP_CFG = {"el":"hanse-map","bounds":[[50.5,-2.0],[69.2,32.0]],"arrows":[
+  {"points":[[68.0,13.6],[63.5,7.0],[60.55,5.55]],"color":"#2f7d55","weight":3,"opacity":0.85,"dash":"5 6"},
+  {"points":[[60.2,5.3],[57.0,8.5],[54.15,10.4]],"color":"#2f7d55","weight":3,"opacity":0.85,"dash":"5 6"},
+  {"points":[[53.7,10.4],[52.3,6.0],[51.35,3.5]],"color":"#2f7d55","weight":2.4,"opacity":0.7,"dash":"5 6"}
+],"markers":[
+  {"lat":68.2,"lon":13.9,"name":"Lofoten — the cod source","color":"#1f5f78","big":true,"dir":"bottom","pop":"Every winter, Arctic cod spawn off the Lofoten islands. Caught and air-dried into stockfish, then shipped south."},
+  {"lat":60.39,"lon":5.32,"name":"Bergen (Bryggen)","color":"#9d3d4f","big":true,"dir":"left","pop":"The League's northern Kontor. Germans on the Bryggen wharf collected the dried fish and traded it into Europe. The only Kontor buildings that survive."},
+  {"lat":53.87,"lon":10.69,"name":"Lübeck","color":"#8f3f2f","big":true,"dir":"bottom","pop":"The 'Queen of the Hansa' — the League's leading city on the Baltic, whose law the Bergen Germans lived under."},
+  {"lat":51.21,"lon":3.22,"name":"Bruges (Kontor)","color":"#b8863c","dir":"bottom","pop":"The western Kontor — gateway to Flanders' cloth and finished-goods markets."},
+  {"lat":51.51,"lon":-0.09,"name":"London (Steelyard)","color":"#b8863c","dir":"left","pop":"The English Kontor, a walled riverside compound on the Thames dealing in wool and cloth."},
+  {"lat":58.52,"lon":31.27,"name":"Novgorod (Peterhof)","color":"#b8863c","dir":"top","pop":"The eastern Kontor in Russia — furs, wax, and honey. The League's most remote outpost."},
+  {"lat":53.55,"lon":9.99,"name":"Hamburg","color":"#6d5a48","label":false,"pop":"Major North Sea Hanse town, twinned with Lübeck across the Jutland neck."},
+  {"lat":54.35,"lon":18.65,"name":"Danzig","color":"#6d5a48","label":false,"pop":"Gdańsk — a great Baltic grain port of the League."},
+  {"lat":56.95,"lon":24.11,"name":"Riga","color":"#6d5a48","label":false,"pop":"Eastern Baltic Hanse town, gateway to the Livonian trade."},
+  {"lat":57.64,"lon":18.30,"name":"Visby","color":"#6d5a48","label":false,"pop":"Island town of Gotland — an early hub of Baltic Hanse trade."}
+]};
+</script>
+<script>
+// -- reusable map renderer: reads window.WARMAP_GEO + window.WARMAP_CFG --
+(function(){
+  "use strict";
+  var CFG = window.WARMAP_CFG || {}, GEO = window.WARMAP_GEO || {};
+  var el = document.getElementById(CFG.el);
+  function fail(){ if(el){ el.classList.add("failed"); } }
+  if(!el || typeof L === "undefined"){ fail(); return; }
+  try {
+    var map = L.map(el, {scrollWheelZoom:false, zoomControl:true, attributionControl:true, minZoom:2});
+    L.tileLayer("https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png", {
+      attribution:'&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors &copy; <a href="https://carto.com/attributions">CARTO</a>',
+      subdomains:"abcd", maxZoom:19, minZoom:2
+    }).addTo(map);
+
+    if(CFG.bounds){ map.fitBounds(CFG.bounds, {padding:[20,20]}); }
+    else if(CFG.center){ map.setView(CFG.center, CFG.zoom||4); }
+    else { map.setView([58,10], 4); }
+
+    (CFG.countries||[]).forEach(function(c){
+      var g = GEO[c.id]; if(!g) return;
+      var lyr = L.geoJSON(g, {style:{color:c.stroke||c.fill, weight:1.3, opacity:.9, fillColor:c.fill, fillOpacity:(c.fillOpacity==null?.3:c.fillOpacity)}}).addTo(map);
+      if(c.label){ lyr.bindTooltip(c.label, {sticky:true, className:"wm-tip"}); }
+    });
+
+    function bearing(a,b){
+      var R=Math.PI/180, D=180/Math.PI;
+      var y=Math.sin((b[1]-a[1])*R)*Math.cos(b[0]*R);
+      var x=Math.cos(a[0]*R)*Math.sin(b[0]*R)-Math.sin(a[0]*R)*Math.cos(b[0]*R)*Math.cos((b[1]-a[1])*R);
+      return Math.atan2(y,x)*D;
+    }
+    (CFG.arrows||[]).forEach(function(a){
+      var pts=a.points;
+      L.polyline(pts, {color:a.color, weight:9, opacity:.1, lineJoin:"round", lineCap:"round"}).addTo(map);
+      L.polyline(pts, {color:a.color, weight:a.weight||3, opacity:(a.opacity==null?.82:a.opacity), dashArray:a.dash||null, lineJoin:"round", lineCap:"round"}).addTo(map);
+      if(!a.noHead){
+        var p1=pts[pts.length-2], p2=pts[pts.length-1], brg=bearing(p1,p2);
+        var ah=L.divIcon({className:"", html:'<div class="wm-arrowhead" style="transform:rotate('+brg+'deg);border-bottom-color:'+a.color+'"></div>', iconSize:[18,18], iconAnchor:[9,9]});
+        L.marker(p2, {icon:ah, interactive:false, keyboard:false}).addTo(map);
+      }
+    });
+
+    (CFG.markers||[]).forEach(function(m){
+      var cls="wm-pin"+(m.big?" big":""), sz=m.big?19:13, an=m.big?9.5:6.5;
+      var icon=L.divIcon({className:"", html:'<div class="'+cls+'" style="background:'+(m.color||"#8f3f2f")+'"></div>', iconSize:[sz,sz], iconAnchor:[an,an], popupAnchor:[0,-an-2]});
+      var mk=L.marker([m.lat,m.lon], {icon:icon, title:m.name}).addTo(map);
+      if(m.pop){ mk.bindPopup('<div class="wm-pop-t">'+m.name+'</div><div class="wm-pop-b">'+m.pop+'</div>'); }
+      if(m.label!==false){
+        var dir=m.dir||"right";
+        var off = dir==="left"?[-9,0] : dir==="top"?[0,-9] : dir==="bottom"?[0,9] : [9,0];
+        mk.bindTooltip(m.name, {permanent:true, direction:dir, offset:off, className:"wm-label"});
+      }
+    });
+
+    map.on("focus", function(){ map.scrollWheelZoom.enable(); });
+    map.on("blur",  function(){ map.scrollWheelZoom.disable(); });
+  } catch(err){ fail(); }
+})();
+</script>
+</body>
+</html>
