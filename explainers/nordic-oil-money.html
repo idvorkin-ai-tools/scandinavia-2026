@@ -1,0 +1,231 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin="" />
+  <title>Why Norway Has Oil Money (and the Others Don't)</title>
+  <style>
+    :root{--ink:#172026;--muted:#5d6972;--bg:#f5f2eb;--card:#fffaf2;--accent:#8f3f2f;--accent2:#1f5f78;--line:#ded6c8;--shadow:0 12px 30px rgba(23,32,38,.10);--oil:#2f7d55}
+    *{box-sizing:border-box} body{margin:0;font-family:ui-sans-serif,system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial;color:var(--ink);background:linear-gradient(180deg,#e8eef2 0,#f5f2eb 34%);line-height:1.5}
+    a{color:var(--accent2)} .wrap{max-width:1120px;margin:0 auto;padding:24px} header{padding:54px 0 30px;border-bottom:1px solid var(--line)}
+    .kicker{color:var(--accent);font-weight:800;letter-spacing:.08em;text-transform:uppercase;font-size:13px} h1{font-size:clamp(38px,6vw,72px);line-height:.95;margin:12px 0 18px;letter-spacing:-.06em}
+    h2{font-size:clamp(28px,4vw,44px);letter-spacing:-.04em;margin:0 0 14px} h3{font-size:22px;margin:0 0 8px} p{margin:0 0 14px}.lede{font-size:22px;max-width:900px;color:#2d3a41}.muted{color:var(--muted)}
+    .grid{display:grid;gap:18px}.g2{grid-template-columns:repeat(2,minmax(0,1fr))}.g3{grid-template-columns:repeat(3,minmax(0,1fr))}.g4{grid-template-columns:repeat(4,minmax(0,1fr))}@media(max-width:820px){.g2,.g3,.g4{grid-template-columns:1fr}.wrap{padding:18px}header{padding-top:28px}}
+    .card{background:rgba(255,250,242,.9);border:1px solid var(--line);border-radius:22px;padding:22px;box-shadow:var(--shadow)} .tight p{margin-bottom:8px}
+    .tag{display:inline-block;border:1px solid var(--line);border-radius:999px;padding:6px 10px;margin:4px 6px 4px 0;background:#fffdf8;color:#2d3a41;font-size:13px;font-weight:700}
+    section{padding:32px 0;border-bottom:1px solid var(--line)}
+    .callout{border-left:6px solid var(--accent);background:#fff4e8;padding:18px;border-radius:18px}
+    .callout.good{border-left-color:var(--oil);background:#eef7f0}
+    .callout.blue{border-left-color:var(--accent2);background:#eef4f7}
+    .route{font-weight:800;color:var(--accent2)}.oiled{font-weight:800;color:var(--oil)}
+    .stat{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:14px;margin:6px 0 4px}
+    .stat .n{font-size:clamp(30px,4.5vw,46px);font-weight:900;letter-spacing:-.03em;line-height:1;color:var(--accent);margin-bottom:6px}
+    .stat .l{font-size:14px;color:var(--muted);line-height:1.35}
+    table{width:100%;border-collapse:collapse;background:#fffaf2;border-radius:18px;overflow:hidden} th,td{padding:13px 14px;border-bottom:1px solid var(--line);text-align:left;vertical-align:top} th{background:#efe7da} tr:last-child td{border-bottom:0}
+    .yes{color:var(--oil);font-weight:800}.no{color:var(--accent);font-weight:800}.some{color:#9a7b1f;font-weight:800}
+    .small{font-size:14px}.footer{padding:28px 0;color:var(--muted);font-size:14px}.hero{display:grid;grid-template-columns:1.15fr .85fr;gap:22px;align-items:stretch}@media(max-width:900px){.hero{grid-template-columns:1fr}}
+    .steps{counter-reset:step}
+    /* -- oil map (Leaflet, light/parchment) -- */
+    .warmap-wrap{background:var(--card);border:1px solid var(--line);border-radius:22px;overflow:hidden;box-shadow:var(--shadow)}
+    .warmap{height:clamp(380px,58vh,560px);width:100%;background:#e9edf0;z-index:1}
+    .warmap-cap{font-size:13px;color:var(--muted);margin:11px 2px 0}
+    .warmap-legend{display:flex;gap:9px 18px;flex-wrap:wrap;padding:13px 18px;border-top:1px solid var(--line);font-size:13px;color:var(--muted);line-height:1.6}
+    .wm-tag{display:inline-flex;align-items:center;gap:7px;white-space:nowrap;font-weight:700;color:#3a464e}
+    .wm-tag .sw{width:12px;height:12px;border-radius:50%;border:1.5px solid rgba(23,32,38,.28);flex:none}
+    .wm-hint{margin-left:auto;opacity:.85;font-weight:400}
+    .warmap-fallback{display:none;padding:26px 20px;font-size:14.5px;color:var(--muted);text-align:center;line-height:1.6}
+    .warmap.failed{height:auto}
+    .warmap.failed + .warmap-fallback{display:block}
+    .warmap-wrap .leaflet-container{font-family:inherit;background:#e9edf0}
+    .warmap-wrap .leaflet-div-icon{background:transparent;border:none}
+    .wm-pin{width:13px;height:13px;border-radius:50%;border:2px solid #fffaf2;box-shadow:0 1px 5px rgba(23,32,38,.45)}
+    .wm-pin.big{width:19px;height:19px;border-width:3px}
+    .warmap-wrap .leaflet-tooltip.wm-label{background:rgba(255,250,242,.94);border:1px solid var(--line);border-radius:7px;color:var(--ink);font-weight:700;font-size:12px;padding:2px 7px;box-shadow:0 2px 8px rgba(23,32,38,.16)}
+    .warmap-wrap .leaflet-tooltip.wm-label::before{display:none}
+    .warmap-wrap .leaflet-tooltip.wm-tip{background:rgba(23,32,38,.9);border:0;color:#fff;font-weight:600;font-size:12px;box-shadow:0 2px 8px rgba(23,32,38,.28)}
+    .warmap-wrap .leaflet-tooltip.wm-tip::before{border-top-color:rgba(23,32,38,.9);border-bottom-color:rgba(23,32,38,.9)}
+    .warmap-wrap .leaflet-popup-content-wrapper{background:var(--card);color:var(--ink);border:1px solid var(--line);border-radius:12px;box-shadow:0 12px 30px rgba(23,32,38,.2)}
+    .warmap-wrap .leaflet-popup-tip{background:var(--card);border-right:1px solid var(--line);border-bottom:1px solid var(--line)}
+    .warmap-wrap .leaflet-popup-content{margin:11px 14px;font-size:13.5px;line-height:1.5}
+    .wm-pop-t{font-weight:800;font-size:15px;color:var(--ink);margin-bottom:3px}
+    .wm-pop-b{color:#3a464e;font-size:13px}
+    .warmap-wrap .leaflet-bar a{background:var(--card);color:var(--ink);border-bottom-color:var(--line)}
+    .warmap-wrap .leaflet-bar a:hover{background:#efe7da;color:var(--ink)}
+    .warmap-wrap .leaflet-control-attribution{background:rgba(255,250,242,.82)!important;color:var(--muted)!important}
+    .warmap-wrap .leaflet-control-attribution a{color:var(--accent2)!important}
+  </style>
+</head>
+<body>
+<a href="../index.html" aria-label="Back to the trip map" style="display:inline-block;margin:14px 24px 4px;padding:7px 14px;border-radius:8px;border:1px solid rgba(128,128,128,.42);background:rgba(128,128,128,.14);color:inherit;font-family:ui-sans-serif,system-ui,-apple-system,Segoe UI,Roboto,sans-serif;font-weight:700;font-size:13px;text-decoration:none">← Back to the trip map</a>
+  <div class="wrap">
+    <header>
+      <div class="callout good" style="margin:14px 0 4px;font-size:16px"><strong>TL;DR —</strong> Norway struck North Sea oil <em>and</em> — the actual trick — refused to spend it. It shovels the revenue into a sovereign wealth fund and lives off the interest. That saving discipline, not the oil itself, is why Norway is the one "oil-rich" Nordic and Sweden, Finland, Denmark, and Iceland are not.</div>
+      <div class="kicker">Trip context guide · cross-cutting rabbit hole</div>
+      <h1>Why Norway Has Oil Money<br />(and the Others Don't)</h1>
+      <p class="lede">You'll hear it in Oslo: Norway is rich because of oil. True, but incomplete. Plenty of countries struck oil and stayed poor or got hooked. Norway did two separate things right — it made the <strong>state the landlord</strong> so the public captured the money, then it <strong>saved the money abroad</strong> instead of spending it. This is the story of both moves, and why its neighbors run on something else entirely.</p>
+      <div><span class="tag">Oslo / Norway</span><span class="tag">North Sea</span><span class="tag">$2T sovereign fund</span><span class="tag">Dutch disease</span><span class="tag">the other Nordics</span></div>
+    </header>
+
+    <section class="hero">
+      <div class="card">
+        <h2>The short version</h2>
+        <p>In 1969 an American rig hit the giant <strong>Ekofisk</strong> field in Norway's slice of the North Sea. That geological luck could have gone the way of most oil booms: a few private fortunes, an inflated currency, a hollowed-out economy, then a bust.</p>
+        <p>Norway did the opposite on purpose. It legislated that the oil belonged to the <em>nation</em>, taxed and part-owned the fields so the state took roughly three-quarters of the profit, and then — the part almost nobody copies — parked the cash in a fund invested entirely <em>outside</em> Norway, spending only the expected returns.</p>
+        <p><strong>Result:</strong> a country of ~5.5 million people sits on the world's largest sovereign wealth fund, worth over <strong>$2 trillion</strong> — while its neighbors, who got little or no oil, built their prosperity on forests, factories, pharma, and cheap renewable power.</p>
+      </div>
+      <div class="card tight">
+        <h3>Mental model</h3>
+        <p><span class="oiled">The oil</span> = the raw luck. Norway got the big North Sea slice; the others got scraps or nothing.</p>
+        <p><span class="route">The landlord move</span> = taxes + state ownership, so the <em>public</em> — not oil majors — banks the rent.</p>
+        <p><span class="route">The saving move</span> = a fund invested abroad + a rule to spend only the interest. This is what stops a boom from becoming a curse.</p>
+        <p class="muted small" style="margin-top:10px">Lots of countries do the first. Almost none do the second. That gap is the whole story.</p>
+      </div>
+    </section>
+
+    <section>
+      <h2>The geology: where the oil actually is</h2>
+      <p class="lede" style="font-size:18px">The North Sea is a shared basin, but it was carved into national sectors by median lines — and Norway's sector happened to hold the lion's share.</p>
+      <div class="warmap-wrap">
+        <div id="oil-map" class="warmap" role="application" aria-label="Map of North Sea oil and gas fields: four Norwegian fields spread from the south to the far north, versus a small Danish cluster in the south"></div>
+        <div class="warmap-fallback">Map unavailable. In short: Norway's North Sea sector holds giant fields from Ekofisk in the south to Statfjord and Troll in the north; Denmark has a small cluster (Dan, Halfdan) in the south; Sweden, Finland, and Iceland have essentially none.</div>
+        <div class="warmap-legend"><span class="wm-tag"><span class="sw" style="background:#2f7d55"></span>Norwegian fields</span><span class="wm-tag"><span class="sw" style="background:#b8863c"></span>Danish fields</span><span class="wm-hint">Points are real field locations; the western North Sea is the UK sector</span></div>
+      </div>
+      <p class="warmap-cap">Norway's four marked fields sprawl from the south (Ekofisk, 1969) to the far north (Statfjord, Troll). Denmark's two sit in one small southern pocket. That asymmetry is the raw material behind everything below.</p>
+      <div class="grid g4" style="margin-top:20px">
+        <div class="card"><h3 style="color:var(--oil)">Norway</h3><p class="small">The big slice. Oil from 1971, still a top-15 world producer and a major gas supplier to Europe.</p></div>
+        <div class="card"><h3 style="color:#9a7b1f">Denmark</h3><p class="small">A modest slice, in decline. Enough to matter for decades, never enough to build the country on.</p></div>
+        <div class="card"><h3 style="color:var(--accent)">Sweden &amp; Finland</h3><p class="small">Essentially no oil or gas. Their North Sea sector doesn't exist — they're on the Baltic side.</p></div>
+        <div class="card"><h3 style="color:var(--accent)">Iceland</h3><p class="small">No oil. Sits on a volcanic ridge — its energy wealth comes out of the ground as heat and water, not crude.</p></div>
+      </div>
+    </section>
+
+    <section class="steps">
+      <h2>Move 1 — make the state the landlord</h2>
+      <p class="lede" style="font-size:18px">Striking oil only makes <em>somebody</em> rich. Norway engineered it so that somebody was the public. Three tools did the work.</p>
+      <div class="grid g3" style="margin-top:6px">
+        <div class="card"><h3>Statoil → Equinor</h3><p>In 1972 the state created its own oil company, <strong>Statoil</strong> (renamed <strong>Equinor</strong> in 2018), to sit at the table in every big development and build Norwegian expertise instead of just leasing rights to foreign majors. The state still owns about <strong>67%</strong> of it.</p></div>
+        <div class="card"><h3>The state's own stakes (SDFI)</h3><p>Beyond Equinor, the state holds <em>direct</em> ownership shares in the fields themselves — the <strong>State's Direct Financial Interest</strong>, managed by a company called <strong>Petoro</strong>. So the government earns as a field owner <em>and</em> as Equinor's majority shareholder <em>and</em> as the tax authority.</p></div>
+        <div class="card"><h3>The 78% tax</h3><p>Oil and gas profits pay ordinary corporate tax (22%) <em>plus</em> a special petroleum tax on top, for a combined marginal rate around <strong>78%</strong>. The state takes the bulk of the "resource rent" — the pure profit that exists only because the oil was there.</p></div>
+      </div>
+      <div class="callout" style="margin-top:20px">
+        <strong>The founding rulebook (1971):</strong> before the money really flowed, parliament adopted the <strong>"Ten Oil Commandments"</strong> — principles stating that petroleum resources must be managed under <em>national control</em>, for the benefit of the whole of <em>society</em>, with a state oil company and Norwegian industry involvement. It set the intent: this is a public inheritance, not a private windfall.
+      </div>
+    </section>
+
+    <section class="steps">
+      <h2>Move 2 — the masterstroke: don't spend it</h2>
+      <p class="lede" style="font-size:18px">Capturing the money is common. <em>Not blowing it</em> is the rare part — and the reason Norway is a byword for oil wealth done right.</p>
+      <div class="grid g2" style="margin-top:6px">
+        <div class="card">
+          <h3>The fund</h3>
+          <p>All that oil revenue flows into the <strong>Government Pension Fund Global</strong> (informally, "the Oil Fund"). It's the biggest sovereign wealth fund on Earth, worth over <strong>$2 trillion</strong>, and it's invested almost entirely <strong>abroad</strong> — stocks, bonds, and real estate in dozens of countries. It owns roughly <strong>1.5% of every listed company on the planet</strong>.</p>
+          <p class="muted small">Investing abroad is deliberate, not incidental — see Dutch disease, right.</p>
+        </div>
+        <div class="card">
+          <h3>The spending rule</h3>
+          <p>A <strong>fiscal rule</strong> caps what the government may pull from the fund each year at roughly the fund's <em>expected real return</em> — about <strong>3%</strong>. The principal is never touched. In theory the fund can pay out modestly forever, which is why it's framed as a fund for <em>future generations</em>, not the current budget.</p>
+          <p class="muted small">Spend only the interest; keep the goose.</p>
+        </div>
+      </div>
+      <div class="stat" style="margin-top:22px">
+        <div><div class="n">$2T+</div><div class="l">Fund value — the world's largest sovereign wealth fund</div></div>
+        <div><div class="n">~1.5%</div><div class="l">Of all listed shares on Earth, owned by the fund</div></div>
+        <div><div class="n">~3%</div><div class="l">The most the budget may spend each year — the expected return</div></div>
+        <div><div class="n">100%</div><div class="l">Of the fund invested outside Norway, on purpose</div></div>
+      </div>
+      <div class="callout blue" style="margin-top:22px">
+        <h3 style="margin-top:0">Why invest it all abroad? "Dutch disease."</h3>
+        <p style="margin-bottom:0">If Norway had pumped oil cash straight into its own economy, the money would have driven up the value of the krone and local wages, making everything else — factories, fishing, shipping, tech — too expensive to compete internationally. The economy would hollow out around a single resource, then crater when the oil ran dry. It's called <strong>Dutch disease</strong>, after the Netherlands' 1960s gas boom. Keeping the fund in foreign assets and dribbling out only 3% a year is Norway's vaccine against it — it stops the oil money from wrecking the non-oil economy.</p>
+      </div>
+    </section>
+
+    <section>
+      <h2>The others: what their money is actually made of</h2>
+      <p class="lede" style="font-size:18px">The other Nordics are wealthy too — just not on oil. Each ran a different playbook.</p>
+      <table>
+        <thead><tr><th>Country</th><th>Oil / gas?</th><th>What the wealth is actually built on</th></tr></thead>
+        <tbody>
+          <tr><td><strong>Norway</strong> 🇳🇴</td><td class="yes">Yes — the big slice</td><td>North Sea oil &amp; gas, captured by the state and saved in a $2T fund. The one true "oil-rich" Nordic.</td></tr>
+          <tr><td><strong>Denmark</strong> 🇩🇰</td><td class="some">A little, fading</td><td>A modest North Sea slice that's now in decline — Denmark has committed to <strong>end all extraction by 2050</strong>. The real economy runs on shipping (Maersk), pharma (Novo Nordisk), and wind power (Vestas, Ørsted). No mega-fund.</td></tr>
+          <tr><td><strong>Sweden</strong> 🇸🇪</td><td class="no">No</td><td>Industry, not oil: Volvo, Ericsson, IKEA, plus iron ore, forestry, and a strong tech/startup scene. Wealth came from making and exporting things.</td></tr>
+          <tr><td><strong>Finland</strong> 🇫🇮</td><td class="no">No</td><td>Forests and technology — pulp and paper giants, engineering, and the Nokia-era telecom/design legacy. "Green gold" (timber), not black gold.</td></tr>
+          <tr><td><strong>Iceland</strong> 🇮🇸</td><td class="no">None</td><td>Its own <em>cheap-renewable-energy</em> wealth: near-100% geothermal + hydro power. That cheap clean electricity feeds aluminum smelters and data centers — plus fishing and tourism.</td></tr>
+        </tbody>
+      </table>
+      <p class="muted small" style="margin-top:12px">So "the Nordics are rich" hides four different engines. Only one of them is oil.</p>
+    </section>
+
+    <section>
+      <h2>The trap Norway dodged</h2>
+      <div class="grid g2">
+        <div class="card"><h3>The resource curse</h3><p>Oil money commonly makes countries <em>worse</em> off: it fuels corruption, props up strongmen, floods the budget in boom years, and leaves nothing when prices crash. Being handed a fortune is not the same as staying rich.</p></div>
+        <div class="card"><h3>Norway's two firewalls</h3><p>Public ownership meant the rent went to the nation, not a handful of insiders. The fund-plus-rule meant the rent got <em>saved</em>, smoothing the boom-bust and passing wealth forward instead of burning it in one generation.</p></div>
+      </div>
+    </section>
+
+    <section style="border-bottom:0">
+      <h2>The one-liner</h2>
+      <div class="card"><p class="lede" style="margin:0">Nationalizing and taxing the oil captured the money; the fund and the spending rule are what stopped Norway from squandering it. Or, the way Norwegians half-joke it: <strong>the oil funds the fund, and the fund funds the country.</strong></p></div>
+    </section>
+
+    <div class="footer">
+      Sources consulted include Norges Bank Investment Management (the fund manager) and the official Norwegian Petroleum resource site (norskpetroleum.no) for the fund's size, the ~78% petroleum tax, Equinor's ~67% state ownership, the SDFI/Petoro structure, and the fiscal spending rule; Encyclopaedia Britannica and standard references for the 1969 Ekofisk discovery, the 1971 "Ten Oil Commandments," and Statoil/Equinor history; the Danish Energy Agency for Denmark's 2050 extraction phase-out; and standard country references for Sweden's, Finland's, and Iceland's economies. Figures are approximate and shift with markets and oil prices. Not financial or policy advice — trip-context reading.
+    </div>
+  </div>
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
+<script>
+window.WARMAP_GEO = {};
+window.WARMAP_CFG = {"el":"oil-map","bounds":[[54.6,-1.4],[62.4,6.6]],"markers":[
+  {"lat":56.55,"lon":3.22,"name":"Ekofisk (Norway, 1969)","color":"#2f7d55","big":true,"dir":"bottom","pop":"Norway's first giant find — the strike that started it all. Production began 1971."},
+  {"lat":58.83,"lon":2.52,"name":"Johan Sverdrup","color":"#2f7d55","label":false,"pop":"A 2010s mega-field in the Norwegian sector — proof the North Sea still had giants left."},
+  {"lat":61.25,"lon":1.85,"name":"Statfjord","color":"#2f7d55","label":false,"pop":"One of the great early oil fields, far north in Norway's sector."},
+  {"lat":60.64,"lon":3.60,"name":"Troll","color":"#2f7d55","label":false,"pop":"A huge gas field off Bergen — backbone of Norway's gas exports to Europe."},
+  {"lat":55.48,"lon":5.15,"name":"Dan (Denmark, 1972)","color":"#b8863c","dir":"bottom","pop":"Denmark's first producing field — the modest Danish slice of the North Sea."},
+  {"lat":55.55,"lon":4.90,"name":"Halfdan","color":"#b8863c","label":false,"pop":"Part of Denmark's small southern cluster of fields."}
+]};
+</script>
+<script>
+// -- reusable map renderer: reads window.WARMAP_GEO + window.WARMAP_CFG (shared with the war pack) --
+(function(){
+  "use strict";
+  var CFG = window.WARMAP_CFG || {}, GEO = window.WARMAP_GEO || {};
+  var el = document.getElementById(CFG.el);
+  function fail(){ if(el){ el.classList.add("failed"); } }
+  if(!el || typeof L === "undefined"){ fail(); return; }
+  try {
+    var map = L.map(el, {scrollWheelZoom:false, zoomControl:true, attributionControl:true, minZoom:2});
+    L.tileLayer("https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png", {
+      attribution:'&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors &copy; <a href="https://carto.com/attributions">CARTO</a>',
+      subdomains:"abcd", maxZoom:19, minZoom:2
+    }).addTo(map);
+
+    if(CFG.bounds){ map.fitBounds(CFG.bounds, {padding:[20,20]}); }
+    else if(CFG.center){ map.setView(CFG.center, CFG.zoom||4); }
+    else { map.setView([58,3], 5); }
+
+    (CFG.countries||[]).forEach(function(c){
+      var g = GEO[c.id]; if(!g) return;
+      var lyr = L.geoJSON(g, {style:{color:c.stroke||c.fill, weight:1.3, opacity:.9, fillColor:c.fill, fillOpacity:(c.fillOpacity==null?.3:c.fillOpacity)}}).addTo(map);
+      if(c.label){ lyr.bindTooltip(c.label, {sticky:true, className:"wm-tip"}); }
+    });
+
+    (CFG.markers||[]).forEach(function(m){
+      var cls="wm-pin"+(m.big?" big":""), sz=m.big?19:13, an=m.big?9.5:6.5;
+      var icon=L.divIcon({className:"", html:'<div class="'+cls+'" style="background:'+(m.color||"#8f3f2f")+'"></div>', iconSize:[sz,sz], iconAnchor:[an,an], popupAnchor:[0,-an-2]});
+      var mk=L.marker([m.lat,m.lon], {icon:icon, title:m.name}).addTo(map);
+      if(m.pop){ mk.bindPopup('<div class="wm-pop-t">'+m.name+'</div><div class="wm-pop-b">'+m.pop+'</div>'); }
+      if(m.label!==false){
+        var dir=m.dir||"right";
+        var off = dir==="left"?[-9,0] : dir==="top"?[0,-9] : dir==="bottom"?[0,9] : [9,0];
+        mk.bindTooltip(m.name, {permanent:true, direction:dir, offset:off, className:"wm-label"});
+      }
+    });
+
+    map.on("focus", function(){ map.scrollWheelZoom.enable(); });
+    map.on("blur",  function(){ map.scrollWheelZoom.disable(); });
+  } catch(err){ fail(); }
+})();
+</script>
+</body>
+</html>
