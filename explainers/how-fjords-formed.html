@@ -1,0 +1,268 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin="" />
+  <title>How the Fjords Formed</title>
+  <style>
+    :root{--ink:#172026;--muted:#5d6972;--bg:#f5f2eb;--card:#fffaf2;--accent:#8f3f2f;--accent2:#1f5f78;--line:#ded6c8;--shadow:0 12px 30px rgba(23,32,38,.10);--oil:#2f7d55}
+    *{box-sizing:border-box} body{margin:0;font-family:ui-sans-serif,system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial;color:var(--ink);background:linear-gradient(180deg,#e8eef2 0,#f5f2eb 34%);line-height:1.5}
+    a{color:var(--accent2)} .wrap{max-width:1120px;margin:0 auto;padding:24px} header{padding:54px 0 30px;border-bottom:1px solid var(--line)}
+    .kicker{color:var(--accent);font-weight:800;letter-spacing:.08em;text-transform:uppercase;font-size:13px} h1{font-size:clamp(38px,6vw,72px);line-height:.95;margin:12px 0 18px;letter-spacing:-.06em}
+    h2{font-size:clamp(28px,4vw,44px);letter-spacing:-.04em;margin:0 0 14px} h3{font-size:22px;margin:0 0 8px} p{margin:0 0 14px}.lede{font-size:22px;max-width:900px;color:#2d3a41}.muted{color:var(--muted)}
+    .grid{display:grid;gap:18px}.g2{grid-template-columns:repeat(2,minmax(0,1fr))}.g3{grid-template-columns:repeat(3,minmax(0,1fr))}.g4{grid-template-columns:repeat(4,minmax(0,1fr))}@media(max-width:820px){.g2,.g3,.g4{grid-template-columns:1fr}.wrap{padding:18px}header{padding-top:28px}}
+    .card{background:rgba(255,250,242,.9);border:1px solid var(--line);border-radius:22px;padding:22px;box-shadow:var(--shadow)} .tight p{margin-bottom:8px}
+    .tag{display:inline-block;border:1px solid var(--line);border-radius:999px;padding:6px 10px;margin:4px 6px 4px 0;background:#fffdf8;color:#2d3a41;font-size:13px;font-weight:700}
+    section{padding:32px 0;border-bottom:1px solid var(--line)}
+    .callout{border-left:6px solid var(--accent);background:#fff4e8;padding:18px;border-radius:18px}
+    .callout.good{border-left-color:var(--oil);background:#eef7f0}
+    .callout.blue{border-left-color:var(--accent2);background:#eef4f7}
+    .route{font-weight:800;color:var(--accent2)}.oiled{font-weight:800;color:var(--oil)}
+    .step-n{display:inline-flex;align-items:center;justify-content:center;width:30px;height:30px;border-radius:50%;background:var(--accent2);color:#fff;font-weight:900;font-size:15px;margin-bottom:10px}
+    .stat{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:14px;margin:6px 0 4px}
+    .stat .n{font-size:clamp(30px,4.5vw,46px);font-weight:900;letter-spacing:-.03em;line-height:1;color:var(--accent);margin-bottom:6px}
+    .stat .l{font-size:14px;color:var(--muted);line-height:1.35}
+    table{width:100%;border-collapse:collapse;background:#fffaf2;border-radius:18px;overflow:hidden} th,td{padding:13px 14px;border-bottom:1px solid var(--line);text-align:left;vertical-align:top} th{background:#efe7da} tr:last-child td{border-bottom:0}
+    .small{font-size:14px}.footer{padding:28px 0;color:var(--muted);font-size:14px}.hero{display:grid;grid-template-columns:1.15fr .85fr;gap:22px;align-items:stretch}@media(max-width:900px){.hero{grid-template-columns:1fr}}
+    /* -- fjord map (Leaflet, light/parchment) -- */
+    .warmap-wrap{background:var(--card);border:1px solid var(--line);border-radius:22px;overflow:hidden;box-shadow:var(--shadow)}
+    .warmap{height:clamp(380px,58vh,560px);width:100%;background:#e9edf0;z-index:1}
+    .warmap-cap{font-size:13px;color:var(--muted);margin:11px 2px 0}
+    .warmap-legend{display:flex;gap:9px 18px;flex-wrap:wrap;padding:13px 18px;border-top:1px solid var(--line);font-size:13px;color:var(--muted);line-height:1.6}
+    .wm-tag{display:inline-flex;align-items:center;gap:7px;white-space:nowrap;font-weight:700;color:#3a464e}
+    .wm-tag .sw{width:12px;height:12px;border-radius:50%;border:1.5px solid rgba(23,32,38,.28);flex:none}
+    .wm-tag .swln{width:22px;border-top:3px solid;border-radius:2px;flex:none}
+    .wm-hint{margin-left:auto;opacity:.85;font-weight:400}
+    .warmap-fallback{display:none;padding:26px 20px;font-size:14.5px;color:var(--muted);text-align:center;line-height:1.6}
+    .warmap.failed{height:auto}
+    .warmap.failed + .warmap-fallback{display:block}
+    .warmap-wrap .leaflet-container{font-family:inherit;background:#e9edf0}
+    .warmap-wrap .leaflet-div-icon{background:transparent;border:none}
+    .wm-pin{width:13px;height:13px;border-radius:50%;border:2px solid #fffaf2;box-shadow:0 1px 5px rgba(23,32,38,.45)}
+    .wm-pin.big{width:19px;height:19px;border-width:3px}
+    .wm-arrowhead{width:0;height:0;border-left:7px solid transparent;border-right:7px solid transparent;border-bottom:13px solid #000;filter:drop-shadow(0 1px 1px rgba(23,32,38,.4))}
+    .warmap-wrap .leaflet-tooltip.wm-label{background:rgba(255,250,242,.94);border:1px solid var(--line);border-radius:7px;color:var(--ink);font-weight:700;font-size:12px;padding:2px 7px;box-shadow:0 2px 8px rgba(23,32,38,.16)}
+    .warmap-wrap .leaflet-tooltip.wm-label::before{display:none}
+    .warmap-wrap .leaflet-tooltip.wm-tip{background:rgba(23,32,38,.9);border:0;color:#fff;font-weight:600;font-size:12px;box-shadow:0 2px 8px rgba(23,32,38,.28)}
+    .warmap-wrap .leaflet-tooltip.wm-tip::before{border-top-color:rgba(23,32,38,.9);border-bottom-color:rgba(23,32,38,.9)}
+    .warmap-wrap .leaflet-popup-content-wrapper{background:var(--card);color:var(--ink);border:1px solid var(--line);border-radius:12px;box-shadow:0 12px 30px rgba(23,32,38,.2)}
+    .warmap-wrap .leaflet-popup-tip{background:var(--card);border-right:1px solid var(--line);border-bottom:1px solid var(--line)}
+    .warmap-wrap .leaflet-popup-content{margin:11px 14px;font-size:13.5px;line-height:1.5}
+    .wm-pop-t{font-weight:800;font-size:15px;color:var(--ink);margin-bottom:3px}
+    .wm-pop-b{color:#3a464e;font-size:13px}
+    .warmap-wrap .leaflet-bar a{background:var(--card);color:var(--ink);border-bottom-color:var(--line)}
+    .warmap-wrap .leaflet-bar a:hover{background:#efe7da;color:var(--ink)}
+    .warmap-wrap .leaflet-control-attribution{background:rgba(255,250,242,.82)!important;color:var(--muted)!important}
+    .warmap-wrap .leaflet-control-attribution a{color:var(--accent2)!important}
+  </style>
+</head>
+<body>
+<a href="../index.html" aria-label="Back to the trip map" style="display:inline-block;margin:14px 24px 4px;padding:7px 14px;border-radius:8px;border:1px solid rgba(128,128,128,.42);background:rgba(128,128,128,.14);color:inherit;font-family:ui-sans-serif,system-ui,-apple-system,Segoe UI,Roboto,sans-serif;font-weight:700;font-size:13px;text-decoration:none">← Back to the trip map</a>
+  <div class="wrap">
+    <header>
+      <div class="callout good" style="margin:14px 0 4px;font-size:16px"><strong>TL;DR —</strong> A fjord is a glacier's leftover. During the ice ages, rivers of ice grinding down old river valleys gouged them into deep U-shaped troughs — deep enough that the floor dropped <em>below</em> sea level. When the ice melted about 11,000 years ago, the sea flooded in. The mountain walls are the sides of the trough; the water is just the ocean sitting in the bottom of it.</div>
+      <div class="kicker">Trip context guide · nature rabbit hole</div>
+      <h1>How the Fjords Formed</h1>
+      <p class="lede">The fjords you'll cruise out of Aurland aren't rivers, and they aren't ordinary bays. They're glacier-carved valleys drowned by the sea — some of them well over a kilometre deep, with sheer rock walls and waterfalls spilling off the top. Here's the four-step story of how ice, gravity, and rising seawater built the most photographed landscape in Norway.</p>
+      <div><span class="tag">Aurland / fjords</span><span class="tag">Voss</span><span class="tag">Bergen</span><span class="tag">Sognefjord</span><span class="tag">Nærøyfjord (UNESCO)</span></div>
+    </header>
+
+    <section class="hero">
+      <div class="card">
+        <h2>The short version</h2>
+        <p>A fjord is a valley that a glacier carved, then the sea moved into. Start with a river valley cut into the mountains of western Norway. During the ice ages, a thick tongue of ice filled that valley and, over hundreds of thousands of years, ground it far deeper and wider — turning a narrow V-shaped notch into a broad <strong>U-shaped trough</strong>.</p>
+        <p>Because the ice was so thick and heavy, it kept cutting even <em>below</em> the level of the sea — a trick called <strong>overdeepening</strong>. When the climate warmed and the glaciers retreated, that over-deep trough was left open to the coast, and the ocean simply flowed in and filled it.</p>
+        <p><strong>Result:</strong> a long, narrow, startlingly deep arm of seawater walled in by cliffs — with the side valleys left "hanging" high above, so their rivers now fall straight into the fjord as waterfalls.</p>
+      </div>
+      <div class="card tight">
+        <h3>Mental model</h3>
+        <p><span class="route">Rivers</span> drew the first lines — V-shaped valleys along the weak seams in the bedrock, long before any ice.</p>
+        <p><span class="oiled">Glaciers</span> were the excavators — they followed those valleys and bulldozed them into deep U-shaped troughs.</p>
+        <p><span class="oiled">Overdeepening</span> = the ice cut below sea level, so the trough floor ended up <em>underwater-deep</em>.</p>
+        <p><span class="route">The sea</span> was the finishing touch — it flooded the empty trough when the ice was gone.</p>
+        <p class="muted small" style="margin-top:10px">A fjord is just the ocean sitting in a glacier's old bulldozer track.</p>
+      </div>
+    </section>
+
+    <section>
+      <h2>The four-step recipe</h2>
+      <p class="lede" style="font-size:18px">Nothing about a fjord happens fast. It's the sum of a pre-glacial river, roughly two million years of on-and-off ice, and one relatively sudden flood.</p>
+      <div class="grid g4" style="margin-top:6px">
+        <div class="card">
+          <div class="step-n">1</div>
+          <h3>A river cuts a valley</h3>
+          <p>Long before the ice ages, rivers carved <strong>V-shaped valleys</strong> down through the highlands of western Norway, following lines of weaker rock. The Sognefjord valley already existed as a river valley — it just had gentler slopes and no seawater in it.</p>
+        </div>
+        <div class="card">
+          <div class="step-n">2</div>
+          <h3>Ice fills and grinds it</h3>
+          <p>In the ice ages, glaciers up to <strong>~3,000 m thick</strong> filled those valleys. Ice doesn't cut a sharp V — it plucks and grinds the whole cross-section into a broad, flat-bottomed <strong>U-shape</strong>, widening and deepening the valley enormously.</p>
+        </div>
+        <div class="card">
+          <div class="step-n">3</div>
+          <h3>It digs below the sea</h3>
+          <p>Where the ice was thickest and fastest, it gouged the floor <strong>below sea level</strong> — overdeepening. Near the coast the ice spread out, lost its grip, and cut less, leaving a shallow rock lip: the <strong>sill</strong> at the fjord mouth.</p>
+        </div>
+        <div class="card">
+          <div class="step-n">4</div>
+          <h3>The sea floods in</h3>
+          <p>When the last ice sheet melted, roughly <strong>11,000 years ago</strong>, the over-deep trough lay open to the Atlantic. The rising ocean poured in over the sill and filled it — and the fjord was born.</p>
+        </div>
+      </div>
+    </section>
+
+    <section>
+      <h2>Why a fjord is deeper than the sea it opens onto</h2>
+      <p class="lede" style="font-size:18px">This is the strange part, and the whole signature of a glacial fjord: the water inside is far deeper than the water at the mouth. Sognefjord — your fjord's parent — is the extreme case.</p>
+      <div class="grid g2" style="margin-top:6px">
+        <div class="card">
+          <h3>The overdeepened basin</h3>
+          <p>Ice flowing downhill has enormous erosive power where it's thick and confined. In the middle of a long fjord it bites hardest, hollowing out a deep <strong>basin</strong>. Sognefjord's floor drops to about <strong>1,308 m below sea level</strong> — and it stays more than 1,000 m deep for roughly 100 km of its length.</p>
+        </div>
+        <div class="card">
+          <h3>The shallow sill at the mouth</h3>
+          <p>Near the open coast the glacier fanned out, thinned, and stopped cutting deep. So most fjords end in a <strong>rocky sill</strong> — Sognefjord's is only about <strong>100 m</strong> below the surface. That underwater doorstep, with a deep basin behind it, is the fingerprint that says "a glacier made this," not a river.</p>
+        </div>
+      </div>
+      <div class="stat" style="margin-top:22px">
+        <div><div class="n">1,308 m</div><div class="l">Sognefjord's maximum depth below sea level — Norway's deepest fjord</div></div>
+        <div><div class="n">205 km</div><div class="l">Its length inland from the coast — Norway's longest fjord</div></div>
+        <div><div class="n">~100 m</div><div class="l">Depth of the rocky sill at the mouth — the shallow "doorstep"</div></div>
+        <div><div class="n">~3,000 m</div><div class="l">Thickness of the ice that ground the valley out</div></div>
+      </div>
+      <div class="callout blue" style="margin-top:22px">
+        <h3 style="margin-top:0">A river can't do this</h3>
+        <p style="margin-bottom:0">Running water always flows <em>downhill to</em> the sea; it can't cut a hole below sea level and then leave it there. Only a thick glacier — pushed forward by the weight of ice behind it — can grind out a basin far below sea level and pile the debris up as a sill near the coast. That over-deep basin behind a shallow lip is why geologists can look at a flooded valley anywhere on Earth and say for certain whether ice or water made it.</p>
+      </div>
+    </section>
+
+    <section>
+      <h2>The map: your fjords and their giant parent</h2>
+      <p class="lede" style="font-size:18px">Your fjord legs — Aurland, Voss, Bergen — all sit on branches of one enormous glacial system, the Sognefjord.</p>
+      <div class="warmap-wrap">
+        <div id="fjord-map" class="warmap" role="application" aria-label="Map of the western Norway fjords: Bergen and Voss to the southwest, Aurland on the Aurlandsfjord, the UNESCO Nærøyfjord branching off it, the deep central Sognefjord to the north, and Geirangerfjord further north"></div>
+        <div class="warmap-fallback">Map unavailable. In short: Aurlandsfjord (at Aurland) and the UNESCO-listed Nærøyfjord are both branches of the Sognefjord, Norway's longest and deepest fjord. Bergen and Voss lie to the southwest; Geirangerfjord, the other half of the UNESCO listing, is further north.</div>
+        <div class="warmap-legend"><span class="wm-tag"><span class="sw" style="background:#8f3f2f"></span>Your trip stops</span><span class="wm-tag"><span class="sw" style="background:#1f5f78"></span>Your fjord base (Aurlandsfjord)</span><span class="wm-tag"><span class="sw" style="background:#2f7d55"></span>UNESCO / record-deep fjords</span><span class="wm-hint">Aurlandsfjord &amp; Nærøyfjord are branches of the Sognefjord</span></div>
+      </div>
+      <p class="warmap-cap">The RIB safari out of Aurland runs down the Aurlandsfjord and into the Nærøyfjord — a narrow arm of the Sognefjord that UNESCO calls one of the most scenically outstanding fjord landscapes anywhere. Points are real locations; the deep-water label marks the central Sognefjord basin, not an exact single sounding.</p>
+    </section>
+
+    <section>
+      <h2>The tells: how to read a fjord while you're in it</h2>
+      <p class="lede" style="font-size:18px">Once you know the recipe, the whole landscape becomes readable from the deck of the boat.</p>
+      <div class="grid g3">
+        <div class="card"><h3>Sheer, straight walls</h3><p>The near-vertical rock faces rising a thousand metres or more straight out of the water are the polished sides of the glacial trough. In the Nærøyfjord the walls climb to about <strong>1,760 m</strong> while the fjord narrows to as little as <strong>250 m</strong> wide — an aisle of rock.</p></div>
+        <div class="card"><h3>Hanging valleys</h3><p>Smaller side glaciers couldn't cut as deep as the main trunk of ice, so when the ice left, their valleys were stranded high up the wall — "hanging" hundreds of metres above the fjord floor. You'll see them as green notches and shelves partway up the cliffs.</p></div>
+        <div class="card"><h3>Waterfalls off the top</h3><p>Rivers in those hanging valleys now have nowhere to go but <strong>straight down</strong> the wall, which is why fjords are lined with tall, thin waterfalls — the Seven Sisters on Geirangerfjord are the famous set; the Gudvangen end of the Nærøyfjord has its own, including the towering Kjelfossen.</p></div>
+      </div>
+    </section>
+
+    <section>
+      <h2>Nærøyfjord &amp; Aurlandsfjord: the UNESCO branch you're cruising</h2>
+      <div class="grid g2">
+        <div class="card">
+          <h3>A fjord inside a fjord inside a fjord</h3>
+          <p>Your boat's route is a set of nested glacial troughs. The <strong>Nærøyfjord</strong> is a branch of the <strong>Aurlandsfjord</strong>, which is itself a branch of the giant <strong>Sognefjord</strong>. Each smaller arm was carved by a smaller tributary of the same ice sheet — the same process at three scales.</p>
+        </div>
+        <div class="card">
+          <h3>Why UNESCO listed it</h3>
+          <p>In <strong>2005</strong>, UNESCO added the "West Norwegian Fjords — Geirangerfjord and Nærøyfjord" to the World Heritage List, calling them <em>archetypal</em> fjord landscapes: a textbook, still-visible record of ice-age glaciation and the land's rebound afterward, in walls of clean crystalline rock. Nærøyfjord is your half of that listing.</p>
+        </div>
+      </div>
+      <div class="callout" style="margin-top:20px">
+        <strong>The land is still rising.</strong> With the crushing weight of the ice gone, Scandinavia is slowly springing back upward — "post-glacial rebound" — by a few millimetres a year even now. The fjord you'll see is not a finished landscape; it's a snapshot of a place still relaxing after the ice let go.
+      </div>
+    </section>
+
+    <section>
+      <h2>On your trip</h2>
+      <div class="grid g3">
+        <div class="card"><h3>Aurland (Jul 10–12)</h3><p>Your fjord base, on the Aurlandsfjord. The RIB safari drops you into the UNESCO Nærøyfjord — this is the page's whole story at eye level: trough walls, hanging valleys, waterfalls, and water over a kilometre deep beneath the hull. The Stegastein viewpoint looks straight down the trough.</p></div>
+        <div class="card"><h3>Voss (Jul 12–13)</h3><p>The valley town between fjord and coast sits in glacially scoured terrain too — its lake and broad flat valley floor are classic ice-carved shapes. The gondola up to ~820 m gets you above the trough to see the U-profile from the rim.</p></div>
+        <div class="card"><h3>Bergen (Jul 13–16)</h3><p>Your gateway on the coast, near where the fjords meet the open sea — the shallow, island-strewn "sill" end of the system, the opposite of the deep inner basins. Mt Fløyen's funicular gives the overview of ice-worked coast.</p></div>
+      </div>
+    </section>
+
+    <section style="border-bottom:0">
+      <h2>The one-liner</h2>
+      <div class="card"><p class="lede" style="margin:0">Rivers drew the valleys, two million years of glaciers dug them out below sea level, and the melting ice let the ocean in. A fjord is a drowned glacier track — and Sognefjord, the one under your boat, is the deepest and longest track of them all.</p></div>
+    </section>
+
+    <div class="footer">
+      Sources consulted include the UNESCO World Heritage Centre listing for the West Norwegian Fjords — Geirangerfjord and Nærøyfjord (inscribed 2005) for the heritage designation, criteria, and wall heights; Wikipedia and standard geological references for Sognefjord's ~1,308 m maximum depth, 205 km length, the ~100 m sill at its mouth, the ~3,000 m ice thickness, and the pre-glacial river-valley origin; and standard glaciology references for U-shaped valley formation, overdeepening, hanging valleys, and the post-glacial marine flooding roughly 11,000 years ago. Figures are approximate. Trip-context reading, not a geology text.
+    </div>
+  </div>
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
+<script>
+window.WARMAP_GEO = {};
+window.WARMAP_CFG = {"el":"fjord-map","bounds":[[60.2,4.9],[62.4,7.8]],"markers":[
+  {"lat":60.394,"lon":5.325,"name":"Bergen","color":"#8f3f2f","big":true,"dir":"bottom","pop":"Your fjord gateway — the rainy North Sea harbor near the shallow, island-strewn seaward end of the fjord system."},
+  {"lat":60.630,"lon":6.442,"name":"Voss","color":"#8f3f2f","dir":"bottom","pop":"The hinge town between the fjords and Bergen, in a broad glacier-scoured valley."},
+  {"lat":60.908,"lon":7.190,"name":"Aurland · Aurlandsfjord","color":"#1f5f78","big":true,"dir":"right","pop":"Your fjord base. Aurlandsfjord is a branch of the Sognefjord — the RIB safari runs from here into UNESCO water."},
+  {"lat":60.873,"lon":6.845,"name":"Nærøyfjord (UNESCO)","color":"#2f7d55","dir":"top","pop":"A branch of the Aurlandsfjord — about 17 km long and as little as 250 m wide, with walls to ~1,760 m. UNESCO-listed in 2005."},
+  {"lat":61.216,"lon":6.073,"name":"Sognefjord — ~1,308 m deep","color":"#2f7d55","dir":"left","pop":"Norway's longest (205 km) and deepest fjord. In the central basin the floor drops to about 1,308 m below sea level."},
+  {"lat":62.101,"lon":7.206,"name":"Geirangerfjord (UNESCO)","color":"#2f7d55","dir":"right","pop":"The other half of the UNESCO listing, north of your route — the postcard fjord with the Seven Sisters waterfall."}
+]};
+</script>
+<script>
+// -- reusable map renderer: reads window.WARMAP_GEO + window.WARMAP_CFG (shared across the explainer pack) --
+(function(){
+  "use strict";
+  var CFG = window.WARMAP_CFG || {}, GEO = window.WARMAP_GEO || {};
+  var el = document.getElementById(CFG.el);
+  function fail(){ if(el){ el.classList.add("failed"); } }
+  if(!el || typeof L === "undefined"){ fail(); return; }
+  try {
+    var map = L.map(el, {scrollWheelZoom:false, zoomControl:true, attributionControl:true, minZoom:2});
+    L.tileLayer("https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png", {
+      attribution:'&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors &copy; <a href="https://carto.com/attributions">CARTO</a>',
+      subdomains:"abcd", maxZoom:19, minZoom:2
+    }).addTo(map);
+
+    if(CFG.bounds){ map.fitBounds(CFG.bounds, {padding:[20,20]}); }
+    else if(CFG.center){ map.setView(CFG.center, CFG.zoom||4); }
+    else { map.setView([61,6], 7); }
+
+    (CFG.countries||[]).forEach(function(c){
+      var g = GEO[c.id]; if(!g) return;
+      var lyr = L.geoJSON(g, {style:{color:c.stroke||c.fill, weight:1.3, opacity:.9, fillColor:c.fill, fillOpacity:(c.fillOpacity==null?.3:c.fillOpacity)}}).addTo(map);
+      if(c.label){ lyr.bindTooltip(c.label, {sticky:true, className:"wm-tip"}); }
+    });
+
+    function bearing(a,b){
+      var R=Math.PI/180, D=180/Math.PI;
+      var y=Math.sin((b[1]-a[1])*R)*Math.cos(b[0]*R);
+      var x=Math.cos(a[0]*R)*Math.sin(b[0]*R)-Math.sin(a[0]*R)*Math.cos(b[0]*R)*Math.cos((b[1]-a[1])*R);
+      return Math.atan2(y,x)*D;
+    }
+    (CFG.arrows||[]).forEach(function(a){
+      var pts=a.points;
+      L.polyline(pts, {color:a.color, weight:9, opacity:.1, lineJoin:"round", lineCap:"round"}).addTo(map);
+      L.polyline(pts, {color:a.color, weight:a.weight||3, opacity:(a.opacity==null?.82:a.opacity), dashArray:a.dash||null, lineJoin:"round", lineCap:"round"}).addTo(map);
+      if(!a.noHead){
+        var p1=pts[pts.length-2], p2=pts[pts.length-1], brg=bearing(p1,p2);
+        var ah=L.divIcon({className:"", html:'<div class="wm-arrowhead" style="transform:rotate('+brg+'deg);border-bottom-color:'+a.color+'"></div>', iconSize:[18,18], iconAnchor:[9,9]});
+        L.marker(p2, {icon:ah, interactive:false, keyboard:false}).addTo(map);
+      }
+    });
+
+    (CFG.markers||[]).forEach(function(m){
+      var cls="wm-pin"+(m.big?" big":""), sz=m.big?19:13, an=m.big?9.5:6.5;
+      var icon=L.divIcon({className:"", html:'<div class="'+cls+'" style="background:'+(m.color||"#8f3f2f")+'"></div>', iconSize:[sz,sz], iconAnchor:[an,an], popupAnchor:[0,-an-2]});
+      var mk=L.marker([m.lat,m.lon], {icon:icon, title:m.name}).addTo(map);
+      if(m.pop){ mk.bindPopup('<div class="wm-pop-t">'+m.name+'</div><div class="wm-pop-b">'+m.pop+'</div>'); }
+      if(m.label!==false){
+        var dir=m.dir||"right";
+        var off = dir==="left"?[-9,0] : dir==="top"?[0,-9] : dir==="bottom"?[0,9] : [9,0];
+        mk.bindTooltip(m.name, {permanent:true, direction:dir, offset:off, className:"wm-label"});
+      }
+    });
+
+    map.on("focus", function(){ map.scrollWheelZoom.enable(); });
+    map.on("blur",  function(){ map.scrollWheelZoom.disable(); });
+  } catch(err){ fail(); }
+})();
+</script>
+</body>
+</html>
