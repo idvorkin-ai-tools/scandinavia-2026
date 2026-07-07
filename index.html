@@ -1,0 +1,590 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Scandinavian Whirlwind 2026 — Trip Map</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600;700&family=IBM+Plex+Sans:wght@400;500;600;700&display=swap" rel="stylesheet" />
+<style>
+  :root{
+    --bg:#0A0C0F; --panel:#13171D; --panel-2:#171C23; --line:#262C35; --line-soft:#1d232b;
+    --ink:#E7EBF1; --ink-mid:#AEB6C2; --ink-dim:#737D8B;
+    --off:#F5A524; --off-bright:#FFC25A;   /* city & culture */
+    --def:#35CFE0; --def-deep:#1f9aa8;      /* nature & fjords */
+    --maxw:1080px;
+  }
+  *{box-sizing:border-box}
+  html{scroll-behavior:smooth}
+  body{margin:0;background:var(--bg);color:var(--ink);font-family:"IBM Plex Sans",system-ui,sans-serif;
+    font-size:16px;line-height:1.6;-webkit-font-smoothing:antialiased;
+    background-image:radial-gradient(900px 500px at 85% -10%, rgba(245,165,36,.06), transparent 60%),
+      radial-gradient(900px 600px at -10% 30%, rgba(53,207,224,.05), transparent 55%);background-attachment:fixed;}
+  .mono{font-family:"IBM Plex Mono",ui-monospace,monospace}
+  a{color:inherit}
+
+  header.nav{position:sticky;top:0;z-index:50;background:rgba(10,12,15,.82);backdrop-filter:blur(10px);border-bottom:1px solid var(--line);}
+  .nav-in{max-width:var(--maxw);margin:0 auto;display:flex;align-items:center;gap:18px;padding:11px 22px;}
+  .brand{font-family:"IBM Plex Mono";font-weight:700;font-size:13px;letter-spacing:.02em;color:var(--ink);
+    white-space:nowrap;display:flex;align-items:center;gap:8px}
+  .brand .dot{width:8px;height:8px;border-radius:2px;background:linear-gradient(135deg,var(--off),var(--def));box-shadow:0 0 12px rgba(245,165,36,.5)}
+  .nav-links{display:flex;gap:3px;margin-left:auto;overflow-x:auto;scrollbar-width:none}
+  .nav-links::-webkit-scrollbar{display:none}
+  .nav-links a{font-family:"IBM Plex Mono";font-size:11.5px;color:var(--ink-dim);text-decoration:none;padding:6px 9px;border-radius:6px;white-space:nowrap;transition:.15s}
+  .nav-links a:hover{color:var(--ink);background:var(--panel)}
+
+  /* ── in-page section nav (sticky flyover) ── */
+  .secnav{position:sticky;top:47px;z-index:45;background:rgba(13,17,23,.9);backdrop-filter:blur(10px);border-bottom:1px solid var(--line-soft)}
+  .secnav-in{max-width:var(--maxw);margin:0 auto;display:flex;align-items:center;gap:4px;padding:7px 22px;overflow-x:auto;scrollbar-width:none}
+  .secnav-in::-webkit-scrollbar{display:none}
+  .secnav-in .lab{font-family:"IBM Plex Mono";font-size:10px;letter-spacing:.14em;text-transform:uppercase;color:var(--ink-dim);opacity:.6;margin-right:6px;white-space:nowrap;flex:none}
+  .secnav a{font-family:"IBM Plex Mono";font-size:12px;color:var(--ink-mid);text-decoration:none;padding:5px 11px;border-radius:7px;white-space:nowrap;transition:.15s;border:1px solid transparent;flex:none}
+  .secnav a:hover{color:var(--ink);background:var(--panel)}
+  .secnav a.active{color:var(--ink);background:var(--panel);border-color:var(--line)}
+  .secnav a .ab{display:none}
+  @media(max-width:560px){
+    .secnav-in .lab{display:none}
+    .secnav a .full{display:none}
+    .secnav a .ab{display:inline}
+    .secnav a{padding:5px 9px;font-size:12.5px}
+  }
+
+  main{max-width:var(--maxw);margin:0 auto;padding:0 22px}
+  .hero{padding:52px 0 44px;border-bottom:1px solid var(--line-soft)}
+  .hero .kicker{font-family:"IBM Plex Mono";font-size:12.5px;letter-spacing:.18em;text-transform:uppercase;color:var(--ink-dim);margin-bottom:16px}
+  .hero h1{font-family:"IBM Plex Mono";font-weight:700;font-size:clamp(32px,6vw,58px);line-height:1.05;margin:0 0 8px;letter-spacing:-.02em}
+  .hero h1 .a{color:var(--off)} .hero h1 .b{color:var(--def)}
+  .hero .sub{font-size:19px;color:var(--ink-mid);max-width:64ch;margin-top:16px}
+  .route{font-family:"IBM Plex Mono";font-size:13.5px;color:var(--ink-dim);margin-top:20px;line-height:1.9}
+  .route b{color:var(--ink-mid);font-weight:500}
+  .legend{display:flex;gap:10px;margin-top:20px;flex-wrap:wrap}
+  .legend-tag{font-family:"IBM Plex Mono";font-size:11px;padding:2px 7px;border-radius:5px;border:1px solid;white-space:nowrap;font-weight:500}
+  .t-off{color:var(--off-bright);border-color:rgba(245,165,36,.35);background:rgba(245,165,36,.07)}
+  .t-def{color:var(--def);border-color:rgba(53,207,224,.35);background:rgba(53,207,224,.07)}
+
+  section{padding:42px 0;border-bottom:1px solid var(--line-soft);scroll-margin-top:96px}
+  section:last-of-type{border-bottom:none}
+  .eyebrow{font-family:"IBM Plex Mono";font-size:12px;letter-spacing:.16em;text-transform:uppercase;color:var(--ink-dim);margin-bottom:16px}
+
+  .cities{display:grid;grid-template-columns:repeat(2,1fr);gap:12px}
+  @media(max-width:720px){.cities{grid-template-columns:1fr}}
+  a.city{display:block;text-decoration:none;background:var(--panel);border:1px solid var(--line);border-radius:13px;padding:16px 17px;transition:.18s}
+  a.city:hover{border-color:#3a4655;transform:translateY(-2px)}
+  a.city.nat{border-top:2px solid var(--def)} a.city.cult{border-top:2px solid var(--off)}
+  .city .top{display:flex;align-items:baseline;gap:10px;flex-wrap:wrap}
+  .city .flag{font-size:20px;line-height:1}
+  .city h3{font-family:"IBM Plex Mono";font-weight:600;font-size:19px;margin:0;color:var(--ink)}
+  .city .dates{font-family:"IBM Plex Mono";font-size:11.5px;color:var(--ink-dim);margin-left:auto;white-space:nowrap}
+  .city .one{font-size:14px;color:var(--ink-mid);margin:10px 0 0}
+
+  .callout{border-left:2px solid var(--def);background:rgba(53,207,224,.05);padding:14px 18px;border-radius:0 10px 10px 0;margin:8px 0 0;font-size:14.5px;color:var(--ink-mid)}
+  footer{max-width:var(--maxw);margin:0 auto;padding:26px 22px 40px;color:var(--ink-dim);font-size:12.5px;font-family:"IBM Plex Mono"}
+  :focus-visible{outline:2px solid var(--def);outline-offset:3px;border-radius:4px}
+
+  /* ── live weather widget ── */
+  .wx-head{display:flex;align-items:center;gap:12px;flex-wrap:wrap;margin-bottom:14px}
+  .wx-live{font-family:"IBM Plex Mono";font-size:11px;color:var(--ink-dim);display:flex;align-items:center;gap:7px;flex-wrap:wrap;line-height:1.6}
+  .wx-live .pulse{width:7px;height:7px;border-radius:50%;background:#ff4d4d;box-shadow:0 0 0 0 rgba(255,77,77,.6);animation:wxpulse 2s infinite;flex:none}
+  @keyframes wxpulse{0%{box-shadow:0 0 0 0 rgba(255,77,77,.5)}70%{box-shadow:0 0 0 6px rgba(255,77,77,0)}100%{box-shadow:0 0 0 0 rgba(255,77,77,0)}}
+  .wx-live a{color:var(--def);text-decoration:none}
+  .wx-live a:hover{text-decoration:underline}
+  .wx-toggle{margin-left:auto;display:inline-flex;border:1px solid var(--line);border-radius:8px;overflow:hidden;font-family:"IBM Plex Mono";font-size:12px}
+  .wx-toggle button{appearance:none;background:transparent;color:var(--ink-dim);border:none;padding:6px 13px;cursor:pointer;font-family:inherit;font-size:inherit;transition:.15s}
+  .wx-toggle button:hover{color:var(--ink)}
+  .wx-toggle button.on{background:var(--off);color:#0A0C0F;font-weight:600}
+  .wx-cards{display:flex;flex-direction:column;gap:11px}
+  .wx-card{background:var(--panel);border:1px solid var(--line);border-radius:13px;padding:15px 0 15px 0;overflow:hidden}
+  .wx-card.wk1{border-left:2px solid var(--off)}
+  .wx-card .ct{display:flex;align-items:baseline;gap:9px;padding:0 16px 12px;flex-wrap:wrap}
+  .wx-card .ct .flag{font-size:18px;line-height:1}
+  .wx-card .ct h3{font-family:"IBM Plex Mono";font-weight:600;font-size:16px;margin:0;color:var(--ink)}
+  .wx-card .ct .span{font-family:"IBM Plex Mono";font-size:11px;color:var(--ink-dim);letter-spacing:.02em}
+  .wx-card .ct .leg{width:6px;height:6px;border-radius:50%;background:var(--off);box-shadow:0 0 7px rgba(245,165,36,.6)}
+  .wx-card .ct .cerr{font-family:"IBM Plex Mono";font-size:11.5px;color:var(--ink-dim);margin-left:auto}
+  .wx-card .ct .cerr a{color:var(--def);cursor:pointer}
+  .wx-strip{display:flex;gap:7px;overflow-x:auto;-webkit-overflow-scrolling:touch;padding:2px 16px 6px;scrollbar-width:thin;scrollbar-color:var(--line) transparent}
+  .wx-strip::-webkit-scrollbar{height:6px}
+  .wx-strip::-webkit-scrollbar-thumb{background:var(--line);border-radius:3px}
+  .wx-strip::-webkit-scrollbar-track{background:transparent}
+  .wx-day{flex:0 0 auto;width:68px;background:var(--panel-2);border:1px solid var(--line-soft);border-radius:10px;padding:9px 5px;text-align:center;display:flex;flex-direction:column;align-items:center;gap:4px}
+  .wx-day .dow{font-family:"IBM Plex Mono";font-size:10px;letter-spacing:.02em;text-transform:uppercase;color:var(--ink-dim);white-space:nowrap}
+  .wx-day .ico{font-size:21px;line-height:1.1}
+  .wx-day .tmp{font-family:"IBM Plex Mono";font-size:12px;line-height:1.25;white-space:nowrap}
+  .wx-day .tmp .hi{color:var(--off-bright)} .wx-day .tmp .sep{color:var(--ink-dim)} .wx-day .tmp .lo{color:var(--def)}
+  .wx-day .rain{font-family:"IBM Plex Mono";font-size:10px;color:var(--ink-mid)}
+  .wx-day .rain.dry{color:var(--ink-dim);opacity:.5}
+  .wx-loading,.wx-cerr{font-family:"IBM Plex Mono";font-size:12.5px;color:var(--ink-dim);padding:6px 16px}
+  .wx-cerr a{color:var(--def);cursor:pointer;text-decoration:underline}
+  .wx-cnote{font-family:"IBM Plex Mono";font-size:12px;line-height:1.55;color:var(--ink-dim);padding:4px 16px 2px}
+  .wx-cmore{font-family:"IBM Plex Mono";font-size:11px;color:var(--ink-dim);opacity:.8;padding:7px 16px 0}
+  .wx-note{font-family:"IBM Plex Mono";font-size:12px;line-height:1.65;color:var(--ink-dim);margin-top:13px}
+
+  /* ── gyms — drop-in day passes ── */
+  .gym-wrap{background:var(--panel);border:1px solid var(--line);border-radius:13px;overflow:hidden}
+  .gym-scroll{overflow-x:auto;-webkit-overflow-scrolling:touch;scrollbar-width:thin;scrollbar-color:var(--line) transparent}
+  .gym-scroll::-webkit-scrollbar{height:6px}
+  .gym-scroll::-webkit-scrollbar-thumb{background:var(--line);border-radius:3px}
+  .gym-scroll::-webkit-scrollbar-track{background:transparent}
+  table.gym{border-collapse:collapse;width:100%;min-width:640px;font-size:14px}
+  table.gym thead th{font-family:"IBM Plex Mono";font-size:11px;letter-spacing:.04em;text-transform:uppercase;color:var(--ink-dim);
+    text-align:left;font-weight:600;padding:13px 16px;border-bottom:1px solid var(--line);white-space:nowrap;background:var(--panel-2)}
+  table.gym tbody td{padding:14px 16px;border-bottom:1px solid var(--line-soft);vertical-align:top;color:var(--ink-mid)}
+  table.gym tbody tr:last-child td{border-bottom:none}
+  table.gym tbody tr:hover td{background:rgba(53,207,224,.035)}
+  table.gym tbody tr.cult td:first-child{box-shadow:inset 3px 0 0 var(--off)}
+  table.gym tbody tr.nat td:first-child{box-shadow:inset 3px 0 0 var(--def)}
+  .gym-city{font-family:"IBM Plex Mono";font-weight:600;font-size:14.5px;color:var(--ink);white-space:nowrap}
+  .gym-city .gd{display:block;font-family:"IBM Plex Mono";font-weight:400;font-size:10.5px;color:var(--ink-dim);margin-top:3px;letter-spacing:.02em}
+  .gym-pick{color:var(--ink);font-weight:500}
+  a.gym-pick{text-decoration:none;border-bottom:1px solid rgba(53,207,224,.32);transition:.15s}
+  a.gym-pick:hover{color:var(--def);border-bottom-color:var(--def)}
+  a.gym-pick::after{content:" ↗";font-size:10px;color:var(--ink-dim)}
+  .gym-hrs{display:block;font-family:"IBM Plex Mono";font-weight:400;font-size:10.5px;color:var(--ink-dim);margin-top:4px;letter-spacing:.01em;line-height:1.45}
+  .gym-walk{font-family:"IBM Plex Mono";font-size:11.5px;color:var(--ink-dim);white-space:nowrap}
+  .gym-price{font-family:"IBM Plex Mono";font-size:14px;color:var(--off-bright);font-weight:600;white-space:nowrap}
+  .gym-price .loc{display:block;font-weight:400;font-size:10.5px;color:var(--ink-dim);margin-top:2px}
+  .gym-price.free{color:var(--def)}
+  .gym-notes{font-size:13.5px;color:var(--ink-mid);line-height:1.55}
+  .gym-notes .alt{display:block;margin-top:5px;font-family:"IBM Plex Mono";font-size:11.5px;color:var(--ink-dim)}
+  .gym-notes .alt b{color:var(--ink-mid);font-weight:500}
+  .gym-notes.rest{color:var(--ink-dim);font-style:italic}
+  /* mobile: collapse the wide 5-col table into stacked per-city cards */
+  @media(max-width:720px){
+    .gym-scroll{overflow-x:visible}
+    table.gym{min-width:0;display:block;font-size:14px}
+    table.gym thead{display:none}
+    table.gym tbody{display:block}
+    table.gym tbody tr{display:block;padding:14px 16px;border-bottom:1px solid var(--line-soft)}
+    table.gym tbody tr:last-child{border-bottom:none}
+    table.gym tbody tr.cult{box-shadow:inset 3px 0 0 var(--off)}
+    table.gym tbody tr.nat{box-shadow:inset 3px 0 0 var(--def)}
+    table.gym tbody tr.cult td:first-child,table.gym tbody tr.nat td:first-child{box-shadow:none}
+    table.gym tbody td{display:block;border:none;padding:0;margin-top:5px}
+    table.gym tbody td:first-child{margin-top:0}
+    .gym-pick{font-weight:600;font-size:14.5px}
+    table.gym tbody td:nth-child(3),table.gym tbody td:nth-child(4){display:inline-block;margin-right:18px;margin-top:7px}
+    .gym-notes{margin-top:7px}
+  }
+</style>
+</head>
+<body>
+
+<header class="nav">
+  <div class="nav-in">
+    <div class="brand"><span class="dot"></span>SCANDINAVIAN&nbsp;WHIRLWIND&nbsp;//&nbsp;2026</div>
+    <nav class="nav-links">
+      <a href="cities/iceland.html">🇮🇸</a>
+      <a href="cities/copenhagen.html">🇩🇰</a>
+      <a href="cities/stockholm.html">🇸🇪</a>
+      <a href="cities/oslo.html">🇳🇴 Oslo</a>
+      <a href="cities/aurland.html">Aurland</a>
+      <a href="cities/voss.html">Voss</a>
+      <a href="cities/bergen.html">Bergen</a>
+      <a href="cities/amsterdam.html">🇳🇱</a>
+      <a href="#gyms">🏋️ Gyms</a>
+    </nav>
+  </div>
+</header>
+
+<nav class="secnav" aria-label="On this page">
+  <div class="secnav-in">
+    <span class="lab">On this page</span>
+    <a href="#top"><span class="full">Overview</span><span class="ab">⌂</span></a>
+    <a href="#cities"><span class="full">Itinerary</span><span class="ab">Stops</span></a>
+    <a href="#weather"><span class="full">Weather</span><span class="ab">Wx</span></a>
+    <a href="#gyms"><span class="full">Gyms</span><span class="ab">🏋️</span></a>
+  </div>
+</nav>
+
+<main>
+<section id="top" class="hero" style="border-bottom:1px solid var(--line-soft)">
+  <div class="kicker">22 days · 5 countries · 4 Dvorkins</div>
+  <h1>From <span class="a">Reykjavík</span> to <span class="b">Amsterdam</span>,<br>the long way round.</h1>
+  <p class="sub">Iceland → Denmark → Sweden → Norway → Netherlands — by waterfall, fjord, food hall, and ferry. One page per stop: the two-paragraph read, then the full pick-list of what to see, eat, and do.</p>
+  <div class="route mono">
+    🇮🇸 <b>Iceland</b> Jun 28–30 · 🇩🇰 <b>Copenhagen</b> Jun 30–Jul 3 · 🇸🇪 <b>Stockholm</b> Jul 3–7 · 🇳🇴 <b>Oslo</b> Jul 7–10 · <b>Aurland</b> Jul 10–12 · <b>Voss</b> Jul 12–13 · <b>Bergen</b> Jul 13–16 · 🇳🇱 <b>Amsterdam</b> Jul 16–19
+  </div>
+  <div class="legend">
+    <span class="legend-tag t-off">▲ amber = city &amp; culture</span>
+    <span class="legend-tag t-def">▼ cyan = nature &amp; fjords</span>
+  </div>
+</section>
+
+<section id="cities">
+  <div class="eyebrow">the stops</div>
+  <div class="cities">
+    <a class="city nat" href="cities/iceland.html"><div class="top"><span class="flag">🇮🇸</span><h3>Iceland</h3><span class="dates">Jun 28–30</span></div><p class="one">Waterfalls, craters, lava caves, and the geothermal south — based around Reykjavík &amp; Hafnarfjörður.</p></a>
+    <a class="city cult" href="cities/copenhagen.html"><div class="top"><span class="flag">🇩🇰</span><h3>Copenhagen</h3><span class="dates">Jun 30–Jul 3</span></div><p class="one">Palaces, Tivoli, food halls, free tower views, and a swim in the harbor.</p></a>
+    <a class="city cult" href="cities/stockholm.html"><div class="top"><span class="flag">🇸🇪</span><h3>Stockholm</h3><span class="dates">Jul 3–7</span></div><p class="one">Gamla Stan, the Vasa, the archipelago, metro-station art, and serious food halls.</p></a>
+    <a class="city cult" href="cities/oslo.html"><div class="top"><span class="flag">🇳🇴</span><h3>Oslo</h3><span class="dates">Jul 7–10</span></div><p class="one">Vigeland's sculptures, the walk-on-the-roof opera house, Munch, and Bygdøy's museums.</p></a>
+    <a class="city nat" href="cities/aurland.html"><div class="top"><span class="flag">🏔️</span><h3>Aurland</h3><span class="dates">Jul 10–12</span></div><p class="one">The fjord heart — Aurlandsfjord and UNESCO Nærøyfjord by RIB safari.</p></a>
+    <a class="city nat" href="cities/voss.html"><div class="top"><span class="flag">⛰️</span><h3>Voss</h3><span class="dates">Jul 12–13</span></div><p class="one">Adventure town between the fjords and Bergen — the gondola up to 820m.</p></a>
+    <a class="city nat" href="cities/bergen.html"><div class="top"><span class="flag">🌉</span><h3>Bergen</h3><span class="dates">Jul 13–16</span></div><p class="one">Bryggen wharf, the funicular up Mt Fløyen, the fish market, and the fjord gateway.</p></a>
+    <a class="city cult" href="cities/amsterdam.html"><div class="top"><span class="flag">🇳🇱</span><h3>Amsterdam</h3><span class="dates">Jul 16–19</span></div><p class="one">Canal rings, Van Gogh &amp; Anne Frank, the cat boat, and the free Noord ferry.</p></a>
+  </div>
+  <div class="callout">Rituals — <em>City Rituals</em> &amp; <em>Daily Rituals</em> are reserved (you left them blank). Tell me what they are and I'll add a page.</div>
+</section>
+
+<section id="weather">
+  <div class="eyebrow">weather · live · only your days in each city</div>
+  <div class="wx-head">
+    <div class="wx-live">
+      <span class="pulse"></span>Live · only your days in each city · updates each visit · source:&nbsp;<a href="https://open-meteo.com/" target="_blank" rel="noopener">Open-Meteo</a><span id="wx-updated"></span>
+    </div>
+    <div class="wx-toggle" role="group" aria-label="Temperature units">
+      <button type="button" data-unit="C" class="on">°C</button>
+      <button type="button" data-unit="F">°F</button>
+    </div>
+  </div>
+  <div class="wx-cards" id="wx-cards">
+    <div class="wx-loading">Loading live forecast…</div>
+  </div>
+  <p class="wx-note">Each card shows only the days you’re actually in that city · forecasts fetched live from Open-Meteo in your browser · amber dot &amp; bar = your first-week leg (Iceland → Stockholm). Open-Meteo only forecasts ~16 days ahead, so later cities fill in as the trip nears — check back closer.<br>Pack note: Iceland tends cool &amp; rainy while the mainland can run warm — layers + a rain shell for Reykjavík and the fjords, light &amp; breathable for Copenhagen, Stockholm &amp; Amsterdam.</p>
+</section>
+
+<section id="gyms">
+  <div class="eyebrow">🏋️ Gyms — Drop-In Day Passes</div>
+  <div class="gym-wrap">
+    <div class="gym-scroll">
+      <table class="gym">
+        <thead>
+          <tr>
+            <th>City · stay</th>
+            <th>Pick</th>
+            <th>Walk</th>
+            <th>Day pass</th>
+            <th>Notes</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr class="nat">
+            <td><span class="gym-city">🇮🇸 Reykjavík<span class="gd">Lækur · 6/28–30</span></span></td>
+            <td><a class="gym-pick" href="https://www.google.com/maps/search/?api=1&amp;query=World%20Class%20Laugar%20Reykjavik" target="_blank" rel="noopener">World Class Laugar</a><span class="gym-hrs">Mon–Fri 06:00–22:30 · Sat–Sun 08:00–22:00</span></td>
+            <td><span class="gym-walk">~8 min walk</span></td>
+            <td><span class="gym-price">~$17<span class="loc">2,100 ISK</span></span></td>
+            <td class="gym-notes">Open gym, full kit; in Laugardalur by the guesthouse. Book at reception or via the TrainAway app.</td>
+          </tr>
+          <tr class="cult">
+            <td><span class="gym-city">🇩🇰 Copenhagen<span class="gd">Gråbrødretorv · 6/30–7/3</span></span></td>
+            <td><a class="gym-pick" href="https://www.google.com/maps/search/?api=1&amp;query=Sporting%20Health%20Club%20Gothersgade%20Copenhagen" target="_blank" rel="noopener">SHC Gothersgade</a><span class="gym-hrs">Mon–Thu 06–22 · Fri 06–19 · Sat–Sun 08–18</span></td>
+            <td><span class="gym-walk">~7 min walk</span></td>
+            <td><span class="gym-price">~$23<span class="loc">149 DKK</span></span></td>
+            <td class="gym-notes">Free weights + kettlebells.<span class="alt"><b>Full-kit alt:</b> Vesterbronx, 2.5 km, ~$15 (99 DKK).</span></td>
+          </tr>
+          <tr class="cult">
+            <td><span class="gym-city">🇸🇪 Stockholm<span class="gd">Gamla Stan · 7/3–7</span></span></td>
+            <td><a class="gym-pick" href="https://www.google.com/maps/search/?api=1&amp;query=CrossFit%20Nordic%20Stockholm" target="_blank" rel="noopener">CrossFit Nordic</a><span class="gym-hrs">Mon–Thu 05:30–20 · Fri 05:30–19 · Sat 08–15 · Sun 08:30–15</span></td>
+            <td><span class="gym-walk">~20 min (metro)</span></td>
+            <td><span class="gym-price">~$28<span class="loc">275 SEK</span></span></td>
+            <td class="gym-notes">Huge Eleiko box — email a day ahead.<span class="alt"><b>Walk-up alt:</b> SATS, ~$21 (200 SEK).</span></td>
+          </tr>
+          <tr class="cult">
+            <td><span class="gym-city">🇳🇴 Oslo<span class="gd">Bondeheimen · 7/7–10</span></span></td>
+            <td><a class="gym-pick" href="https://www.google.com/maps/search/?api=1&amp;query=CrossFit%20Christiania%20Oslo" target="_blank" rel="noopener">CrossFit Christiania</a><span class="gym-hrs">Mon–Fri 06:30–20:30 · Sat–Sun 10–15</span></td>
+            <td><span class="gym-walk">~5 min walk</span></td>
+            <td><span class="gym-price free">free 1st<span class="loc">then ~$15 · 149 NOK</span></span></td>
+            <td class="gym-notes">Free first visit — message via FB/email ahead.<span class="alt"><b>Walk-up alt:</b> SATS Akersgata, ~$20 (200 NOK).</span></td>
+          </tr>
+          <tr class="nat">
+            <td><span class="gym-city">🏔️ Aurland<span class="gd">Winjum · 7/10–12</span></span></td>
+            <td><span class="gym-pick">No gym</span></td>
+            <td><span class="gym-walk">—</span></td>
+            <td><span class="gym-price free">—</span></td>
+            <td class="gym-notes rest">Hike Stegastein + fjord trails; bodyweight circuit in-room.</td>
+          </tr>
+          <tr class="nat">
+            <td><span class="gym-city">⛰️ Voss<span class="gd">Fleischer's · 7/12–13</span></span></td>
+            <td><a class="gym-pick" href="https://www.google.com/maps/search/?api=1&amp;query=Fleischer's%20Hotel%20Voss" target="_blank" rel="noopener">Fleischer's Hotel fitness room</a><span class="gym-hrs">Hotel guest hours · confirm at desk</span></td>
+            <td><span class="gym-walk">in hotel</span></td>
+            <td><span class="gym-price free">included</span></td>
+            <td class="gym-notes">In your hotel.<span class="alt"><b>Alt:</b> SKY Fitness Voss, 24/7, ~$15–20 (150–200 NOK).</span></td>
+          </tr>
+          <tr class="nat">
+            <td><span class="gym-city">🌉 Bergen<span class="gd">center · 7/13–16</span></span></td>
+            <td><a class="gym-pick" href="https://www.google.com/maps/search/?api=1&amp;query=CrossFit%20Bryggen%20Bergen" target="_blank" rel="noopener">CrossFit Bryggen</a><span class="gym-hrs">Mon–Thu 09–21 · Fri 09–19:30 · Sat–Sun to 16</span></td>
+            <td><span class="gym-walk">~3 min from Bryggen</span></td>
+            <td><span class="gym-price">~$20<span class="loc">200 NOK</span></span></td>
+            <td class="gym-notes">Book via Wodify, open-gym ok.<span class="alt"><b>Walk-up alt:</b> SATS LHG, ~$20.</span></td>
+          </tr>
+          <tr class="cult">
+            <td><span class="gym-city">🇳🇱 Amsterdam<span class="gd">Hoxton Lloyd · 7/16–19</span></span></td>
+            <td><a class="gym-pick" href="https://www.google.com/maps/search/?api=1&amp;query=CrossFit%20Vastberaden%20Amsterdam" target="_blank" rel="noopener">CrossFit Vastberaden</a><span class="gym-hrs">Mon–Thu 06–21 · Fri 06–20 · Sat–Sun 08–13</span></td>
+            <td><span class="gym-walk">~4 min walk (same quay)</span></td>
+            <td><span class="gym-price">~$26<span class="loc">€22.50</span></span></td>
+            <td class="gym-notes">Book online.<span class="alt"><b>Cheaper alt:</b> Vondelgym Oost, ~$22 (€19.50).</span></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+  <p class="wx-note"><b style="color:var(--ink-mid)">Same travel session everywhere:</b> 10×10 swings · 5 Turkish get-ups/side · 3×5 pull-ups or rows · goblet/split-squat technique — leave clean, no hero workout.<br>Prices converted at June 2026 rates — confirm at the door. CrossFit boxes prefer an email a day ahead; SATS/PureGym are walk-up. Ask for a “dagskort / dagspass / dagpas.”</p>
+</section>
+</main>
+
+<script>
+(function(){
+  "use strict";
+  // Trip cities in itinerary order. flag = same emoji used in the city nav/cards.
+  // start/end = inclusive itinerary date range (ISO, local). Only these days show per city.
+  var CITIES = [
+    {name:"Reykjavík",       flag:"🇮🇸", lat:64.15, lon:-21.94, wk1:true,  start:"2026-06-28", end:"2026-06-30"},
+    {name:"Copenhagen",      flag:"🇩🇰", lat:55.68, lon:12.57, wk1:true,  start:"2026-06-30", end:"2026-07-03"},
+    {name:"Stockholm",       flag:"🇸🇪", lat:59.33, lon:18.07, wk1:true,  start:"2026-07-03", end:"2026-07-07"},
+    {name:"Oslo",            flag:"🇳🇴", lat:59.91, lon:10.75, wk1:false, start:"2026-07-07", end:"2026-07-10"},
+    {name:"Aurland / Flåm",  flag:"🏔️", lat:60.91, lon:7.19,  wk1:false, start:"2026-07-10", end:"2026-07-12"},
+    {name:"Voss",            flag:"⛰️", lat:60.63, lon:6.43,  wk1:false, start:"2026-07-12", end:"2026-07-13"},
+    {name:"Bergen",          flag:"🌉", lat:60.39, lon:5.32,  wk1:false, start:"2026-07-13", end:"2026-07-16"},
+    {name:"Amsterdam",       flag:"🇳🇱", lat:52.37, lon:4.90,  wk1:false, start:"2026-07-16", end:"2026-07-19"}
+  ];
+
+  function wmoIcon(c){
+    if(c===0) return "☀️";
+    if(c===1||c===2) return "🌤️";
+    if(c===3) return "☁️";
+    if(c===45||c===48) return "🌫️";
+    if(c===51||c===53||c===55||c===56||c===57) return "🌦️";
+    if(c===61||c===63||c===65||c===66||c===67) return "🌧️";
+    if(c===71||c===73||c===75||c===77) return "🌨️";
+    if(c===80||c===81||c===82) return "🌧️";
+    if(c===85||c===86) return "🌨️";
+    if(c===95||c===96||c===99) return "⛈️";
+    return "•";
+  }
+
+  var DOW = ["Sun","Mon","Tue","Wed","Thu","Fri","Sat"];
+  var MON = ["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"];
+  function dateFromISO(iso){
+    // iso like "2026-06-28" — parse as local date to avoid TZ shift
+    var p = iso.split("-");
+    return new Date(+p[0], +p[1]-1, +p[2]);
+  }
+  function dowFromISO(iso){ return DOW[dateFromISO(iso).getDay()]; }
+  function mdFromISO(iso){
+    // "2026-06-28" -> "Jun 28"
+    var d = dateFromISO(iso);
+    return MON[d.getMonth()] + " " + d.getDate();
+  }
+  // midnight-local today, for stable day-count math
+  function todayLocal(){
+    var n = new Date();
+    return new Date(n.getFullYear(), n.getMonth(), n.getDate());
+  }
+  // whole days from today to an ISO date (negative = in the past)
+  function daysUntil(iso){
+    return Math.round((dateFromISO(iso) - todayLocal()) / 86400000);
+  }
+
+  function url(city){
+    return "https://api.open-meteo.com/v1/forecast"
+      + "?latitude=" + city.lat
+      + "&longitude=" + city.lon
+      + "&daily=weather_code,temperature_2m_max,temperature_2m_min,precipitation_probability_max"
+      + "&timezone=auto&forecast_days=16";
+  }
+
+  function cToF(c){ return c*9/5 + 32; }
+  function fmtTemp(c, unit){
+    if(c===null||c===undefined||isNaN(c)) return "–";
+    var v = unit==="F" ? cToF(c) : c;
+    return Math.round(v) + "°";
+  }
+  function altTitle(hiC, loC, unit){
+    // title attribute shows the OTHER unit
+    if(unit==="C"){
+      return "hi " + fmtTemp(cToF(hiC),"C") + "F / lo " + fmtTemp(cToF(loC),"C") + "F";
+    }
+    return "hi " + fmtTemp(hiC,"C") + "C / lo " + fmtTemp(loC,"C") + "C";
+  }
+
+  var unit = "C";
+  var state = CITIES.map(function(c){ return {city:c, data:null, error:false}; });
+  var cardsEl = document.getElementById("wx-cards");
+  var updatedEl = document.getElementById("wx-updated");
+
+  function dayCell(day, unit){
+    var hiC = day.hi, loC = day.lo;
+    var title = day.code===null ? "" : altTitle(hiC, loC, unit);
+    var rainTxt = (day.rain===null||day.rain===undefined) ? "—%" : (day.rain + "%");
+    var rainCls = (day.rain!==null && day.rain<20) ? " dry" : "";
+    return '<div class="wx-day"' + (title?' title="'+title+'"':'') + '>'
+      + '<span class="dow">' + day.dow + ' · ' + day.md + '</span>'
+      + '<span class="ico">' + wmoIcon(day.code) + '</span>'
+      + '<span class="tmp"><span class="hi">' + fmtTemp(hiC,unit) + '</span><span class="sep">/</span><span class="lo">' + fmtTemp(loC,unit) + '</span></span>'
+      + '<span class="rain' + rainCls + '">💧' + rainTxt + '</span>'
+      + '</div>';
+  }
+
+  // Keep only forecast days whose ISO date is within [start, end] inclusive.
+  function inRangeDays(days, city){
+    var out = [];
+    for(var i=0;i<days.length;i++){
+      var iso = days[i].iso;
+      if(iso >= city.start && iso <= city.end) out.push(days[i]); // ISO strings compare lexically = chronologically
+    }
+    return out;
+  }
+
+  function renderCard(slot, idx){
+    var c = slot.city;
+    var html = '<div class="wx-card' + (c.wk1?' wk1':'') + '" data-idx="' + idx + '">';
+    html += '<div class="ct"><span class="flag">' + c.flag + '</span><h3>' + c.name + '</h3>';
+    html += '<span class="span">' + mdFromISO(c.start) + '–' + mdFromISO(c.end) + '</span>';
+    if(c.wk1) html += '<span class="leg" title="First-week leg"></span>';
+    if(slot.error) html += '<span class="cerr">couldn’t load — <a data-retry="' + idx + '">tap to retry</a></span>';
+    html += '</div>';
+    if(slot.error){
+      html += '<div class="wx-cerr">No forecast right now. <a data-retry="' + idx + '">Retry</a></div>';
+    } else if(!slot.data){
+      html += '<div class="wx-loading">Loading…</div>';
+    } else {
+      var avail = slot.data;                       // days the API actually returned (~16-day window)
+      var shown = inRangeDays(avail, c);           // of those, the ones inside this city's trip dates
+      if(shown.length === 0){
+        // None of this city's dates are inside the available forecast window.
+        var startsIn = daysUntil(c.start);
+        var endsIn   = daysUntil(c.end);
+        if(endsIn < 0){
+          // Whole trip range is in the past and the forecast no longer covers it.
+          html += '<div class="wx-cnote">Trip dates have passed — no forecast for these days.</div>';
+        } else {
+          // Future, but beyond the ~16-day forecast horizon.
+          var away = startsIn > 0 ? startsIn : 0;
+          html += '<div class="wx-cnote">Forecast opens ~16 days out — check back closer ('
+            + 'your dates are ~' + away + ' day' + (away===1?'':'s') + ' away).</div>';
+        }
+      } else {
+        html += '<div class="wx-strip">';
+        for(var i=0;i<shown.length;i++){ html += dayCell(shown[i], unit); }
+        html += '</div>';
+        // Some in-range dates are still beyond the forecast horizon.
+        var lastShownISO = shown[shown.length-1].iso;
+        if(lastShownISO < c.end){
+          html += '<div class="wx-cmore">+ more once they’re within the 16-day forecast.</div>';
+        }
+      }
+    }
+    html += '</div>';
+    return html;
+  }
+
+  function renderAll(){
+    var out = "";
+    for(var i=0;i<state.length;i++){ out += renderCard(state[i], i); }
+    cardsEl.innerHTML = out;
+    // wire retry links
+    var retries = cardsEl.querySelectorAll("[data-retry]");
+    for(var r=0;r<retries.length;r++){
+      retries[r].addEventListener("click", function(e){
+        var idx = +e.currentTarget.getAttribute("data-retry");
+        e.preventDefault();
+        loadCity(idx);
+      });
+    }
+  }
+
+  function parse(json){
+    var d = json && json.daily;
+    if(!d || !d.time) throw new Error("bad payload");
+    var days = [];
+    for(var i=0;i<d.time.length;i++){
+      days.push({
+        iso: d.time[i],
+        dow: dowFromISO(d.time[i]),
+        md: mdFromISO(d.time[i]),
+        code: (d.weather_code && d.weather_code[i]!=null) ? d.weather_code[i] : null,
+        hi: (d.temperature_2m_max && d.temperature_2m_max[i]!=null) ? d.temperature_2m_max[i] : null,
+        lo: (d.temperature_2m_min && d.temperature_2m_min[i]!=null) ? d.temperature_2m_min[i] : null,
+        rain: (d.precipitation_probability_max && d.precipitation_probability_max[i]!=null) ? d.precipitation_probability_max[i] : null
+      });
+    }
+    return days;
+  }
+
+  function loadCity(idx){
+    var slot = state[idx];
+    slot.error = false;
+    slot.data = null;
+    renderAll();
+    return fetch(url(slot.city), {cache:"no-store"})
+      .then(function(res){ if(!res.ok) throw new Error("HTTP " + res.status); return res.json(); })
+      .then(function(json){ slot.data = parse(json); slot.error = false; })
+      .catch(function(){ slot.error = true; slot.data = null; })
+      .then(function(){ renderAll(); });
+  }
+
+  function stamp(){
+    try{
+      var now = new Date();
+      var t = now.toLocaleString(undefined, {hour:"numeric", minute:"2-digit"});
+      var dd = now.toLocaleDateString(undefined, {month:"short", day:"numeric"});
+      updatedEl.textContent = " · fetched " + dd + ", " + t;
+    }catch(e){ /* no-op */ }
+  }
+
+  // °C/°F toggle — re-render in place
+  var toggleBtns = document.querySelectorAll(".wx-toggle button");
+  for(var b=0;b<toggleBtns.length;b++){
+    toggleBtns[b].addEventListener("click", function(e){
+      var u = e.currentTarget.getAttribute("data-unit");
+      if(u===unit) return;
+      unit = u;
+      for(var k=0;k<toggleBtns.length;k++){
+        toggleBtns[k].classList.toggle("on", toggleBtns[k].getAttribute("data-unit")===unit);
+      }
+      renderAll();
+    });
+  }
+
+  function init(){
+    renderAll(); // shows per-card "Loading…"
+    stamp();
+    var jobs = CITIES.map(function(_, i){ return loadCity(i); });
+    if(window.Promise && Promise.allSettled){
+      Promise.allSettled(jobs).then(stamp);
+    }
+  }
+
+  if(document.readyState==="loading"){
+    document.addEventListener("DOMContentLoaded", init);
+  } else {
+    init();
+  }
+})();
+</script>
+
+<script>
+// section-nav scroll-spy: highlight the link for the section currently in view
+(function(){
+  "use strict";
+  var links = Array.prototype.slice.call(document.querySelectorAll(".secnav a"));
+  if(!links.length || !("IntersectionObserver" in window)) return;
+  var map = {};
+  links.forEach(function(a){
+    var id = a.getAttribute("href").slice(1);
+    var el = document.getElementById(id);
+    if(el) map[id] = a;
+  });
+  var targets = Object.keys(map).map(function(id){ return document.getElementById(id); });
+  var visible = {};
+  function setActive(){
+    var current = null;
+    for(var id in map){ if(visible[id]) { current = id; break; } }
+    links.forEach(function(a){
+      a.classList.toggle("active", current && a.getAttribute("href")==="#"+current);
+    });
+  }
+  var io = new IntersectionObserver(function(entries){
+    entries.forEach(function(e){ visible[e.target.id] = e.isIntersecting; });
+    setActive();
+  }, {rootMargin:"-50% 0px -45% 0px", threshold:0});
+  targets.forEach(function(t){ io.observe(t); });
+})();
+</script>
+
+<footer>
+  A living trip map for the Dvorkins' summer 2026 tour. Hours, prices, and openings change — double-check before you go. Built from Igor's own pick-lists.
+</footer>
+
+</body>
+</html>
