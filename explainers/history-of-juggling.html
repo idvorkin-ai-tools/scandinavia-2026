@@ -1,0 +1,227 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>A Short History of Juggling</title>
+  <style>
+    :root{--ink:#172026;--muted:#5d6972;--bg:#f5f2eb;--card:#fffaf2;--accent:#8f3f2f;--accent2:#1f5f78;--line:#ded6c8;--shadow:0 12px 30px rgba(23,32,38,.10);--oil:#2f7d55}
+    *{box-sizing:border-box} body{margin:0;font-family:ui-sans-serif,system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial;color:var(--ink);background:linear-gradient(180deg,#e8eef2 0,#f5f2eb 34%);line-height:1.5}
+    a{color:var(--accent2)} .wrap{max-width:1120px;margin:0 auto;padding:24px} header{padding:54px 0 30px;border-bottom:1px solid var(--line)}
+    .kicker{color:var(--accent);font-weight:800;letter-spacing:.08em;text-transform:uppercase;font-size:13px} h1{font-size:clamp(38px,6vw,72px);line-height:.95;margin:12px 0 18px;letter-spacing:-.06em}
+    h2{font-size:clamp(28px,4vw,44px);letter-spacing:-.04em;margin:0 0 14px} h3{font-size:22px;margin:0 0 8px} p{margin:0 0 14px}.lede{font-size:22px;max-width:900px;color:#2d3a41}.muted{color:var(--muted)}
+    .grid{display:grid;gap:18px}.g2{grid-template-columns:repeat(2,minmax(0,1fr))}.g3{grid-template-columns:repeat(3,minmax(0,1fr))}.g4{grid-template-columns:repeat(4,minmax(0,1fr))}@media(max-width:820px){.g2,.g3,.g4{grid-template-columns:1fr}.wrap{padding:18px}header{padding-top:28px}}
+    .card{background:rgba(255,250,242,.9);border:1px solid var(--line);border-radius:22px;padding:22px;box-shadow:var(--shadow)} .tight p{margin-bottom:8px}
+    .tag{display:inline-block;border:1px solid var(--line);border-radius:999px;padding:6px 10px;margin:4px 6px 4px 0;background:#fffdf8;color:#2d3a41;font-size:13px;font-weight:700}
+    section{padding:32px 0;border-bottom:1px solid var(--line)}
+    .callout{border-left:6px solid var(--accent);background:#fff4e8;padding:18px;border-radius:18px}
+    .callout.good{border-left-color:var(--oil);background:#eef7f0}
+    .callout.blue{border-left-color:var(--accent2);background:#eef4f7}
+    .route{font-weight:800;color:var(--accent2)}.oiled{font-weight:800;color:var(--oil)}
+    .stat{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:14px;margin:6px 0 4px}
+    .stat .n{font-size:clamp(30px,4.5vw,46px);font-weight:900;letter-spacing:-.03em;line-height:1;color:var(--accent);margin-bottom:6px}
+    .stat .l{font-size:14px;color:var(--muted);line-height:1.35}
+    table{width:100%;border-collapse:collapse;background:#fffaf2;border-radius:18px;overflow:hidden} th,td{padding:13px 14px;border-bottom:1px solid var(--line);text-align:left;vertical-align:top} th{background:#efe7da} tr:last-child td{border-bottom:0}
+    .mono{font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-weight:800;color:var(--accent2)}
+    .small{font-size:14px}.footer{padding:28px 0;color:var(--muted);font-size:14px}.hero{display:grid;grid-template-columns:1.15fr .85fr;gap:22px;align-items:stretch}@media(max-width:900px){.hero{grid-template-columns:1fr}}
+    .steps{counter-reset:step}
+    .step-n{display:inline-flex;align-items:center;justify-content:center;width:30px;height:30px;border-radius:50%;background:var(--accent2);color:#fff;font-weight:900;font-size:15px;margin-bottom:10px}
+    .cmd{margin:6px 0 0;padding-left:0;list-style:none;counter-reset:cmd}
+    .cmd li{position:relative;padding:9px 0 9px 40px;border-bottom:1px solid var(--line);font-size:15.5px}
+    .cmd li:last-child{border-bottom:0}
+    .cmd li:before{counter-increment:cmd;content:counter(cmd);position:absolute;left:0;top:8px;width:26px;height:26px;border-radius:50%;background:#efe7da;color:var(--accent);font-weight:900;font-size:13px;display:inline-flex;align-items:center;justify-content:center}
+    .eq{font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:clamp(24px,4vw,38px);font-weight:900;letter-spacing:-.02em;color:var(--accent);text-align:center;margin:8px 0 14px}
+    .xlinks{display:flex;gap:12px;flex-wrap:wrap;margin-top:8px}
+    .xlink{display:block;flex:1 1 240px;background:rgba(255,250,242,.9);border:1px solid var(--line);border-radius:16px;padding:16px 18px;box-shadow:var(--shadow);text-decoration:none;color:inherit}
+    .xlink b{color:var(--accent2)}
+    .src{margin:0;padding-left:0;list-style:none}.src li{padding:8px 0;border-bottom:1px solid var(--line);font-size:14.5px}.src li:last-child{border-bottom:0}
+  </style>
+</head>
+<body>
+<a href="../index.html" aria-label="Back to the trip map" style="display:inline-block;margin:14px 24px 4px;padding:7px 14px;border-radius:8px;border:1px solid rgba(128,128,128,.42);background:rgba(128,128,128,.14);color:inherit;font-family:ui-sans-serif,system-ui,-apple-system,Segoe UI,Roboto,sans-serif;font-weight:700;font-size:13px;text-decoration:none">← Back to the trip map</a>
+  <div class="wrap">
+    <header>
+      <div class="callout good" style="margin:14px 0 4px;font-size:16px"><strong>TL;DR —</strong> People have been throwing balls in patterns for at least 4,000 years — the oldest picture is on an Egyptian tomb wall from before 1780 BCE. For most of that run "juggler" didn't mean what it means now: it meant a general trickster-entertainer, the same word as <em>conjuror</em>, which is why juggling and magic share a bloodline. Toss-juggling only narrowed into its own craft in the circus-and-vaudeville era, peaking with Enrico Rastelli in the 1920s. Then, improbably, mathematicians got hold of it: since the 1980s jugglers describe patterns with a numeric notation called <strong>siteswap</strong>, and Claude Shannon — the father of information theory — proved an actual theorem about it.</div>
+      <div class="kicker">Context guide · cross-cutting rabbit hole</div>
+      <h1>A Short History<br />of Juggling</h1>
+      <p class="lede">Juggling looks like a party trick and reads like one — until you notice it has a 4,000-year paper trail, that its name is a fossil of a time when jugglers and magicians were the same job, and that it's one of the few performing arts with its own branch of mathematics. Here's the whole arc: ancient tombs, medieval minstrels, the circus golden age, and the odd modern moment when a Bell Labs genius started juggling on a unicycle and wrote down the equation.</p>
+      <div><span class="tag">Beni Hasan · ~1994 BCE</span><span class="tag">warrior who juggled 9 balls</span><span class="tag">ioculari → jongleur</span><span class="tag">juggler = conjuror</span><span class="tag">Rastelli · 10 balls</span><span class="tag">siteswap · Shannon's theorem</span></div>
+    </header>
+
+    <section class="hero">
+      <div class="card">
+        <h2>The short version</h2>
+        <p>Juggling is genuinely ancient — the earliest known depiction is a wall painting in an Egyptian tomb dated to roughly <strong>1994–1781 BCE</strong>, and there are independent juggling traditions in ancient China, Greece, and Rome. But the <em>word</em> tells a stranger story than the pictures.</p>
+        <p>"Juggler" comes from the Latin for <em>joker</em>, and for a thousand years it meant a jack-of-all-trades entertainer — someone who told stories, sang, tumbled, did sleight-of-hand, and, yes, sometimes tossed things. In Old English, <em>geogelere</em> meant "magician, conjuror." The split between <strong>juggler</strong> and <strong>magician</strong> as separate crafts is recent; the two grew from one root, which is why a modern performer can plausibly do both.</p>
+        <p>Only in the <strong>circus and vaudeville</strong> age did "juggler" narrow to mean toss-juggler. And only in the <strong>1980s</strong> did jugglers get a real notation — <span class="mono">siteswap</span> — turning tricks into numbers you can compose, search, and prove things about.</p>
+      </div>
+      <div class="card tight">
+        <h3>Four things worth carrying</h3>
+        <p><span class="route">1 · It's old.</span> The Beni Hasan tomb painting predates the pyramids at Giza's later cousins and beats almost every other performing art to the historical record.</p>
+        <p><span class="oiled">2 · It's magic's sibling.</span> "Juggler" and "conjuror" were once the same word. The crafts only diverged in the last few centuries.</p>
+        <p><span class="route">3 · It peaked as spectacle.</span> The variety-theatre era produced virtuosos — Rastelli, the gentleman jugglers — whose records stood for generations.</p>
+        <p><span class="oiled">4 · It's math now.</span> Siteswap notation and Shannon's juggling theorem make it the rare art with a formal language attached.</p>
+      </div>
+    </section>
+
+    <section>
+      <h2>Ancient origins: tombs, warriors, and a Latin joke</h2>
+      <p class="lede" style="font-size:18px">Juggling shows up early and independently across the ancient world. Three threads matter: the oldest picture (Egypt), the best story (China), and the origin of the word itself (Rome).</p>
+      <div class="grid g3" style="margin-top:6px">
+        <div class="card">
+          <h3>Egypt: the oldest picture</h3>
+          <p>The earliest known depiction of toss-juggling is a wall painting in <strong>Tomb 15 at Beni Hasan</strong>, the tomb of a provincial governor named <strong>Baqet III</strong>, dated to Egypt's Middle Kingdom, roughly <strong>1994–1781 BCE</strong>. It shows a row of women throwing several balls — one of them juggling with her arms crossed. Round objects likely carried a solar, life-and-death symbolism, which is part of why they're painted in a tomb.</p>
+        </div>
+        <div class="card">
+          <h3>China: the warrior who juggled</h3>
+          <p>The best anecdote in all of juggling: <strong>Xiong Yiliao</strong>, a warrior of the state of Chu in the Spring and Autumn period. Around <strong>603 BCE</strong>, before a battle against the state of Song, he reportedly stepped into the gap between the armies and <strong>juggled nine balls</strong>. The Song troops were so transfixed that the Chu army charged and routed them. The feat is referenced in the <em>Zhuangzi</em>.</p>
+        </div>
+        <div class="card">
+          <h3>Rome: the word is born</h3>
+          <p>Our word comes from Latin <em>ioculari</em>, "to jest," via <em>ioculator</em>, "a joker." That flowed into Old French <em>jogleor</em> / <em>jongleur</em> and into English as <strong>juggler</strong>. Note what it meant: not "ball-tosser" but <em>jester</em>. The narrow modern sense is a late arrival riding on top of a much broader old one.</p>
+        </div>
+      </div>
+      <div class="callout blue" style="margin-top:20px">
+        <p style="margin-bottom:0"><strong>A fact worth flagging carefully:</strong> the nine-ball feat of Xiong Yiliao is legend recorded in later texts, not eyewitness reporting, and nine balls is at the outer edge of even elite modern juggling — so treat it as a <em>great story with a long tail of retelling</em> rather than a stopwatch record. The Beni Hasan painting, by contrast, is a physical artifact you can still go look at, which is why it, and not the warrior, is the anchor date.</p>
+      </div>
+    </section>
+
+    <section>
+      <h2>The Middle Ages: jongleurs, and the magic overlap</h2>
+      <p class="lede" style="font-size:18px">For roughly a thousand years there was no such thing as a "juggler" in the modern sense. There was the <em>jongleur</em> — a traveling entertainer who did a bit of everything, and whose job title we now split into half a dozen professions.</p>
+      <div class="grid g2" style="margin-top:6px">
+        <div class="card">
+          <h3>One performer, many skills</h3>
+          <p>The medieval <strong>jongleur</strong> (French), <strong>minstrel</strong>, or court <strong>jester</strong> was a bundle: music and storytelling, acrobatics and tumbling, animal tricks, sleight-of-hand, and object manipulation, all in one act. Juggling wasn't a discipline you specialized in — it was one club in a very full bag. These performers were itinerant, working fairs, taverns, marketplaces, and, if they were lucky, a noble's hall.</p>
+        </div>
+        <div class="card">
+          <h3>Low status, and a whiff of suspicion</h3>
+          <p>Entertainers sat near the bottom of the medieval social order — grouped with vagrants and vagabonds, distrusted, sometimes barred from the sacraments. A performer who could make a coin vanish or "read" a mark could shade from clever to <em>uncanny</em> in the wrong village, and street conjurors occasionally drew suspicion of trickery bordering on the diabolical. The glamorous circus juggler was centuries away.</p>
+        </div>
+      </div>
+      <div class="callout" style="margin-top:18px">
+        <p style="margin-bottom:0"><strong>The bit that matters if you do both:</strong> in English, "juggler" long meant <em>conjuror</em> — a worker of sleight-of-hand and illusion. The connecting idea between magician and juggler was simple: <strong>manual dexterity</strong>. Only around 1600 did "juggler" start to specialize toward tricks of dexterity with objects, and only much later did it settle onto toss-juggling specifically. So when a magician and a juggler recognize something familiar in each other's hands, that's not a coincidence — it's a shared ancestor. The two words are the same word, caught mid-divorce.</p>
+      </div>
+    </section>
+
+    <section>
+      <h2>The golden age: circus, vaudeville, and Rastelli</h2>
+      <p class="lede" style="font-size:18px">The modern juggler — the specialist who does <em>this and only this</em>, brilliantly — is a product of the 19th- and early-20th-century variety stage. The circus and the vaudeville/music-hall circuit created paying audiences for pure virtuosity, and the craft exploded.</p>
+      <div class="grid g2" style="margin-top:6px">
+        <div class="card">
+          <h3>The gentleman juggler</h3>
+          <p>A signature style of the variety era. The <strong>gentleman juggler</strong> performed in full evening dress — top hat, tails, gloves — and juggled the props of that world: hats, canes, cigars, plates, wine bottles, umbrellas, as if an elegant diner were idly defying gravity. German performers billed as <strong>Salerno</strong> and <strong>Kara</strong> established the genre; it prized charm and finesse over sheer numbers. Its comic mirror image was the <strong>tramp juggler</strong> — the young <strong>W.C. Fields</strong> built his early fame as a silent, shabby, brilliant juggler before he ever became a movie star.</p>
+        </div>
+        <div class="card">
+          <h3>Enrico Rastelli (1896–1931)</h3>
+          <p>Widely called the greatest juggler who ever lived. Born into a circus family in <strong>Samara, Russia</strong>, Rastelli toured Europe and America (including the B.F. Keith vaudeville circuit from 1923) and pushed the physical limits of the craft. He is generally credited with juggling <strong>ten small balls</strong> — long considered the benchmark — plus astonishing work with sticks, plates, and a ball balanced on a mouthpiece. He died at just <strong>34</strong>, from an infection that began in his gums, and his funeral in Bergamo drew thousands. His obsessive, athletic approach reset what "good" meant.</p>
+        </div>
+      </div>
+      <div class="stat" style="margin-top:20px">
+        <div class="card"><div class="n">10</div><div class="l">balls Rastelli is credited with juggling — the informal high-water mark for decades</div></div>
+        <div class="card"><div class="n">1896</div><div class="l">Rastelli born, into a Russian circus family — trained across acrobatics, balance, and aerial work</div></div>
+        <div class="card"><div class="n">34</div><div class="l">his age at death in 1931 — a career cut brutally short at its peak</div></div>
+      </div>
+    </section>
+
+    <section>
+      <h2>The modern revival: clubs, conventions, records</h2>
+      <p class="lede" style="font-size:18px">Vaudeville died; juggling didn't. It regrouped around a member organization, then caught a second wind from the 1970s counterculture that turned it from a stage profession into a hobby, a sport, and a community.</p>
+      <div class="grid g2" style="margin-top:6px">
+        <div class="card">
+          <h3>The IJA — and, again, the magic connection</h3>
+          <p>The <strong>International Jugglers' Association</strong> was founded in <strong>June 1947</strong> — and here's the tell: it was formed by eight jugglers who met at a convention of the <strong>International Brotherhood of Magicians</strong> in Pittsburgh. Juggling was still, organizationally, riding along inside magic. The IJA gave the craft its own home: annual festivals, championships, and a numbers-record registry that jugglers still chase.</p>
+        </div>
+        <div class="card">
+          <h3>The 1970s–80s revival</h3>
+          <p>Cheap props, parks, and college campuses did the rest. Juggling spread as participatory play rather than professional spectacle, seeding clubs and conventions worldwide — the <strong>European Juggling Convention</strong> grew into the largest gathering of jugglers on Earth. The same era produced a new generation of "new circus" performers who folded juggling back into theatre and dance.</p>
+        </div>
+      </div>
+      <div class="callout blue" style="margin-top:18px">
+        <p style="margin-bottom:0"><strong>The numbers frontier.</strong> Juggling records split hairs precisely: a <em>flash</em> means every object is thrown and caught exactly once; a <em>qualifying</em> run means each object is caught at least twice. Britain's <strong>Alex Barron</strong> is the name to know here — he became the first person to <strong>qualify 11 balls</strong> (23 catches, in 2012) and the first to <strong>flash 14 balls</strong> (2017). Those numbers are near the ceiling of what unassisted human juggling can currently do; each additional ball is exponentially harder, which is exactly the kind of statement the mathematics below makes precise.</p>
+      </div>
+    </section>
+
+    <section class="steps">
+      <h2>Juggling is math (this is the good part)</h2>
+      <p class="lede" style="font-size:18px">Here's the turn nobody expects. In the 1980s jugglers invented a notation for patterns, and it turned out to encode real combinatorics. Then it emerged that Claude Shannon — <em>the</em> Claude Shannon, father of information theory — had been juggling all along and had proved a theorem about it. Two ideas do all the work.</p>
+
+      <div class="grid g2" style="margin-top:6px">
+        <div class="card">
+          <h3>1 · Siteswap — patterns as numbers</h3>
+          <p>Around <strong>1985</strong>, several jugglers independently hit on the same idea: describe a pattern by <strong>how long each throw stays up</strong>. Each throw gets a number — the count of beats until <em>that same ball is thrown again</em>. A steady three-ball cascade is just <span class="mono">3</span> (every throw is a 3). A five-ball cascade is <span class="mono">5</span>. String different numbers together and you get named tricks like <span class="mono">441</span> and <span class="mono">531</span>.</p>
+          <p>The magic is a rule you can check on paper: <strong>the average of the digits equals the number of objects.</strong> So <span class="mono">441</span> is a 3-ball trick because (4+4+1)/3 = 3. Not every string is juggleable — some make two balls "land" on the same beat, which is physically a collision — and siteswap lets you <em>test validity mathematically before you ever pick up a ball.</em> Odd numbers cross to the other hand; even numbers stay; <span class="mono">0</span> is an empty hand; <span class="mono">2</span> is a hold.</p>
+        </div>
+        <div class="card">
+          <h3>2 · Shannon's juggling theorem</h3>
+          <p>Claude Shannon built juggling machines at MIT, kept a juggling automaton dressed as W.C. Fields, and was known to ride a unicycle down the hallways while juggling. He also wrote down the relationship that governs any juggling pattern:</p>
+          <div class="eq">(F&#8202;+&#8202;D)&#8202;H&#8202;=&#8202;(V&#8202;+&#8202;D)&#8202;N</div>
+          <p class="small muted" style="margin-bottom:10px">Proven by "double counting": follow one full cycle from the ball's point of view, then from the hand's, and set the two equal.</p>
+          <p>Read plainly, it says the rhythm of juggling is a fixed budget of time. The more <strong>flight time</strong> (F) each ball has relative to the time it sits in your <strong>hand</strong> (D), the more balls (N) you can keep aloft with two hands. That's the whole physical intuition behind why bigger numbers demand higher, faster throws — expressed as an equation.</p>
+        </div>
+      </div>
+
+      <div class="card" style="margin-top:18px">
+        <h3>Siteswap, decoded</h3>
+        <p>A few patterns and what the numbers actually say. (Every one of these averages to its object count.)</p>
+        <table>
+          <thead><tr><th>Siteswap</th><th>Objects</th><th>What it is</th></tr></thead>
+          <tbody>
+            <tr><td><span class="mono">3</span></td><td>3</td><td>The plain three-ball cascade — the pattern everyone learns first. Every throw is identical.</td></tr>
+            <tr><td><span class="mono">5</span></td><td>5</td><td>The five-ball cascade. Same shape as a 3, thrown twice as high and twice as fast.</td></tr>
+            <tr><td><span class="mono">441</span></td><td>3</td><td>A popular three-ball trick: two higher throws and a quick low <span class="mono">1</span> hand-across. (4+4+1)/3 = 3.</td></tr>
+            <tr><td><span class="mono">531</span></td><td>3</td><td>Another three-ball classic with a lovely staggered look. (5+3+1)/3 = 3.</td></tr>
+            <tr><td><span class="mono">97531</span></td><td>5</td><td>A five-ball showpiece — a descending "ladder" of throw heights. Averages to 5.</td></tr>
+          </tbody>
+        </table>
+        <p class="muted small" style="margin-top:12px">Siteswap doesn't capture <em>everything</em> — it says nothing about body throws, spins, or where in space a throw happens (extensions like "multiplex" and "synchronous" siteswap patch some of that). But as a core language for the timing skeleton of a pattern, it's exact, searchable by computer, and has genuinely produced tricks that were <em>found in the notation first</em> and juggled second.</p>
+      </div>
+
+      <div class="callout" style="margin-top:18px">
+        <p style="margin-bottom:0"><strong>Fact-check, honestly:</strong> siteswap wasn't the work of one person. It was reinvented independently around 1985 by <strong>Bruce "Boppo" Tiemann and Bengt Magnusson</strong> at Caltech, <strong>Paul Klimek</strong> in Santa Cruz (who'd sketched a version as early as 1981), and <strong>Mike Day and Colin Wright</strong> in Cambridge, England — with others tinkering in parallel. The name "site swap" is Tiemann's. Treat any single-inventor story with suspicion; the honest version is that the same good idea occurred to several math-minded jugglers at once.</p>
+      </div>
+    </section>
+
+    <section>
+      <h2>Bonus: what it does to your brain, and why it feels good</h2>
+      <p class="lede" style="font-size:18px">Two small, well-grounded footnotes that pair with the rest of this atlas.</p>
+      <div class="grid g2" style="margin-top:6px">
+        <div class="card">
+          <h3>It measurably grows gray matter</h3>
+          <p>A landmark <strong>2004 <em>Nature</em> study</strong> (Draganski et al.) taught non-jugglers a three-ball cascade over three months and scanned their brains before and after. The jugglers showed a <strong>transient increase in gray matter</strong> in a visual-motion area of the mid-temporal cortex (region hMT/V5). When they stopped practicing, the effect partly faded. It was one of the first clean demonstrations that learning a skill changes the adult brain's <em>structure</em>, not just its wiring — juggling happened to be the perfect trainable, measurable task.</p>
+        </div>
+        <div class="card">
+          <h3>It's a flow machine</h3>
+          <p>Juggling is almost a textbook <strong>flow</strong> activity: a clear goal, instant feedback (you drop or you don't), and difficulty you can dial to sit right at the edge of your skill. That balance — challenge matched to ability — is exactly the condition psychologists associate with absorbed, timeless focus. It's also why it's a genuinely good antidote to a scattered day: the pattern demands just enough of your attention to crowd everything else out.</p>
+        </div>
+      </div>
+    </section>
+
+    <section style="border-bottom:0">
+      <h2>The one-liner</h2>
+      <div class="card"><p class="lede" style="margin:0">Juggling is a 4,000-year-old craft that spent most of its life fused with magic under a single word for "trickster," narrowed into its own art on the circus stage, peaked with Rastelli's ten balls, and then did something no other performing art quite managed — it grew a mathematics: <strong>siteswap</strong> to write the patterns down and <strong>Shannon's theorem</strong> to explain why they hold together.</p></div>
+    </section>
+
+    <section style="border-bottom:0;padding-top:8px">
+      <h2>Sources</h2>
+      <p class="muted small">Real links, so you can check the load-bearing claims. Flagged in the text where a story is legend rather than record (the nine-ball warrior) or where a single-inventor telling would be wrong (siteswap).</p>
+      <ul class="src">
+        <li>"History of juggling," Wikipedia — the overall arc, Beni Hasan, ancient China, medieval decline. <a href="https://en.wikipedia.org/wiki/History_of_juggling">en.wikipedia.org</a></li>
+        <li>"Ancient Juggling Tombs (Part 1)," International Jugglers' Association — Beni Hasan Tomb 15 / Baqet III and the Middle Kingdom dating. <a href="https://www.juggle.org/ancient-juggling-tombs-part-1/">juggle.org</a></li>
+        <li>"Juggling in ancient China," Wikipedia — Xiong Yiliao, the nine balls, and the battle of Chu vs. Song (~603 BCE), via the <em>Zhuangzi</em>. <a href="https://en.wikipedia.org/wiki/Juggling_in_ancient_China">en.wikipedia.org</a></li>
+        <li>"Juggler" and "jongleur," Etymonline — Latin <em>ioculari</em> / <em>ioculator</em> → Old French <em>jogleor</em>, and the Old English <em>geogelere</em> "conjuror" overlap. <a href="https://www.etymonline.com/word/juggler">etymonline.com/word/juggler</a> · <a href="https://www.etymonline.com/word/jongleur">etymonline.com/word/jongleur</a></li>
+        <li>"Enrico Rastelli," Wikipedia — biography, the ten-ball benchmark, the 1923 Keith circuit tour, and his death in 1931. <a href="https://en.wikipedia.org/wiki/Enrico_Rastelli">en.wikipedia.org</a></li>
+        <li>"Juggling," Wikipedia — the gentleman-juggler style (Salerno, Kara), everyday-object props, and W.C. Fields as tramp juggler. <a href="https://en.wikipedia.org/wiki/Juggling">en.wikipedia.org</a></li>
+        <li>"IJA History," International Jugglers' Association — founding in June 1947 at the International Brotherhood of Magicians convention, Pittsburgh. <a href="https://www.juggle.org/history/">juggle.org/history</a></li>
+        <li>"Alex Barron (juggler)," Wikipedia — the 11-ball qualify (2012) and 14-ball flash (2017), and the flash-vs-qualify distinction. <a href="https://en.wikipedia.org/wiki/Alex_Barron_(juggler)">en.wikipedia.org</a></li>
+        <li>"Siteswap," Wikipedia — the notation, the average rule, and the independent ~1985 inventors (Tiemann &amp; Magnusson at Caltech, Klimek at Santa Cruz, Day &amp; Wright at Cambridge). <a href="https://en.wikipedia.org/wiki/Siteswap">en.wikipedia.org</a></li>
+        <li>"Shannon's Juggling Theorem" — statement (F+D)H = (V+D)N and the double-counting proof; plus the IJA profile of Shannon the juggler. <a href="http://lkozma.net/blog/shannons-juggling-theorem.html">lkozma.net</a> · <a href="https://www.juggle.org/claude-shannon-mathematician-engineer-genius-juggler/">juggle.org</a></li>
+        <li>Draganski, B. et al. "Neuroplasticity: changes in grey matter induced by training," <em>Nature</em> 427, 311–312 (2004) — the three-ball-cascade brain study. <a href="https://www.nature.com/articles/427311a">nature.com/articles/427311a</a></li>
+      </ul>
+      <div class="footer" style="padding-top:20px">
+        A context explainer, not a juggling-history dissertation — dates and names are from standard references and cross-checked, with the shakier stories flagged in-line (the nine-ball warrior is legend; Rastelli's "ten balls" is the widely repeated figure; siteswap's invention was genuinely plural). The magic-and-juggling through-line is the honest historical record, not editorializing: for most of a millennium, "juggler" and "conjuror" really were one word.
+      </div>
+    </section>
+  </div>
+</body>
+</html>
