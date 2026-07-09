@@ -1,0 +1,205 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>A Short History of Balloon Twisting</title>
+  <style>
+    :root{--ink:#172026;--muted:#5d6972;--bg:#f5f2eb;--card:#fffaf2;--accent:#8f3f2f;--accent2:#1f5f78;--line:#ded6c8;--shadow:0 12px 30px rgba(23,32,38,.10);--oil:#2f7d55}
+    *{box-sizing:border-box} body{margin:0;font-family:ui-sans-serif,system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial;color:var(--ink);background:linear-gradient(180deg,#e8eef2 0,#f5f2eb 34%);line-height:1.5}
+    a{color:var(--accent2)} .wrap{max-width:1120px;margin:0 auto;padding:24px} header{padding:54px 0 30px;border-bottom:1px solid var(--line)}
+    .kicker{color:var(--accent);font-weight:800;letter-spacing:.08em;text-transform:uppercase;font-size:13px} h1{font-size:clamp(38px,6vw,72px);line-height:.95;margin:12px 0 18px;letter-spacing:-.06em}
+    h2{font-size:clamp(28px,4vw,44px);letter-spacing:-.04em;margin:0 0 14px} h3{font-size:22px;margin:0 0 8px} p{margin:0 0 14px}.lede{font-size:22px;max-width:900px;color:#2d3a41}.muted{color:var(--muted)}
+    .grid{display:grid;gap:18px}.g2{grid-template-columns:repeat(2,minmax(0,1fr))}.g3{grid-template-columns:repeat(3,minmax(0,1fr))}.g4{grid-template-columns:repeat(4,minmax(0,1fr))}@media(max-width:820px){.g2,.g3,.g4{grid-template-columns:1fr}.wrap{padding:18px}header{padding-top:28px}}
+    .card{background:rgba(255,250,242,.9);border:1px solid var(--line);border-radius:22px;padding:22px;box-shadow:var(--shadow)} .tight p{margin-bottom:8px}
+    .tag{display:inline-block;border:1px solid var(--line);border-radius:999px;padding:6px 10px;margin:4px 6px 4px 0;background:#fffdf8;color:#2d3a41;font-size:13px;font-weight:700}
+    section{padding:32px 0;border-bottom:1px solid var(--line)}
+    .callout{border-left:6px solid var(--accent);background:#fff4e8;padding:18px;border-radius:18px}
+    .callout.good{border-left-color:var(--oil);background:#eef7f0}
+    .callout.blue{border-left-color:var(--accent2);background:#eef4f7}
+    .route{font-weight:800;color:var(--accent2)}.oiled{font-weight:800;color:var(--oil)}
+    .stat{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:14px;margin:6px 0 4px}
+    .stat .n{font-size:clamp(30px,4.5vw,46px);font-weight:900;letter-spacing:-.03em;line-height:1;color:var(--accent);margin-bottom:6px}
+    .stat .l{font-size:14px;color:var(--muted);line-height:1.35}
+    table{width:100%;border-collapse:collapse;background:#fffaf2;border-radius:18px;overflow:hidden} th,td{padding:13px 14px;border-bottom:1px solid var(--line);text-align:left;vertical-align:top} th{background:#efe7da} tr:last-child td{border-bottom:0}
+    .mono{font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-weight:800;color:var(--accent2)}
+    .small{font-size:14px}.footer{padding:28px 0;color:var(--muted);font-size:14px}.hero{display:grid;grid-template-columns:1.15fr .85fr;gap:22px;align-items:stretch}@media(max-width:900px){.hero{grid-template-columns:1fr}}
+    .steps{counter-reset:step}
+    .step-n{display:inline-flex;align-items:center;justify-content:center;width:30px;height:30px;border-radius:50%;background:var(--accent2);color:#fff;font-weight:900;font-size:15px;margin-bottom:10px}
+    .cmd{margin:6px 0 0;padding-left:0;list-style:none;counter-reset:cmd}
+    .cmd li{position:relative;padding:9px 0 9px 40px;border-bottom:1px solid var(--line);font-size:15.5px}
+    .cmd li:last-child{border-bottom:0}
+    .cmd li:before{counter-increment:cmd;content:counter(cmd);position:absolute;left:0;top:8px;width:26px;height:26px;border-radius:50%;background:#efe7da;color:var(--accent);font-weight:900;font-size:13px;display:inline-flex;align-items:center;justify-content:center}
+    .eq{font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:clamp(24px,4vw,38px);font-weight:900;letter-spacing:-.02em;color:var(--accent);text-align:center;margin:8px 0 14px}
+    .xlinks{display:flex;gap:12px;flex-wrap:wrap;margin-top:8px}
+    .xlink{display:block;flex:1 1 240px;background:rgba(255,250,242,.9);border:1px solid var(--line);border-radius:16px;padding:16px 18px;box-shadow:var(--shadow);text-decoration:none;color:inherit}
+    .xlink b{color:var(--accent2)}
+    .src{margin:0;padding-left:0;list-style:none}.src li{padding:8px 0;border-bottom:1px solid var(--line);font-size:14.5px}.src li:last-child{border-bottom:0}
+  </style>
+</head>
+<body>
+<a href="../index.html" aria-label="Back to the trip map" style="display:inline-block;margin:14px 24px 4px;padding:7px 14px;border-radius:8px;border:1px solid rgba(128,128,128,.42);background:rgba(128,128,128,.14);color:inherit;font-family:ui-sans-serif,system-ui,-apple-system,Segoe UI,Roboto,sans-serif;font-weight:700;font-size:13px;text-decoration:none">← Back to the trip map</a>
+  <div class="wrap">
+    <header>
+      <div class="callout good" style="margin:14px 0 4px;font-size:16px"><strong>TL;DR —</strong> You can't twist a balloon dog until someone invents a balloon that survives being twisted. That balloon arrives in <strong>1931</strong>, when Neil Tillotson dips the first modern latex balloon — a hand-painted cat's-head novelty. Rubber toy balloons go back further, to Michael Faraday's <strong>1824</strong> lab experiments, but they were fragile lab gear, not props. Who first twisted latex into a poodle is genuinely unknown: the earliest name in the record is a Pennsylvania magician, <strong>Herman Bonnert</strong>, said to have shown balloon animals at a magicians' convention around 1938–39 — but that's a claim made decades later, and at least two other men have been floated as the "real" first. The honest answer is that the origin can't be cleanly sourced. What <em>is</em> clear: the craft grew up inside magic and busking, standardized around a single balloon (the <strong>260</strong>), and eventually got the ultimate compliment when Jeff Koons cast it in steel and sold it for <strong>$58.4 million</strong>.</div>
+      <div class="kicker">Context guide · cross-cutting rabbit hole</div>
+      <h1>A Short History<br />of Balloon Twisting</h1>
+      <p class="lede">The balloon dog is one of the most recognizable objects a human can make with their hands, and almost nobody can tell you where it came from. That's not an accident — the craft has a thin, folkloric paper trail, it grew up as a sideline to magic, and its founding stories were written down long after the fact. Here's the honest version: a real invention date for the balloon that made it possible, a genuinely murky origin for the twisting itself, and a clear modern arc from birthday parties to a $58-million sculpture.</p>
+      <div><span class="tag">Faraday · 1824 lab balloon</span><span class="tag">Tillotson · 1931 latex</span><span class="tag">the 260</span><span class="tag">Bonnert · disputed origin</span><span class="tag">lock twist · the dog</span><span class="tag">Koons · Balloon Dog</span></div>
+    </header>
+
+    <section class="hero">
+      <div class="card">
+        <h2>The short version</h2>
+        <p>Two histories sit under a balloon dog. One is <strong>documented</strong>: the invention of the rubber, then latex, balloon — Faraday in a London lab in 1824, then Neil Tillotson dipping the first modern <strong>latex</strong> balloon in 1931. That's on the record, with dates and companies.</p>
+        <p>The other is <strong>folklore</strong>: who first thought to twist one into an animal. The earliest name anyone offers is <strong>Herman Bonnert</strong>, a magician from Scranton, Pennsylvania, credited in a 1975 booklet with demonstrating balloon animals at a magicians' convention around 1938–39. But it's a secondhand claim, it's disputed, and rival candidates exist. Treat any confident "X invented balloon twisting" with suspicion.</p>
+        <p>From there the craft is clear enough. It standardized around one balloon — the <strong>260</strong> — built a vocabulary of twists, spread through the same busker-and-birthday-party world as juggling and close-up magic, and split into two branches: the party twister making dogs on a street corner, and the large-scale balloon <em>artist</em> building room-sized sculpture.</p>
+      </div>
+      <div class="card tight">
+        <h3>Four things worth carrying</h3>
+        <p><span class="route">1 · The balloon came first.</span> Twisting was impossible until latex made a balloon that could take a tight twist without bursting. That's a 1931 invention, not an ancient one.</p>
+        <p><span class="oiled">2 · The origin is unknowable.</span> The record is thin and late. Bonnert is the usual name, but it's a claim, not a receipt — and two other men have been proposed.</p>
+        <p><span class="route">3 · It's magic's cousin.</span> Twisting grew up backstage at magic conventions and on the busking pitch, next to juggling and sleight-of-hand — the family-entertainer toolkit.</p>
+        <p><span class="oiled">4 · It went high-art.</span> Jeff Koons cast the balloon dog in mirror-polished steel; one sold for $58.4 million, then the record for a living artist.</p>
+      </div>
+    </section>
+
+    <section>
+      <h2>First, the balloon: Faraday to Tillotson</h2>
+      <p class="lede" style="font-size:18px">Balloon twisting has a hard prerequisite: a balloon long and stretchy and <em>tough</em> enough to survive being pinched and wrung into knots. That material didn't exist for most of the balloon's history. The through-line runs from a physicist's lab to a New England factory floor.</p>
+      <div class="grid g3" style="margin-top:6px">
+        <div class="card">
+          <h3>1824 — Faraday's lab balloon</h3>
+          <p>The first rubber balloons were made by <strong>Michael Faraday</strong> in 1824 at the Royal Institution in London — not as toys but as lab equipment, to hold gases like hydrogen. He pressed two sheets of raw rubber together, dusted flour between them so they wouldn't fuse in the middle, and sealed the rims. Filled with hydrogen they had, in his words, "considerable ascending power" — though the gas leaked straight back out.</p>
+        </div>
+        <div class="card">
+          <h3>1825 — Hancock's DIY kit</h3>
+          <p>A year later the rubber pioneer <strong>Thomas Hancock</strong> sold the first toy version: a make-your-own-balloon kit — a bottle of rubber solution and a syringe. Later in the century, <strong>vulcanized</strong> rubber (Goodyear's 1839 process) finally made balloons that held their shape and didn't rot. But these were round party novelties. None of them could take a twist.</p>
+        </div>
+        <div class="card">
+          <h3>1931 — Tillotson's latex</h3>
+          <p>The modern balloon arrives when <strong>Neil Tillotson</strong> dips the first <strong>latex</strong> balloon from liquid rubber-tree sap. His first product, fittingly, was a novelty: a hand-painted <strong>cat's head</strong> with pointed ears and printed whiskers — the first novelty-shaped, printed balloon. He sold 2,000, then five million by year's end, and founded the Tillotson Rubber Company. Latex is the material the whole craft is built on.</p>
+        </div>
+      </div>
+      <div class="callout blue" style="margin-top:20px">
+        <p style="margin-bottom:0"><strong>Why latex is the real hero here:</strong> a twisting balloon has to be inflated long and thin, then pinched into a dozen segments that each hold under tension without popping. Vulcanized natural-rubber toy balloons couldn't reliably do that; latex — thin, uniform, elastic, and strong — could. So the honest founding date for balloon <em>twisting</em> isn't whenever someone first tried it, but whenever the balloon got good enough to make it repeatable. That's the 1930s, and the specialized long balloon that follows.</p>
+      </div>
+    </section>
+
+    <section>
+      <h2>The murky origin: a magician, maybe</h2>
+      <p class="lede" style="font-size:18px">This is where the history gets thin, and where you should be suspicious of anyone who sounds certain. Nobody filmed the first balloon dog. The names we have come from booklets and interviews written decades after the supposed events, and they don't agree.</p>
+      <div class="grid g3" style="margin-top:6px">
+        <div class="card">
+          <h3>The usual answer: Herman Bonnert</h3>
+          <p>The name most often cited is <strong>Herman "H.J." Bonnert</strong> of Scranton, Pennsylvania, a magician. A 1975 booklet by Art Petri credits him with showing balloon animals at a magicians' convention <strong>around 1938–39</strong> (some accounts say Pittsburgh); the magic historian Val Andrews called him "the daddy of them all." It's the earliest reference anyone can point to — which is not the same as proof he was first.</p>
+        </div>
+        <div class="card">
+          <h3>The rivals</h3>
+          <p>Others get floated. <strong>Frank Zacone</strong> of Youngstown, Ohio was reportedly doing a balloon act through the 1940s and "for some time" before. And <strong>Henry Maar</strong> (1921–1992), billed as "the Sultan of Balloons," is another candidate — his son, an Emmy-winning producer, has assembled evidence that <em>Henry</em> may be the real originator. Balloon historian Larry Moss calls that evidence "compelling."</p>
+        </div>
+        <div class="card">
+          <h3>What's actually documented</h3>
+          <p>Very little. What we can say for sure: by the <strong>1930s–40s</strong> the durable latex balloon existed, and twisting was circulating among American magicians and entertainers, spreading act-to-act. Everything sharper than that — a single inventor, a clean date, a first figure — is reconstruction. The origin of balloon twisting is, genuinely, <strong>unknown</strong>.</p>
+        </div>
+      </div>
+      <div class="callout" style="margin-top:20px">
+        <p style="margin-bottom:0"><strong>Fact-check, honestly:</strong> the Bonnert story is <em>folklore that got written down</em>, not a contemporary record — a claim first published ~35 years after the fact, disputed by people who've studied it. Wikipedia's own summary flatly states "the origins of balloon modelling are unknown." So the responsible version is: Bonnert is the <em>traditional</em> answer and the earliest name in circulation, Maar and Zacone are live alternatives, and no one can prove any of it. (If you've seen "H.J. Till" credited somewhere — that appears to be a garbling of H.J. <em>Bonnert</em>; there's no separate "Till" in the sourced record.)</p>
+      </div>
+    </section>
+
+    <section class="steps">
+      <h2>The craft: one balloon, a few twists, a dog</h2>
+      <p class="lede" style="font-size:18px">For a folk art with no clear founder, the technique is remarkably standardized. Almost the whole world of party twisting runs on one balloon and a small vocabulary of twists — and the first thing nearly every twister learns to make is the same animal.</p>
+      <div class="grid g2" style="margin-top:6px">
+        <div class="card">
+          <h3>The 260 — the workhorse</h3>
+          <p>The standard twisting balloon is the <strong>260</strong>: about <strong>2 inches wide and 60 inches long</strong> when fully inflated. The number <em>is</em> the dimensions. Its cousins scale the same way — a skinnier <strong>160</strong> is 1×60, a chunkier <strong>350</strong> is 3×50. Twisters call themselves "twisters," inflate with a hand pump (lungs alone rarely manage a fresh 260), and always leave a few inches uninflated at the tail so the air has somewhere to go as each twist displaces it.</p>
+        </div>
+        <div class="card">
+          <h3>The dog — the "hello, world"</h3>
+          <p>The <strong>balloon dog</strong> is the iconic first figure, the one that taught most twisters the grammar of the craft. It's nothing exotic: a nose bubble, two locked bubbles for ears, then locked segments for front legs, body, and back legs. Master the dog and you've learned the moves that build a giraffe, a poodle, a sword, a flower — most of the beginner catalog is the dog's alphabet rearranged.</p>
+        </div>
+      </div>
+      <div class="card" style="margin-top:18px">
+        <h3>The core twists</h3>
+        <p>The vocabulary is small, and terminology varies twister-to-twister, but three moves do most of the work:</p>
+        <table>
+          <thead><tr><th>Twist</th><th>What it is</th><th>What it builds</th></tr></thead>
+          <tbody>
+            <tr><td><span class="mono">basic / bubble</span></td><td>Pinch the balloon and rotate it a few full turns to trap a segment of air. The atom of everything else — and you always twist several rotations, or it unwinds.</td><td>Necks, bodies, legs — every straight segment.</td></tr>
+            <tr><td><span class="mono">lock twist</span></td><td>Make two or three bubbles in a row, then fold and twist them together at the base so they hold each other in place. This is the joint that keeps a shape from unravelling.</td><td>The balloon dog's ears and every leg junction.</td></tr>
+            <tr><td><span class="mono">pinch / ear twist</span></td><td>Make one small bubble, fold it flat, and pinch-twist its base so it stays folded. A tiny version is an "ear twist."</td><td>Ears, joints, fingers, faces — the fine detail.</td></tr>
+          </tbody>
+        </table>
+        <p class="muted small" style="margin-top:12px">Add a <em>tulip twist</em> (push the nozzle inside and twist to make a bud) and a couple of pops-and-tucks, and you've got the toolkit behind most of what you see at a fair. From here the split is between <strong>one-balloon</strong> figures — a single 260 becoming a whole dog or sword — and <strong>multi-balloon</strong> sculpture, where many balloons combine into hats, costumes, and large builds.</p>
+      </div>
+    </section>
+
+    <section>
+      <h2>The modern scene: conventions, décor, and a $58M dog</h2>
+      <p class="lede" style="font-size:18px">Since the 1990s the loose folk craft has professionalized hard. It grew trade networks and world championships, split into a serious décor-and-fine-art wing, and then got the strangest possible endorsement from the contemporary art market.</p>
+      <div class="grid g3" style="margin-top:6px">
+        <div class="card">
+          <h3>The network: QBN</h3>
+          <p>The <strong>Qualatex Balloon Network (QBN)</strong>, launched in <strong>1993</strong> by the balloon maker Qualatex, turned a scattered trade into an organized profession — education, standards, and a shared identity for balloon businesses. It's the closest thing twisting has to what the IJA is for juggling: the institution that gave a busker's craft a professional home.</p>
+        </div>
+        <div class="card">
+          <h3>The conventions</h3>
+          <p>Twisters now gather to compete and teach. <strong>Twist &amp; Shout</strong>, running since <strong>2000</strong> (long hosted by Royal and Patty Sorell in Massachusetts), is the marquee twisting convention; the broader <strong>World Balloon Convention</strong> covers the whole industry. This is where the craft's cutting edge lives — jams, competitions, and the swapping of techniques that never made it into any book.</p>
+        </div>
+        <div class="card">
+          <h3>The two branches</h3>
+          <p>The trade has split. On one side, the <strong>party twister</strong> — kids' entertainer, fair, restaurant — making figures fast for a line of children. On the other, the <strong>balloon artist / décor designer</strong> building enormous installations, portrait sculptures, and wearable art. Same material; two very different professions.</p>
+        </div>
+      </div>
+      <div class="callout blue" style="margin-top:20px">
+        <p style="margin-bottom:0"><strong>The high-art echo — Jeff Koons.</strong> Between <strong>1994 and 2000</strong>, artist Jeff Koons built <em>Balloon Dog</em> as part of his <em>Celebration</em> series: ten-foot, mirror-polished <strong>stainless steel</strong> cast to look exactly like a twisted party balloon, in five colors (blue, magenta, yellow, orange, red). In <strong>2013</strong>, <em>Balloon Dog (Orange)</em> sold at Christie's for <strong>$58.4 million</strong> — at the time the most ever paid at auction for work by a living artist. It's the ultimate wink: the humblest thing a birthday-party twister makes, rendered in flawless steel and sold for the price of a building. The party dog and the museum dog are the same shape.</p>
+      </div>
+    </section>
+
+    <section>
+      <h2>Where it sits: the family-entertainer toolkit</h2>
+      <p class="lede" style="font-size:18px">Balloon twisting rarely traveled alone. It grew up in the same world as juggling and close-up magic — the buskers, the kids'-party circuit, the fair pitch — and the crafts share performers, venues, and even their origin scenes.</p>
+      <div class="grid g2" style="margin-top:6px">
+        <div class="card">
+          <h3>One performer, several skills</h3>
+          <p>The classic street or party entertainer carries a bag, not a single act: a few juggling clubs, a deck of cards or a coin routine, and a pump and a bag of 260s. Balloons are the crowd-builder and the giveaway — the thing a child walks away holding. It's the modern version of the medieval jack-of-all-trades performer, the same bundle of skills that once traveled under one word.</p>
+        </div>
+        <div class="card">
+          <h3>The magic bloodline</h3>
+          <p>The link to magic isn't decorative — it's how twisting spread. The earliest name in the record, Bonnert, was a <strong>magician</strong>, and the craft circulated through magicians' conventions before it had any of its own. There's a neat rhyme here with juggling, whose main organization was literally founded by jugglers meeting at a magicians' convention. Manual dexterity as showmanship keeps producing the same overlapping family of crafts.</p>
+        </div>
+      </div>
+      <div class="xlinks">
+        <a class="xlink" href="history-of-juggling.html"><b>Sibling craft →</b><br />A Short History of Juggling — the other half of the busker's toolkit: 4,000 years old, once the same word as "magician," and now the rare performing art with its own branch of mathematics.</a>
+      </div>
+    </section>
+
+    <section style="border-bottom:0">
+      <h2>The one-liner</h2>
+      <div class="card"><p class="lede" style="margin:0">Balloon twisting is a craft with a precise birth <em>certificate for its material</em> — latex, 1931 — and no birth certificate at all for itself: the first balloon dog is genuinely unsourced, the usual credit to magician Herman Bonnert is disputed folklore, and the honest answer is nobody knows. What we do know is that it standardized on one balloon (the 260), grew up beside juggling and magic, and ended up cast in steel by Jeff Koons and sold for $58.4 million — the same three lock twists, all the way up.</p></div>
+    </section>
+
+    <section style="border-bottom:0;padding-top:8px">
+      <h2>Sources</h2>
+      <p class="muted small">Real links, so you can check the load-bearing claims. Flagged in the text where the record is folklore rather than documentation — which, for the <em>origin</em> of twisting, is most of it.</p>
+      <ul class="src">
+        <li>"Balloon modelling," Wikipedia — the disputed origins (Bonnert via Art Petri 1975 and Val Andrews; Frank Zacone via Jim Church III; Henry Maar), the "origins are unknown" statement, and the 260 / 160 dimensions. <a href="https://en.wikipedia.org/wiki/Balloon_modelling">en.wikipedia.org/wiki/Balloon_modelling</a></li>
+        <li>"Henry Maar," Wikipedia — the "Sultan of Balloons," 1921–1992, and Joseph Maar's evidence that his father may be the founder, which Larry Moss calls "compelling." <a href="https://en.wikipedia.org/wiki/Henry_Maar">en.wikipedia.org/wiki/Henry_Maar</a></li>
+        <li>"The Art of Balloon Twisting: How It All Began," Twisty Art — the Bonnert 1939 magicians'-convention account, explicitly framed as disputed and "shrouded in mystery." <a href="https://twistyart.com/the-art-of-balloon-twisting-how-it-all-began/">twistyart.com</a></li>
+        <li>"Neil Tillotson," Wikipedia — the first modern latex balloon (1931), the cat's-head novelty, and the Tillotson Rubber Company. <a href="https://en.wikipedia.org/wiki/Neil_Tillotson">en.wikipedia.org/wiki/Neil_Tillotson</a></li>
+        <li>"Party balloons: a history," Slate — Faraday's 1824 lab balloon (flour, hydrogen, "considerable ascending power") and Thomas Hancock's 1825 DIY kit. <a href="https://slate.com/human-interest/2011/12/party-balloons-a-history.html">slate.com</a></li>
+        <li>Balloon HQ, "The History of Balloons" — the balloon timeline from Faraday through vulcanized rubber to modern latex. <a href="https://balloonhq.com/faq/history/">balloonhq.com/faq/history</a></li>
+        <li>Balloon HQ, "Twisting Balloons 101" — the basic/lock/pinch/ear twist vocabulary and the balloon dog as the foundational figure. <a href="https://balloonhq.com/faq/twists_101/">balloonhq.com/faq/twists_101</a></li>
+        <li>Qualatex, "Qualatex Balloon Network (QBN)" — the QBN's founding (1993) and role. <a href="https://us.qualatex.com/en-us/education/qualatex-balloon-network/">us.qualatex.com</a></li>
+        <li>Balloon Academy / Qualatex — the Twist &amp; Shout convention (since 2000; Royal &amp; Patty Sorell) and the World Balloon Convention. <a href="https://balloonacademy.com/artist/twist-and-shout/">balloonacademy.com</a></li>
+        <li>"Balloon Dog," Wikipedia, and Christie's coverage — Koons's <em>Celebration</em>-series stainless-steel dogs (1994–2000) and the $58.4M <em>Balloon Dog (Orange)</em> at Christie's in 2013. <a href="https://en.wikipedia.org/wiki/Balloon_Dog">en.wikipedia.org/wiki/Balloon_Dog</a> · <a href="https://www.hollywoodreporter.com/news/general-news/jeff-koons-balloon-dog-sculpture-655548/">hollywoodreporter.com</a></li>
+      </ul>
+      <div class="footer" style="padding-top:20px">
+        A context explainer, not a definitive history — because for balloon twisting no definitive history exists. The material history is solid (Faraday 1824, Hancock 1825, Tillotson's latex 1931). The <em>craft's</em> origin is not: the Bonnert credit is a claim first published in the 1970s and openly disputed, with Maar and Zacone as rival candidates and Wikipedia itself conceding the origins are unknown — so this page names the folklore <em>as</em> folklore rather than picking a winner. Twist vocabulary varies by twister; the 260, the lock twist, and the dog are the parts everyone agrees on. See also the <a href="history-of-juggling.html">history of juggling</a>, the craft's closest cousin.
+      </div>
+    </section>
+  </div>
+</body>
+</html>
