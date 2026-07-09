@@ -1,0 +1,191 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>The Nordic Prison Paradox</title>
+  <style>
+    :root{--ink:#172026;--muted:#5d6972;--bg:#f5f2eb;--card:#fffaf2;--accent:#8f3f2f;--accent2:#1f5f78;--line:#ded6c8;--shadow:0 12px 30px rgba(23,32,38,.10);--oil:#2f7d55}
+    *{box-sizing:border-box} body{margin:0;font-family:ui-sans-serif,system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial;color:var(--ink);background:linear-gradient(180deg,#e8eef2 0,#f5f2eb 34%);line-height:1.5}
+    a{color:var(--accent2)} .wrap{max-width:1120px;margin:0 auto;padding:24px} header{padding:54px 0 30px;border-bottom:1px solid var(--line)}
+    .kicker{color:var(--accent);font-weight:800;letter-spacing:.08em;text-transform:uppercase;font-size:13px} h1{font-size:clamp(38px,6vw,72px);line-height:.95;margin:12px 0 18px;letter-spacing:-.06em}
+    h2{font-size:clamp(28px,4vw,44px);letter-spacing:-.04em;margin:0 0 14px} h3{font-size:22px;margin:0 0 8px} p{margin:0 0 14px}.lede{font-size:22px;max-width:900px;color:#2d3a41}.muted{color:var(--muted)}
+    .grid{display:grid;gap:18px}.g2{grid-template-columns:repeat(2,minmax(0,1fr))}.g3{grid-template-columns:repeat(3,minmax(0,1fr))}.g4{grid-template-columns:repeat(4,minmax(0,1fr))}@media(max-width:820px){.g2,.g3,.g4{grid-template-columns:1fr}.wrap{padding:18px}header{padding-top:28px}}
+    .card{background:rgba(255,250,242,.9);border:1px solid var(--line);border-radius:22px;padding:22px;box-shadow:var(--shadow)} .tight p{margin-bottom:8px}
+    .tag{display:inline-block;border:1px solid var(--line);border-radius:999px;padding:6px 10px;margin:4px 6px 4px 0;background:#fffdf8;color:#2d3a41;font-size:13px;font-weight:700}
+    section{padding:32px 0;border-bottom:1px solid var(--line)}
+    .callout{border-left:6px solid var(--accent);background:#fff4e8;padding:18px;border-radius:18px}
+    .callout.good{border-left-color:var(--oil);background:#eef7f0}
+    .callout.blue{border-left-color:var(--accent2);background:#eef4f7}
+    .route{font-weight:800;color:var(--accent2)}.oiled{font-weight:800;color:var(--oil)}
+    .stat{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:14px;margin:6px 0 4px}
+    .stat .n{font-size:clamp(30px,4.5vw,46px);font-weight:900;letter-spacing:-.03em;line-height:1;color:var(--accent);margin-bottom:6px}
+    .stat .l{font-size:14px;color:var(--muted);line-height:1.35}
+    table{width:100%;border-collapse:collapse;background:#fffaf2;border-radius:18px;overflow:hidden} th,td{padding:13px 14px;border-bottom:1px solid var(--line);text-align:left;vertical-align:top} th{background:#efe7da} tr:last-child td{border-bottom:0}
+    .yes{color:var(--oil);font-weight:800}.no{color:var(--accent);font-weight:800}.some{color:#9a7b1f;font-weight:800}
+    .rank{display:inline-flex;align-items:center;justify-content:center;width:28px;height:28px;border-radius:50%;background:#efe7da;color:var(--accent);font-weight:900;font-size:14px}
+    .small{font-size:14px}.footer{padding:28px 0;color:var(--muted);font-size:14px}.hero{display:grid;grid-template-columns:1.15fr .85fr;gap:22px;align-items:stretch}@media(max-width:900px){.hero{grid-template-columns:1fr}}
+    .steps{counter-reset:step}
+    .step-n{display:inline-flex;align-items:center;justify-content:center;width:30px;height:30px;border-radius:50%;background:var(--accent2);color:#fff;font-weight:900;font-size:15px;margin-bottom:10px}
+    .xlinks{display:flex;gap:12px;flex-wrap:wrap;margin-top:8px}
+    .xlink{display:block;flex:1 1 240px;background:rgba(255,250,242,.9);border:1px solid var(--line);border-radius:16px;padding:16px 18px;box-shadow:var(--shadow);text-decoration:none;color:inherit}
+    .xlink b{color:var(--accent2)}
+    .src{margin:0;padding-left:0;list-style:none}.src li{padding:8px 0;border-bottom:1px solid var(--line);font-size:14.5px}.src li:last-child{border-bottom:0}
+  </style>
+</head>
+<body>
+<a href="../index.html" aria-label="Back to the trip map" style="display:inline-block;margin:14px 24px 4px;padding:7px 14px;border-radius:8px;border:1px solid rgba(128,128,128,.42);background:rgba(128,128,128,.14);color:inherit;font-family:ui-sans-serif,system-ui,-apple-system,Segoe UI,Roboto,sans-serif;font-weight:700;font-size:13px;text-decoration:none">← Back to the trip map</a>
+  <div class="wrap">
+    <header>
+      <div class="callout good" style="margin:14px 0 4px;font-size:16px"><strong>TL;DR —</strong> Norway locks up about a tenth as many people as the United States and sends far fewer of them back. The engine is one deceptively simple idea — the <strong>"normality principle":</strong> the punishment is the loss of your freedom and <em>nothing else</em>, so life inside should look as much like life outside as safety allows. Halden holds killers in rooms with real windows and a recording studio; Bastøy is an open island where inmates farm and run the ferry. The results are real — but the honest version has three big asterisks: the famous "20% vs 70%" recidivism gap is measured in ways that don't line up, Norway also just has less crime and shorter sentences, and the model may lean on a rich, high-trust welfare state that's hard to ship abroad.</div>
+      <div class="kicker">Trip context guide · cross-cutting rabbit hole</div>
+      <h1>The Nordic<br />Prison Paradox</h1>
+      <p class="lede">The tourist version of Scandinavia is calm streets and low crime. Behind it sits a criminal-justice philosophy that looks, to American eyes, almost reckless: prisons with no bars on some windows, guards who carry no guns and eat lunch with the inmates, a 21-year cap on almost any sentence. It seems too soft to work. The data says it mostly works — and the interesting part is untangling <em>why</em>, and how much of it would survive the boat ride home.</p>
+      <div><span class="tag">the normality principle</span><span class="tag">Halden · Bastøy</span><span class="tag">21-year max · forvaring</span><span class="tag">the Breivik stress test</span><span class="tag">recidivism, honestly</span><span class="tag">can it transplant?</span></div>
+    </header>
+
+    <section class="hero">
+      <div class="card">
+        <h2>The short version</h2>
+        <p>Norway decided that the sentence a court hands down — the <strong>loss of liberty</strong> — <em>is</em> the entire punishment. You lose your freedom of movement and nothing else: not your right to vote, not healthcare, not schooling, not being treated like a person who will one day be your neighbor again. Everything inside is built to keep the gap between prison life and ordinary life as small as security allows.</p>
+        <p>That single principle produces the strange stuff — the un-scary architecture, the unarmed staff, the island farm. It isn't softness for its own sake. It's a bet that people you treat as future citizens behave more like future citizens, inside and after.</p>
+        <p><strong>The catch,</strong> and the reason "paradox" is fair: the numbers that sell this story to the world are shakier than they look, and the system may work partly <em>because</em> of the wealthy, equal, high-trust society around it — not the prison design alone.</p>
+      </div>
+      <div class="card tight">
+        <h3>Two words that do all the work</h3>
+        <p><span class="route">Normality</span> — life inside should resemble life outside as closely as safety permits. Same healthcare, same schools, same services, delivered by the same public agencies that serve everyone else.</p>
+        <p><span class="oiled">Dynamic security</span> — safety comes from <em>relationships</em>, not hardware. A guard who knows an inmate defuses trouble before it starts. Static security (bars, locks, walls) is the backup, not the plan.</p>
+        <p class="muted small" style="margin-top:10px">Get these two ideas and the rest of the page is detail. Almost every surprising thing about a Norwegian prison is one of these two principles doing its job.</p>
+      </div>
+    </section>
+
+    <section>
+      <h2>The normality principle</h2>
+      <p class="lede" style="font-size:18px">This is the whole philosophy in one sentence, from the Norwegian Correctional Service itself: <em>"during the serving of a sentence, life inside will resemble life outside as much as possible."</em> Deprivation of liberty is the punishment — the system is explicitly designed to add no extra suffering on top of it.</p>
+      <div class="grid g3" style="margin-top:6px">
+        <div class="card">
+          <h3>The loss of liberty is the whole sentence</h3>
+          <p>A Norwegian court removes your freedom of movement. It does <strong>not</strong> strip your other rights. Prisoners keep the vote, keep access to a doctor, keep the right to education. The idea is that the state should punish you exactly as much as the sentence says — and not one degree more, through squalor, boredom, or fear.</p>
+        </div>
+        <div class="card">
+          <h3>The "import model"</h3>
+          <p>Prisons don't run their own second-rate schools and clinics. Health, education, library, and welfare services are <strong>imported</strong> — delivered inside by the <em>same</em> public agencies that serve free citizens. Your prison teacher works for the school district. It keeps quality up and, crucially, keeps you connected to the systems you'll re-enter.</p>
+        </div>
+        <div class="card">
+          <h3>Least restriction, then progression</h3>
+          <p>You're held at the <strong>lowest security level</strong> your risk allows, and moved <em>down</em> as your release nears — from closed prison, to open prison, to halfway housing and day release. The sentence is engineered as a <strong>ramp back into society</strong>, not a cliff you're pushed off on release day.</p>
+        </div>
+      </div>
+      <div class="callout blue" style="margin-top:20px">
+        <p style="margin-bottom:0"><strong>Why the guards matter more than the walls.</strong> Norwegian prison officers train for two to three years at a dedicated college (KRUS) and are treated as a caring profession, closer to social work than security. They wear no guns, share meals and sports with inmates, and are expected to build real relationships. That's <em>dynamic security</em> in practice: the theory is that a staff member who genuinely knows the people on the wing spots and cools trouble long before it needs a baton. The relationship <em>is</em> the security system.</p>
+      </div>
+    </section>
+
+    <section>
+      <h2>The two flagships: Halden &amp; Bastøy</h2>
+      <p class="lede" style="font-size:18px">The philosophy is easiest to see in the two prisons that keep ending up in documentaries. One is the world's most humane <em>maximum-security</em> prison; the other barely looks like a prison at all.</p>
+      <div class="grid g2" style="margin-top:6px">
+        <div class="card">
+          <h3>Halden — the humane maximum 🇳🇴</h3>
+          <p>Opened in <strong>2010</strong> near the Swedish border, Halden holds up to about <strong>250 men</strong> convicted of serious crimes — murder, rape, trafficking. It's routinely called <strong>"the world's most humane maximum-security prison."</strong> Cells are private rooms with an en-suite bathroom, a flat-screen, and a window with a real view; some windows have no bars. There's a school, a library, a chapel, a gym, sports fields, a family visiting house, and a full <strong>music recording studio</strong>.</p>
+          <p>The design is deliberate, not decorative. Architects shaped sightlines and softened the environment specifically to lower aggression, and Norway's percent-for-art rules put serious money into the walls. The wager: an environment that treats you like a human produces fewer violent incidents now and a less damaged person on release.</p>
+        </div>
+        <div class="card">
+          <h3>Bastøy — the open island 🇳🇴</h3>
+          <p>An hour south of Oslo, <strong>Bastøy</strong> is an open prison on a small island in the Oslofjord. Around <strong>115 men</strong> — including people convicted of murder and rape, usually transferred here toward the end of long sentences — live in shared wooden houses and largely run the place: they farm, tend animals, do woodwork, and even crew the ferry. Days are structured around <strong>work</strong>, not lockdown.</p>
+          <p>Bastøy is where you'll see the famous <strong>~16% reoffending</strong> figure, against a European average often quoted near 70%. It's a genuinely striking number — but see the honesty flag below, because <em>who ends up on the island</em> does a lot of the work.</p>
+        </div>
+      </div>
+      <div class="callout" style="margin-top:18px">
+        <p style="margin-bottom:0"><strong>Honesty flag on Bastøy's 16%.</strong> Bastøy is not a random sample of prisoners. Inmates are <em>selected</em> and <em>self-select</em> onto the island near the end of their sentences, once they're assessed as low-risk and ready for open conditions. A low reoffending rate among carefully chosen, nearly-released, cooperating people tells you less than the headline suggests. It's real, and it's evidence the open model doesn't blow up — but it is not proof that a humane prison <em>caused</em> the 16%. This is the single most over-quoted statistic in the whole Nordic-prison genre.</p>
+      </div>
+    </section>
+
+    <section>
+      <h2>The numbers — with the asterisks attached</h2>
+      <p class="lede" style="font-size:18px">Two facts are solid: Norway incarcerates far fewer people, and reconvicts fewer of the ones it releases. The trap is comparing those figures to American ones as if they measured the same thing. They don't.</p>
+      <table>
+        <thead><tr><th>Measure</th><th>Norway</th><th>United States</th><th>Read it carefully</th></tr></thead>
+        <tbody>
+          <tr><td><strong>Incarceration rate</strong> (per 100,000)</td><td class="yes">~54–57</td><td class="no">~530 in prisons; ~700 counting jails</td><td>Roughly a <strong>10× gap</strong>. Real — but partly reflects that Norway simply has <em>less serious crime</em> and hands out <em>shorter sentences</em>, not only humane cells.</td></tr>
+          <tr><td><strong>Reconviction, 2 years</strong></td><td class="yes">18% (2018)</td><td>—</td><td>Norway's own official figure. Narrow definition: a <em>new binding sentence</em> within two years.</td></tr>
+          <tr><td><strong>Reconviction, 5 years</strong></td><td class="some">25% (2018)</td><td>—</td><td>Stretch the window and the number climbs. The "20%" everyone quotes is the short-window version.</td></tr>
+          <tr><td><strong>The famous comparison</strong></td><td class="yes">~20%</td><td class="no">~70–77%</td><td class="some"><strong>Apples to oranges.</strong> Norway's ~20% = new conviction within 2 yrs. The US ~77% = <em>rearrest</em> within 5 yrs. Different act, different window. The true gap is real but much smaller than this pairing implies.</td></tr>
+          <tr><td><strong>Max prison sentence</strong></td><td>21 years <span class="muted small">(30 for genocide/crimes against humanity)</span></td><td>Life; death penalty in many states</td><td>But see <em>forvaring</em> below — 21 years is not always the real ceiling.</td></tr>
+        </tbody>
+      </table>
+      <div class="callout" style="margin-top:18px">
+        <p style="margin-bottom:0"><strong>The measurement gotcha, spelled out.</strong> When an article tells you Norway reoffends at 20% and America at 70%, it is almost always comparing a <em>new conviction within two years</em> (Norway) against a <em>rearrest within five years</em> (US). Rearrest is a much lower bar than conviction, and five years catches far more than two. Line the definitions up and Norway still comes out ahead — but the honest gap is a solid lead, not the crushing blowout the headline number sells.</p>
+      </div>
+      <div class="callout blue" style="margin-top:18px">
+        <p style="margin-bottom:0"><strong>The 21-year "cap" has a trapdoor: <em>forvaring.</em></strong> For the most dangerous offenders, Norway adds <strong>preventive detention</strong> on top of the sentence. When 21 years is up, the state can extend confinement in <strong>renewable five-year increments</strong> for as long as a court judges the person still a serious danger — potentially for life. So "Norway's max is 21 years" is true for ordinary sentences and misleading for the worst cases: the system keeps a legal path to holding someone forever, it just makes the state re-justify it on the clock.</p>
+      </div>
+    </section>
+
+    <section>
+      <h2>The stress test: Anders Breivik</h2>
+      <p class="lede" style="font-size:18px">Every humane-prison argument eventually meets the same question: <em>okay, but what about the very worst person?</em> Norway has a real answer, because it has a real worst case.</p>
+      <div class="grid g2" style="margin-top:6px">
+        <div class="card">
+          <h3>The case that tests the principle</h3>
+          <p>In <strong>2011</strong>, Anders Behring Breivik murdered <strong>77 people</strong> — most of them teenagers at a summer camp — in a bombing and shooting rampage. He got the maximum: <strong>21 years</strong>, plus <em>forvaring</em>, meaning he can be held indefinitely. And he serves it inside the same humane system: a multi-room complex with a kitchen, TV room, an Xbox, and exercise equipment, kept apart from other inmates for security.</p>
+        </div>
+        <div class="card">
+          <h3>He sued for being <em>too</em> isolated</h3>
+          <p>In a twist that captures the whole philosophy, <strong>Breivik sued the state</strong> — arguing his <em>isolation</em> from other people violated his human rights. A district court partly <strong>agreed with him in 2016</strong>, finding the isolation breached the European Convention. Higher Norwegian courts reversed that; the European Court of Human Rights dismissed his claim as inadmissible in <strong>2018</strong>; and in <strong>2024</strong> a court again rejected a fresh complaint, ruling his conditions humane.</p>
+        </div>
+      </div>
+      <div class="callout good" style="margin-top:18px">
+        <p style="margin-bottom:0"><strong>Why this is the strongest version of the argument.</strong> Norway held the line on its own principle for the person most people would happily see suffer. The mass murderer of 77 gets a decent cell and a legal system that took his complaint about <em>isolation</em> seriously enough to litigate for years. You can read that as moral consistency or as absurd leniency — reasonable people split — but it's the honest stress test. The normality principle isn't a policy Norway applies only when it's easy.</p>
+      </div>
+    </section>
+
+    <section class="steps">
+      <h2>Why it works — and whether it would travel</h2>
+      <p class="lede" style="font-size:18px">The best question isn't "is Norway's prison nicer?" (obviously) but "does the <em>niceness</em> cause the low reoffending, or does something else?" Here's the strongest evidence in favor, and the three reasons to keep your wallet in your pocket.</p>
+      <div class="grid g4" style="margin-top:6px">
+        <div class="card"><div class="step-n">1</div><h3>The best evidence it's causal</h3><p>The strongest study (Bhuller, Dahl, Løken &amp; Mogstad) used Norway's <strong>random assignment of cases to judges</strong> — some harsher than others — as a natural experiment. Result: being sent to a Norwegian prison <em>lowered</em> reoffending, driven by inmates who weren't working before and got pulled into <strong>jobs and training</strong> inside. Norwegian prison rehabilitates rather than criminalizes. That's real causal support, not just a correlation.</p></div>
+        <div class="card"><div class="step-n">2</div><h3>Caveat: it's not the walls alone</h3><p>That study compares Norwegian prison to Norway's <em>non-custodial</em> alternatives — it shows the prison doesn't make people worse and often helps. It does <strong>not</strong> prove the humane design would beat a harsh regime <em>in a different country</em>. The mechanism was <em>employment</em>, which only works if there are jobs and a safety net waiting outside.</p></div>
+        <div class="card"><div class="step-n">3</div><h3>Caveat: the society around it</h3><p>Norway is wealthy, unusually <strong>equal</strong>, high-trust, and historically homogeneous, with a strong welfare state. A released prisoner lands in housing, healthcare, and support. The "import model" only works because those services <em>exist</em> in society to import. Drop the same prison into a place with none of that and the ramp back to society leads nowhere.</p></div>
+        <div class="card"><div class="step-n">4</div><h3>Caveat: scale &amp; selection</h3><p>Norway holds only a few thousand prisoners total, so intensive, individualized treatment is affordable. And its low incarceration rate partly reflects <strong>less crime and shorter sentences</strong> to begin with — a smaller, less-hardened population is easier to rehabilitate. The inputs are different, not just the method.</p></div>
+      </div>
+      <div class="callout" style="margin-top:20px">
+        <p style="margin-bottom:0"><strong>The "is it too soft?" objection, taken seriously.</strong> The strongest critique isn't that humane prisons are immoral — it's that the eye-popping statistics are <em>confounded</em>. If Norway has less crime, shorter sentences, a gentler prison population, and a welfare state to release people into, then you can't cleanly credit the recording studio at Halden for the low recidivism. The humane conditions might be a <em>result</em> of a high-trust society as much as a cause of good outcomes. The honest position: the model clearly works <em>in Norway</em>, the causal evidence that prison itself helps is genuinely good, and the transplant question is real and unsettled.</p>
+      </div>
+      <div class="callout good" style="margin-top:18px">
+        <p style="margin-bottom:0"><strong>It is being tried.</strong> The transplant question isn't hypothetical. <strong>North Dakota</strong> restructured parts of its prison system on Norwegian lines (through the Amend program at UCSF), and other US states have run pilots. Early signs are encouraging on staff and prisoner wellbeing; whether the recidivism results follow at American scale, in American society, is exactly the open question this whole page circles.</p>
+      </div>
+    </section>
+
+    <section style="border-bottom:0">
+      <h2>So what</h2>
+      <div class="card"><p class="lede" style="margin:0">Norway's prisons rest on one honest idea: take away someone's freedom, add no extra cruelty, and treat them as the neighbor they'll become. It measurably works <em>there</em> — the best causal study says the prisons rehabilitate rather than harden — and the system holds its nerve even for a man who murdered 77 people. But the postcard version oversells it: the famous recidivism gap compares numbers that don't match, and the model may lean on a rich, equal, high-trust welfare state as much as on prison design. The paradox isn't that humane prisons work. It's that they might work <em>because of everything around them</em> — which is the hard part to pack in a suitcase.</p></div>
+      <div class="xlinks">
+        <a class="xlink" href="nordic-model.html"><b>Deep dive →</b><br />The Nordic Model — the high-trust, high-tax, strong-welfare bargain that the "import model" quietly depends on. This is the "everything around it" the prison leans on.</a>
+        <a class="xlink" href="oslo.html"><b>Deep dive →</b><br />Oslo field guide — the capital an hour from Bastøy island and the courts that heard the Breivik case.</a>
+        <a class="xlink" href="denmark-vs-sweden.html"><b>Deep dive →</b><br />Denmark vs Sweden — the wider Nordic frame, where Sweden and Finland run their own versions of open prisons and short sentences.</a>
+      </div>
+    </section>
+
+    <section style="border-bottom:0;padding-top:8px">
+      <h2>Sources</h2>
+      <p class="muted small">Real links, so you can check the load-bearing claims yourself — especially the recidivism numbers, which are the most abused figures in this whole subject. Flagged in the text where a popular statistic overshoots its evidence.</p>
+      <ul class="src">
+        <li>"Incarceration in Norway," Wikipedia — the principle of normality's three components, the ~54 per 100k rate, the 18%/25% reconviction figures (2018), and the 21-year max plus <em>forvaring</em>. <a href="https://en.wikipedia.org/wiki/Incarceration_in_Norway">en.wikipedia.org</a></li>
+        <li>"Full rights citizens: the principle of normality in Norwegian prisons," Justice Trends — the Norwegian Correctional Service's own framing of normality and imported services. <a href="https://justice-trends.press/full-rights-citizens-the-principle-of-normality-in-norwegian-prisons/">justice-trends.press</a></li>
+        <li>"How Some European Prisons Are Based on Dignity Instead of Dehumanization," Brennan Center for Justice — dynamic security, unarmed staff, and the design logic at Halden. <a href="https://www.brennancenter.org/our-work/analysis-opinion/how-some-european-prisons-are-based-dignity-instead-dehumanization">brennancenter.org</a></li>
+        <li>"Bastøy Prison," Wikipedia — the open island prison, work regime, and the widely-cited ~16% reoffending figure (and who ends up there). <a href="https://en.wikipedia.org/wiki/Bast%C3%B8y_Prison">en.wikipedia.org</a></li>
+        <li>Bhuller, Dahl, Løken &amp; Mogstad, "Incarceration, Recidivism, and Employment," <em>Journal of Political Economy</em> 128(4), 2020 (NBER w22648) — the random-judge causal design showing Norwegian prison <em>reduces</em> reoffending via employment. <a href="https://www.nber.org/papers/w22648">nber.org</a></li>
+        <li>"Norway court says mass killer Breivik's prison isolation not 'inhumane'," Al Jazeera (Feb 2024) — the 2024 ruling; background on the 2016 district-court finding and the 2018 ECHR dismissal. <a href="https://www.aljazeera.com/news/2024/2/15/norway-court-says-mass-killer-breiviks-prison-isolation-not-inhumane">aljazeera.com</a></li>
+        <li>"Anders Behring Breivik," Wikipedia — the 21-year sentence plus preventive detention, and the litigation timeline over isolation. <a href="https://en.wikipedia.org/wiki/Anders_Behring_Breivik">en.wikipedia.org</a></li>
+        <li>"What Can We Learn From the Norwegian Prison System," Berkeley Political Review — incarceration-rate and cost comparisons with the US, and the rehabilitation framing. <a href="https://bpr.studentorg.berkeley.edu/2022/10/25/what-can-we-learn-from-the-norwegian-prison-system/">bpr.studentorg.berkeley.edu</a></li>
+        <li>"The myth of the Nordic rehabilitative paradise," Inquisitive Bird — the skeptical case: the ~20% vs ~77% comparison mixes <em>new conviction within 2 yrs</em> against <em>rearrest within 5 yrs</em>, plus the crime-rate and selection confounds. <a href="https://inquisitivebird.xyz/p/the-myth-of-the-nordic-rehabilitative">inquisitivebird.xyz</a></li>
+        <li>"Rehabilitation Lessons from Norway's Prison System," First Step Alliance — the import model, staff training, and US pilots including North Dakota / Amend. <a href="https://www.firststepalliance.org/post/norway-prison-system-lessons">firststepalliance.org</a></li>
+      </ul>
+      <div class="footer" style="padding-top:20px">
+        A travel-context explainer, not a criminology seminar. It takes the Nordic model seriously <em>and</em> flags where the popular telling overshoots the evidence — the Bastøy 16%, the mismatched recidivism comparison, and the unproven transplant. The strongest single fact in Norway's favor is the Bhuller et al. random-judge study; the strongest caution is that the surrounding welfare state may be doing much of the work. Pairs with the <a href="nordic-model.html">Nordic Model</a> explainer, which describes exactly that surrounding society.
+      </div>
+    </section>
+  </div>
+</body>
+</html>
