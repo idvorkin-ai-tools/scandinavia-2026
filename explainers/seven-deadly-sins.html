@@ -1,0 +1,244 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>The Seven Deadly Sins — and Igor's Three Dragons</title>
+  <style>
+    :root{--ink:#172026;--muted:#5d6972;--bg:#f5f2eb;--card:#fffaf2;--accent:#8f3f2f;--accent2:#1f5f78;--line:#ded6c8;--shadow:0 12px 30px rgba(23,32,38,.10);--oil:#2f7d55}
+    *{box-sizing:border-box} body{margin:0;font-family:ui-sans-serif,system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial;color:var(--ink);background:linear-gradient(180deg,#e8eef2 0,#f5f2eb 34%);line-height:1.5}
+    a{color:var(--accent2)} .wrap{max-width:1120px;margin:0 auto;padding:24px} header{padding:54px 0 30px;border-bottom:1px solid var(--line)}
+    .kicker{color:var(--accent);font-weight:800;letter-spacing:.08em;text-transform:uppercase;font-size:13px} h1{font-size:clamp(38px,6vw,72px);line-height:.95;margin:12px 0 18px;letter-spacing:-.06em}
+    h2{font-size:clamp(28px,4vw,44px);letter-spacing:-.04em;margin:0 0 14px} h3{font-size:22px;margin:0 0 8px} p{margin:0 0 14px}.lede{font-size:22px;max-width:900px;color:#2d3a41}.muted{color:var(--muted)}
+    .grid{display:grid;gap:18px}.g2{grid-template-columns:repeat(2,minmax(0,1fr))}.g3{grid-template-columns:repeat(3,minmax(0,1fr))}.g4{grid-template-columns:repeat(4,minmax(0,1fr))}@media(max-width:820px){.g2,.g3,.g4{grid-template-columns:1fr}.wrap{padding:18px}header{padding-top:28px}}
+    .card{background:rgba(255,250,242,.9);border:1px solid var(--line);border-radius:22px;padding:22px;box-shadow:var(--shadow)} .tight p{margin-bottom:8px}
+    .tag{display:inline-block;border:1px solid var(--line);border-radius:999px;padding:6px 10px;margin:4px 6px 4px 0;background:#fffdf8;color:#2d3a41;font-size:13px;font-weight:700}
+    section{padding:32px 0;border-bottom:1px solid var(--line)}
+    .callout{border-left:6px solid var(--accent);background:#fff4e8;padding:18px;border-radius:18px}
+    .callout.good{border-left-color:var(--oil);background:#eef7f0}
+    .callout.blue{border-left-color:var(--accent2);background:#eef4f7}
+    .route{font-weight:800;color:var(--accent2)}.oiled{font-weight:800;color:var(--oil)}
+    .stat{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:14px;margin:6px 0 4px}
+    .stat .n{font-size:clamp(30px,4.5vw,46px);font-weight:900;letter-spacing:-.03em;line-height:1;color:var(--accent);margin-bottom:6px}
+    .stat .l{font-size:14px;color:var(--muted);line-height:1.35}
+    table{width:100%;border-collapse:collapse;background:#fffaf2;border-radius:18px;overflow:hidden} th,td{padding:13px 14px;border-bottom:1px solid var(--line);text-align:left;vertical-align:top} th{background:#efe7da} tr:last-child td{border-bottom:0}
+    .yes{color:var(--oil);font-weight:800}.no{color:var(--accent);font-weight:800}.some{color:#9a7b1f;font-weight:800}
+    .rank{display:inline-flex;align-items:center;justify-content:center;width:28px;height:28px;border-radius:50%;background:#efe7da;color:var(--accent);font-weight:900;font-size:14px}
+    .small{font-size:14px}.footer{padding:28px 0;color:var(--muted);font-size:14px}.hero{display:grid;grid-template-columns:1.15fr .85fr;gap:22px;align-items:stretch}@media(max-width:900px){.hero{grid-template-columns:1fr}}
+    .steps{counter-reset:step}
+    .step-n{display:inline-flex;align-items:center;justify-content:center;width:30px;height:30px;border-radius:50%;background:var(--accent2);color:#fff;font-weight:900;font-size:15px;margin-bottom:10px}
+    .xlinks{display:flex;gap:12px;flex-wrap:wrap;margin-top:8px}
+    .xlink{display:block;flex:1 1 240px;background:rgba(255,250,242,.9);border:1px solid var(--line);border-radius:16px;padding:16px 18px;box-shadow:var(--shadow);text-decoration:none;color:inherit}
+    .xlink b{color:var(--accent2)}
+    .src{margin:0;padding-left:0;list-style:none}.src li{padding:8px 0;border-bottom:1px solid var(--line);font-size:14.5px}.src li:last-child{border-bottom:0}
+    /* ── sins & dragons: extra rules layered on the shared shell ── */
+    .sin{position:relative;padding-left:14px}
+    .sin:before{content:"";position:absolute;left:0;top:6px;bottom:6px;width:5px;border-radius:4px;background:var(--muted)}
+    .sin.ent:before{background:var(--oil)} .sin.squ:before{background:#c9a94a} .sin.sca:before{background:var(--accent)} .sin.wra:before{background:var(--accent2)}
+    .sin .lat{display:inline-block;font-size:12px;font-weight:900;color:var(--accent);letter-spacing:.06em;text-transform:uppercase}
+    .dbadge{display:inline-block;border-radius:999px;padding:3px 10px;margin-top:6px;font-size:12px;font-weight:800;letter-spacing:.02em;border:1px solid}
+    .dbadge.ent{color:var(--oil);border-color:#bfe0cb;background:#eef7f0}
+    .dbadge.squ{color:#9a7b1f;border-color:#e6d6a6;background:#f6f1e0}
+    .dbadge.sca{color:var(--accent);border-color:#e2b48a;background:#fbeee2}
+    .dbadge.wra{color:var(--accent2);border-color:#a9cdda;background:#e9f2f6}
+    .d-ent{color:var(--oil);font-weight:800}.d-squ{color:#9a7b1f;font-weight:800}.d-sca{color:var(--accent);font-weight:800}.d-wra{color:var(--accent2);font-weight:800}
+  </style>
+</head>
+<body>
+<a href="../index.html" aria-label="Back to the trip map" style="display:inline-block;margin:14px 24px 4px;padding:7px 14px;border-radius:8px;border:1px solid rgba(128,128,128,.42);background:rgba(128,128,128,.14);color:inherit;font-family:ui-sans-serif,system-ui,-apple-system,Segoe UI,Roboto,sans-serif;font-weight:700;font-size:13px;text-decoration:none">← Back to the trip map</a>
+  <div class="wrap">
+    <header>
+      <div class="callout good" style="margin:14px 0 4px;font-size:16px"><strong>TL;DR —</strong> The "seven deadly sins" aren't in the Bible as a list of seven, and they didn't start as sins you <em>do</em> — they started as <strong>eight bad moods</strong>. A 4th-century desert monk, <strong>Evagrius Ponticus</strong>, catalogued eight recurring "evil thoughts" that wrecked a monk's concentration; <strong>Pope Gregory the Great</strong> reworked them into seven around 590 AD and made <strong>pride</strong> the root of all of them; Aquinas called them <strong>capital vices</strong> — not a checklist of crimes but the <strong>root dispositions</strong> that grow every other bad habit. That's the useful part: they're a taxonomy of the standing tendencies that quietly erode a life. This page ends by mapping the seven onto <strong>Igor's Three Dragons</strong> — Entropy, Squander, Scarcity — and it fits better than it has any right to, because both schemes are trying to name the same thing.</div>
+      <div class="kicker">Cross-cutting rabbit hole · a taxonomy of the ways a life erodes</div>
+      <h1>The Seven Deadly Sins<br /><span style="font-size:.42em;letter-spacing:-.02em;color:var(--muted);font-weight:800">and Igor's Three Dragons</span></h1>
+      <p class="lede">Everyone can half-remember the list and nobody can name where it comes from. The real story is stranger and more useful than the Sunday-school version: not a divine rulebook but a working psychology of self-sabotage, written by monks watching their own minds come apart in the desert. Here's the actual history, the seven defined properly, the virtues built to counter them — and then the part that's the point of the page: how they line up onto the three forces Igor tracks as what's winning or losing in his life.</p>
+      <div><span class="tag">Evagrius' eight thoughts</span><span class="tag">Gregory's seven · ~590 AD</span><span class="tag">Aquinas · capital vices</span><span class="tag">Dante's terraces</span><span class="tag">acedia = the noonday demon</span><span class="tag">the contrary virtues</span><span class="tag">→ the Three Dragons</span></div>
+    </header>
+
+    <section class="hero">
+      <div class="card">
+        <h2>The short version</h2>
+        <p>The sins are best understood not as things you're caught doing but as <strong>capital vices</strong> — the Latin <em>caput</em> means "head" or "source." Each one is a root disposition that <em>generates</em> other bad behavior. Greed isn't a single theft; it's the standing hunger that produces a hundred small ones. That reframing is what makes the list still worth having 1,400 years later: it's a map of the seven engines of self-sabotage, not a rap sheet.</p>
+        <p>They also have a real, traceable history, and it's full of surprises. There were originally <strong>eight</strong>, not seven. They were written for <strong>monks</strong>, not the public. "Sloth" originally meant something much closer to <strong>depression and burnout</strong> than to laziness. And "pride" was singled out as the <strong>root the other six grow from</strong> — the master vice, not just one of the pack.</p>
+        <p><strong>The move this page makes:</strong> read as capital vices, the seven sort cleanly onto Igor's <strong>Three Dragons</strong> — Entropy (things decay untended), Squander (time leaks away), Scarcity (the fear there's never enough). Not because the medieval monks were secretly writing self-help, but because anyone who watches human failure long enough keeps finding the same handful of currents.</p>
+      </div>
+      <div class="card tight">
+        <h3>The seven, in one breath</h3>
+        <p><span class="route">Pride</span> — <em>superbia</em>, inflated self-regard; the root of the rest. <span class="route">Greed</span> — <em>avaritia</em>, the itch to accumulate. <span class="route">Lust</span> — <em>luxuria</em>, disordered craving for pleasure. <span class="route">Envy</span> — <em>invidia</em>, sorrow at another's good. <span class="route">Gluttony</span> — <em>gula</em>, wanting more of a good thing than is good for you. <span class="route">Wrath</span> — <em>ira</em>, the appetite for vengeance. <span class="route">Sloth</span> — <em>acedia</em>, not laziness first but a listless refusal to care.</p>
+        <p class="muted small" style="margin-top:10px">"Capital" (from <em>caput</em>, head) and "cardinal" (from <em>cardo</em>, hinge) both mean the same thing here: these are the vices everything else hinges on — not the worst sins, the most <em>generative</em> ones.</p>
+      </div>
+    </section>
+
+    <section>
+      <h2>The surprising history: eight thoughts, then seven</h2>
+      <p class="lede" style="font-size:18px">The list has a paper trail, and almost none of it runs where people assume. It doesn't come from a commandment or a single scripture verse. It comes from the <strong>Egyptian desert</strong>, from monks doing something a lot like early cognitive psychology on themselves.</p>
+      <div class="grid g3" style="margin-top:6px">
+        <div class="card"><h3>1 · Evagrius' eight <em>logismoi</em></h3><p>Around 375 AD, the monk <strong>Evagrius Ponticus</strong> sat in the Egyptian desert and named <strong>eight "evil thoughts"</strong> (Greek <em>logismoi</em>) that ambushed the contemplative life: gluttony, lust, avarice, sadness, anger, <em>acedia</em>, vainglory, and pride. Crucially these were <strong>thoughts</strong>, not deeds — recurring mental patterns a monk had to watch for and starve. It's a manual of self-observation, closer to a mood taxonomy than a moral code.</p></div>
+        <div class="card"><h3>2 · Cassian carries them west</h3><p>Evagrius' pupil <strong>John Cassian</strong> (c. 360–435) brought the eight-thought scheme out of Egypt and into the new Latin monasteries of Gaul, translating the framework from Greek practice into Western monastic rule. This is the bridge: an Eastern desert diagnostic becomes part of how the Western church thinks about the interior life.</p></div>
+        <div class="card"><h3>3 · Gregory makes it seven</h3><p>Around <strong>590 AD</strong>, in his commentary on the Book of Job (the <em>Moralia</em>), <strong>Pope Gregory the Great</strong> revised the list. He folded <em>acedia</em> into sadness (later just "sloth"), merged vainglory into pride, and <strong>added envy</strong> — landing on seven. And he set <strong>pride apart as the queen and root</strong> from which the others spring. Gregory's seven, not Evagrius' eight, is the list the West inherited.</p></div>
+      </div>
+      <div class="callout blue" style="margin-top:18px">
+        <p style="margin-bottom:0"><strong>Two honesty flags on the history.</strong> First: the exact bookkeeping of Gregory's edit — which thought merged into which, whether pride is counted <em>within</em> the seven or sits <em>above</em> them as the source — is reconstructed from the texts and stated slightly differently by different sources. The popular modern list (pride, greed, lust, envy, gluttony, wrath, sloth) treats pride as one of the seven; Gregory himself treated it as the root of all seven. Second: <strong>none of this is a single Bible passage.</strong> Scripture has lists of vices (Proverbs 6, Galatians 5), but the specific "seven deadly sins" is a work of monastic and papal synthesis, not a verse you can point to.</p>
+      </div>
+      <div class="grid g2" style="margin-top:18px">
+        <div class="card">
+          <h3>Aquinas: from mood to "capital vice"</h3>
+          <p>In the 13th century <strong>Thomas Aquinas</strong> systematized the seven in the <em>Summa Theologica</em>. His key contribution is the framing this whole page rests on: they are <strong>capital vices</strong> — <em>vitia capitalia</em> — meaning <strong>source-vices that give rise to other sins</strong>, ranked by how they misdirect love and desire. Not the gravest acts; the most <em>fertile</em> dispositions. That's why a taxonomy of seven root tendencies can still earn its keep as a diagnostic tool rather than a confession script.</p>
+        </div>
+        <div class="card">
+          <h3>Dante: the seven as a mountain of love gone wrong</h3>
+          <p>Dante's <em>Purgatorio</em> (c. 1320) gives the most elegant arrangement. He stacks the seven on <strong>seven terraces</strong>, ordered by a single idea — every sin is <strong>love disordered</strong>. The bottom three (pride, envy, wrath) are <em>love perverted</em>, aimed at others' harm; the middle one (sloth) is <em>love deficient</em>, too little zeal; the top three (greed, gluttony, lust) are <em>love excessive</em>, good things wanted too much. Souls climb through all seven, and each terrace re-trains the matching virtue. It's the same insight Aquinas had — the sins are appetites pointed the wrong way — rendered as architecture.</p>
+        </div>
+      </div>
+    </section>
+
+    <section>
+      <h2>The seven, defined properly</h2>
+      <p class="lede" style="font-size:18px">Read each one as a <em>disposition</em>, not an incident — the standing tilt of a person, the thing they'll do again. The dragon badge on each card is a preview of the synthesis further down; ignore it for now if you like and just meet the sins on their own terms.</p>
+      <div class="grid g4" style="margin-top:6px">
+        <div class="card sin sca"><span class="lat">superbia · the root</span><h3>Pride</h3><p>Inordinate self-regard — the disordered love of one's own excellence. Gregory's <strong>master vice</strong>, the source the other six grow from: it's the ego insisting it's the center, and it curdles into the fear of not being enough.</p><span class="dbadge sca">Scarcity</span></div>
+        <div class="card sin sca"><span class="lat">avaritia</span><h3>Greed · Avarice</h3><p>The disordered love of money and possessions — the itch to <strong>accumulate against a feared future</strong>. Not having; <em>needing to have more</em>, driven less by taste than by a low hum of not-enough.</p><span class="dbadge sca">Scarcity</span></div>
+        <div class="card sin sca"><span class="lat">invidia</span><h3>Envy</h3><p>Sorrow at another's good, <strong>as if their gain were your loss</strong>. The purest comparison-vice: it measures your life against someone else's and reliably comes up short. Envy needs an audience.</p><span class="dbadge sca">Scarcity</span></div>
+        <div class="card sin squ"><span class="lat">gula</span><h3>Gluttony</h3><p>Wanting <strong>more of a good thing than is good for you</strong> — classically food and drink, but the shape is general: over-consumption. The vice of the appetite that won't stop at enough.</p><span class="dbadge squ">Squander</span></div>
+      </div>
+      <div class="grid g4" style="margin-top:18px">
+        <div class="card sin squ"><span class="lat">luxuria</span><h3>Lust</h3><p>Disordered craving for bodily pleasure. In the tradition it's specifically sexual; read broadly, it's the pull toward the <strong>next cheap hit</strong> — pleasure chased for its own sake, ahead of everything it costs.</p><span class="dbadge squ">Squander</span></div>
+        <div class="card sin ent"><span class="lat">acedia · tristitia</span><h3>Sloth</h3><p>The most misunderstood of the seven. Not laziness first but <strong>spiritual apathy</strong> — the <em>"noonday demon"</em> the monks named, a listless can't-be-bothered that shades into despair. Greek <em>akēdía</em> = "lack of care." The refusal to do the work of tending your own life.</p><span class="dbadge ent">Entropy</span></div>
+        <div class="card sin wra"><span class="lat">ira</span><h3>Wrath</h3><p>Disordered anger — the <strong>appetite for vengeance</strong>, the flare that overruns judgment. Unlike the others it isn't a steady hunger; it's a <em>reaction</em>, a spike that fires when something feels threatened.</p><span class="dbadge wra">Reactive</span></div>
+        <div class="card" style="background:transparent;border-style:dashed;box-shadow:none;display:flex;align-items:center"><p class="muted small" style="margin:0">Seven dispositions, four badges. Three of them cluster on one dragon each; two of them (the appetites) share a dragon; wrath stands apart as the reactive spillover. The next two sections make that argument in full.</p></div>
+      </div>
+      <div class="callout" style="margin-top:18px">
+        <p style="margin-bottom:0"><strong>Sit with acedia — it's the one that pays off most.</strong> Evagrius' monks called it the <em>noonday demon</em> because it struck in the dead middle of the day, when the heat pressed and the hours stopped moving: a disgust with the work, a restlessness, a sense that nothing is worth doing. That's not "lazy." Modern writers keep re-finding it under other names — <strong>burnout, procrastination, apathy, the doom-scroll drift</strong>. Of all seven, acedia has aged into the most recognizable, which is exactly why it maps so cleanly onto the first dragon.</p>
+      </div>
+    </section>
+
+    <section>
+      <h2>The counter-scheme: the contrary virtues</h2>
+      <p class="lede" style="font-size:18px">The tradition never left the sins standing alone. For every capital vice there's a <strong>contrary virtue</strong> built to redirect the same energy — the idea Dante dramatizes, that the drive misfiring as a sin is the drive that, retrained, becomes a strength. The virtues are the dragon-slayers, and it's worth knowing them before the synthesis.</p>
+      <div class="grid g4" style="margin-top:6px">
+        <div class="card tight"><h3>Humility</h3><p class="muted small" style="margin-top:-4px"><em>humilitas</em> · vs Pride</p><p>The self put in proportion. The antidote to the ego's centrality — and, downstream, to its fear.</p></div>
+        <div class="card tight"><h3>Charity</h3><p class="muted small" style="margin-top:-4px"><em>caritas</em> · vs Greed</p><p>Generosity — the open hand against the closing fist. It answers accumulation by giving away.</p></div>
+        <div class="card tight"><h3>Kindness</h3><p class="muted small" style="margin-top:-4px"><em>humanitas</em> · vs Envy</p><p>Wanting others' good instead of resenting it. Envy inverted: their gain as gladness, not loss.</p></div>
+        <div class="card tight"><h3>Temperance</h3><p class="muted small" style="margin-top:-4px"><em>temperantia</em> · vs Gluttony</p><p>The self-set boundary on appetite — knowing where "enough" is and stopping there.</p></div>
+      </div>
+      <div class="grid g4" style="margin-top:18px">
+        <div class="card tight"><h3>Chastity</h3><p class="muted small" style="margin-top:-4px"><em>castitas</em> · vs Lust</p><p>Read broadly: pleasure kept in its place, not chased ahead of what matters more.</p></div>
+        <div class="card tight"><h3>Patience</h3><p class="muted small" style="margin-top:-4px"><em>patientia</em> · vs Wrath</p><p>The beat inserted between the threat and the response. Wrath's direct undoing.</p></div>
+        <div class="card tight"><h3>Diligence</h3><p class="muted small" style="margin-top:-4px"><em>industria</em> · vs Sloth</p><p>Care-in-action — showing up to tend the thing. The exact opposite of acedia's not-bothering.</p></div>
+        <div class="card tight" style="background:transparent;border-style:dashed;box-shadow:none;display:flex;align-items:center"><p class="muted small" style="margin:0">Honest flag: this neat one-to-one pairing is a <strong>later tidy-up</strong>. Prudentius' <em>Psychomachia</em> (c. 400 AD) staged the first virtue-vs-vice battle but used a different seven. The clean remedial list came afterward.</p></div>
+      </div>
+    </section>
+
+    <section>
+      <h2>Mapping the sins to the Three Dragons</h2>
+      <p class="lede" style="font-size:18px">This is the reason the page exists. Igor tracks three forces as the real scoreboard of a life — the <strong>Three Dragons</strong>. Read the seven sins as capital vices — root <em>dispositions</em>, not deeds — and they sort onto those three dragons with surprising cleanness. Not mysticism: both schemes are just honest attempts to name the standing currents that erode a person, so they keep landing on the same water.</p>
+
+      <div class="grid g3" style="margin-top:6px">
+        <div class="card sin ent">
+          <span class="lat" style="color:var(--oil)">Dragon I</span>
+          <h3>Entropy — the not-tending</h3>
+          <p>Things fall apart when no one maintains them. The sin that <strong>feeds</strong> entropy is <strong>sloth / acedia</strong>, and the fit is exact: entropy is what <em>happens</em> to the unmaintained; acedia is the disposition that <em>stops the maintaining</em>. The dragon is the decay; the sin is the shrug that lets it in. Its slayer is <strong class="d-ent">diligence</strong> — care put into motion.</p>
+        </div>
+        <div class="card sin squ">
+          <span class="lat" style="color:#9a7b1f">Dragon II</span>
+          <h3>Squander — the leaking hours</h3>
+          <p>Time drains away into nothing much. This is the <strong>appetite cluster</strong>: <strong>gluttony</strong> (over-consuming — food, feed, phone), <strong>lust</strong> (chasing the next cheap pleasure), and <strong>sloth again</strong> in its idle-drift face. These are the sins that eat your <em>hours</em> rather than your money. Their slayers are <strong class="d-squ">temperance</strong> and <strong class="d-squ">chastity</strong> — boundaries on the appetite.</p>
+        </div>
+        <div class="card sin sca">
+          <span class="lat" style="color:var(--accent)">Dragon III</span>
+          <h3>Scarcity — the never-enough</h3>
+          <p>The anxious sense that there isn't enough and never will be. This is the <strong>fear-and-comparison cluster</strong>: <strong>greed</strong> (hoarding against a feared future), <strong>envy</strong> (measuring against others and losing), and <strong>pride</strong> (the ego's terror of not being enough, wearing superiority as a mask). Scarcity is the fear the ego runs on. Its slayers are <strong class="d-sca">charity</strong> and <strong class="d-sca">humility</strong> — give something away, and let the self get smaller.</p>
+        </div>
+      </div>
+
+      <div class="callout blue" style="margin-top:20px">
+        <p style="margin-bottom:0"><strong>And wrath sits apart — on purpose.</strong> Anger doesn't behave like a steady dragon; it's the <strong>reactive overflow</strong>. Wrath is what the other dragons look like at the instant of alarm — the fight-or-flight that spills over when scarcity feels <em>threatened</em>, when the hoard is menaced or the ego is slighted. So it's not a fourth dragon; it's the spark the first three throw when they're cornered. Its slayer, fittingly, is <strong class="d-wra">patience</strong>: the beat you put between the threat and the response.</p>
+      </div>
+
+      <h3 style="margin-top:28px">The whole mapping on one table</h3>
+      <p style="max-width:920px">Sin, its Latin, what it actually is, the dragon it feeds, and the virtue built to slay it. The dragon column is the load-bearing claim of the page — colored so you can see the three clusters at a glance.</p>
+      <table>
+        <thead><tr><th>Sin</th><th>Latin</th><th>What it is (the disposition)</th><th>Dragon it feeds</th><th>Counter-virtue</th></tr></thead>
+        <tbody>
+          <tr><td><strong>Sloth</strong></td><td><em>acedia</em></td><td>Listless refusal to tend — the "noonday demon"; apathy, not laziness.</td><td class="d-ent">Entropy</td><td>Diligence</td></tr>
+          <tr><td><strong>Gluttony</strong></td><td><em>gula</em></td><td>Over-consumption; the appetite that won't stop at enough.</td><td class="d-squ">Squander</td><td>Temperance</td></tr>
+          <tr><td><strong>Lust</strong></td><td><em>luxuria</em></td><td>Chasing the next cheap pleasure ahead of what it costs.</td><td class="d-squ">Squander</td><td>Chastity</td></tr>
+          <tr><td><strong>Greed</strong></td><td><em>avaritia</em></td><td>Anxious accumulation — needing more against a feared future.</td><td class="d-sca">Scarcity</td><td>Charity</td></tr>
+          <tr><td><strong>Envy</strong></td><td><em>invidia</em></td><td>Sorrow at another's good; comparison that comes up short.</td><td class="d-sca">Scarcity</td><td>Kindness</td></tr>
+          <tr><td><strong>Pride</strong></td><td><em>superbia</em></td><td>The ego's centrality — and its fear of not being enough. The root vice.</td><td class="d-sca">Scarcity</td><td>Humility</td></tr>
+          <tr><td><strong>Wrath</strong></td><td><em>ira</em></td><td>Reactive rage — the spillover when a dragon feels threatened.</td><td class="d-wra">Reactive overflow</td><td>Patience</td></tr>
+        </tbody>
+      </table>
+
+      <div class="callout" style="margin-top:20px">
+        <h3 style="margin-bottom:8px">Where it's a clean fit, and where it's a stretch</h3>
+        <p style="margin-bottom:8px"><strong>Cleanest of all — sloth → entropy.</strong> Acedia is almost literally the human face of entropy: the standing failure to maintain. If the scheme is right anywhere, it's here.</p>
+        <p style="margin-bottom:8px"><strong>Also clean — greed → scarcity, gluttony → squander.</strong> Avarice <em>is</em> scarcity-anxiety made into a habit; gluttony <em>is</em> squander pointed at consumption. Both fall out without forcing.</p>
+        <p style="margin-bottom:8px"><strong>A reach — pride → scarcity.</strong> Classically, pride is the root of <em>all</em> seven, so pinning it to a single dragon undersells it. The honest version: the specific <em>flavor</em> of pride that feeds scarcity is status-anxiety — the ego measuring itself and fearing the shortfall. Other flavors of pride (say, contempt) would spill toward wrath instead.</p>
+        <p style="margin-bottom:8px"><strong>A modern re-reading — lust → squander.</strong> The tradition meant sexual desire specifically; stretching it to "cheap-dopamine chasing, scrolling, the next little pleasure" is a 21st-century broadening. It rhymes with the original (disordered pursuit of pleasure) but it isn't what Aquinas had in mind — worth admitting out loud.</p>
+        <p style="margin-bottom:0"><strong>Sloth shows up twice</strong> — under Entropy and again under Squander. That's a feature, not sloppiness: acedia was <em>always</em> two-faced — the failure to tend (entropy) and the drift into idle time (squander) are the same demon seen from two sides.</p>
+      </div>
+    </section>
+
+    <section>
+      <h2>So what: the sins as a dragon-diagnostic</h2>
+      <p class="lede" style="font-size:18px">Drop the moral scorekeeping — that's not what this is for. Run <strong>backwards</strong>, the seven become a fast read on <strong>which dragon is winning this week</strong>. The vice you keep catching yourself in points straight at the dragon that's up, and the contrary virtue is the specific move back.</p>
+      <div class="grid g4" style="margin-top:6px">
+        <div class="card sin ent"><div class="step-n" style="background:var(--oil)">1</div><h3>Things sliding, can't be bothered</h3><p>Unmaintained, listless, the small work undone — that's <strong>acedia</strong>, and <strong class="d-ent">Entropy</strong> is up. The move isn't motivation, it's <strong>diligence</strong>: do the smallest next bit of the tending, now, badly if necessary.</p></div>
+        <div class="card sin squ"><div class="step-n" style="background:#c9a94a">2</div><h3>Hours vanishing into nothing</h3><p>Feeds, snacks, the next little pleasure, and the evening's gone — that's the <strong>appetite cluster</strong>, and <strong class="d-squ">Squander</strong> is up. The move is <strong>temperance</strong>: one boundary on one appetite. Where does "enough" sit, and can you stop there?</p></div>
+        <div class="card sin sca"><div class="step-n" style="background:var(--accent)">3</div><h3>Gnawing not-enough, comparing</h3><p>Hoarding, measuring against others, defensive pride — that's the <strong>fear cluster</strong>, and <strong class="d-sca">Scarcity</strong> is up. The move is <strong>charity + humility</strong>: give something away, and let the self get smaller. (The <a href="science-of-awe.html">small self</a> is the same medicine.)</p></div>
+        <div class="card sin wra"><div class="step-n" style="background:var(--accent2)">4</div><h3>Flaring, snapping, reactive</h3><p>Short fuse, quick to anger — that's <strong>wrath spilling</strong>, and the dragon underneath is almost always <strong class="d-wra">scarcity feeling threatened</strong>. The move is <strong>patience</strong>: put one beat between the threat and the response, and ask what felt endangered.</p></div>
+      </div>
+      <div class="callout good" style="margin-top:20px">
+        <p style="margin-bottom:0">That's the whole utility of a 1,400-year-old monastic list in a modern life: not guilt, but <strong>diagnosis</strong>. The sins name the symptom, the dragons name the disease, and the virtues name the prescription. It's a lens, not doctrine — where the mapping strains, it says so — but as a weekly check on which current is pulling hardest, it's sharper than it has any business being.</p>
+      </div>
+    </section>
+
+    <section>
+      <h2>A little culture</h2>
+      <p class="lede" style="font-size:18px">The seven have been good to artists precisely because they're a complete, portable system of human failure. A few light touches, for the fun of it.</p>
+      <div class="grid g2" style="margin-top:6px">
+        <div class="card">
+          <h3>Bosch's tabletop, and the eye of God</h3>
+          <p>Around 1500, <strong>Hieronymus Bosch</strong> (or a close follower) painted <em>The Seven Deadly Sins and the Four Last Things</em> as a <strong>tabletop</strong> — meant to be walked around and looked <em>down</em> into. The seven sins ring a great central circle painted as the <strong>eye of God</strong>, with the risen Christ at the pupil and the Latin warning <em>Cave, cave, Deus videt</em> — "Beware, beware, God sees." It's in the Prado, in a sealed case. Instead of allegory it shows ordinary people in ordinary scenes doing each sin — which is exactly the "disposition, not deed" reading.</p>
+        </div>
+        <div class="card">
+          <h3>Dante's mountain, Gandhi's list, Fincher's killer</h3>
+          <p><strong>Dante</strong> gave the sins their most famous shape — the seven-terrace mountain of <em>Purgatorio</em>. <strong>Gandhi</strong> updated the genre in <em>Young India</em> (1925) with his <strong>"seven social sins"</strong> — wealth without work, pleasure without conscience, knowledge without character, commerce without morality, science without humanity, worship without sacrifice, politics without principle — a modern, structural rewrite of the same instinct. And in 1995, David Fincher's <em>Se7en</em> turned the list into a murder template, proof that the seven still carry enough cultural weight to hang a whole thriller on.</p>
+        </div>
+      </div>
+    </section>
+
+    <section style="border-bottom:0">
+      <h2>The one-liner</h2>
+      <div class="card"><p class="lede" style="margin:0">The seven deadly sins started as <strong>eight bad moods</strong> catalogued by a desert monk, got trimmed to seven by a pope, and were reframed by Aquinas as <strong>capital vices</strong> — the root dispositions that erode a life. Read that way they line up cleanly onto Igor's <strong>Three Dragons</strong>: <span class="d-ent">sloth feeds Entropy</span>, <span class="d-squ">the appetites feed Squander</span>, <span class="d-sca">the fears feed Scarcity</span>, and wrath is the spark the three throw when they're cornered. Run backwards, the whole list becomes a weekly diagnostic for which dragon is winning — and the contrary virtues are the moves back. A lens, not doctrine, and honest about where it strains.</p></div>
+      <div class="xlinks">
+        <a class="xlink" href="science-of-awe.html"><b>Deep dive →</b><br />The science of awe — awe shrinks the self, which is the direct antidote to the pride-and-scarcity dragon. The "small self," in the lab.</a>
+        <a class="xlink" href="flow-state.html"><b>Deep dive →</b><br />Flow &amp; the psychology of experience — enjoyment (effortful, self-growing) versus pleasure (passive) is the same fight as diligence versus sloth.</a>
+        <a class="xlink" href="dietary-laws-economics.html"><b>Deep dive →</b><br />Do dietary laws have an economic basis? — a fellow ideas-and-religion rabbit hole, and another case of an old rule doing unexpected modern work.</a>
+      </div>
+    </section>
+
+    <section style="border-bottom:0;padding-top:8px">
+      <h2>Sources</h2>
+      <p class="muted small">Real links, so you can check the load-bearing history yourself. Flagged in the text where the record is reconstructed (Gregory's exact edit) or where the sins-to-dragons mapping is a lens rather than a documented claim.</p>
+      <ul class="src">
+        <li>"How the Seven Deadly Sins Began as 'Eight Evil Thoughts,'" <em>History.com</em> — Evagrius' eight <em>logismoi</em>, Cassian's transmission, and Gregory's revision to seven. <a href="https://www.history.com/articles/seven-deadly-sins-origins">history.com</a></li>
+        <li>"Seven deadly sins," Wikipedia — the full lineage, Gregory's merges, and the modern list. <a href="https://en.wikipedia.org/wiki/Seven_deadly_sins">en.wikipedia.org</a></li>
+        <li>"Evagrius Ponticus," Wikipedia — the 4th-century desert monk and the eight-thought scheme. <a href="https://en.wikipedia.org/wiki/Evagrius_Ponticus">en.wikipedia.org</a></li>
+        <li>"Seven deadly sins," <em>Britannica</em> — Gregory the Great, pride as the root, and the capital-vice framing. <a href="https://www.britannica.com/topic/seven-deadly-sins">britannica.com</a></li>
+        <li>Thomas Aquinas, <em>Summa Theologica</em> I-II q.84, "The cause of sin, as regards one sin being the cause of another" — the capital-vices (<em>vitia capitalia</em>) doctrine. <a href="https://www.newadvent.org/summa/2084.htm">newadvent.org</a></li>
+        <li>"Acedia," Wikipedia — <em>akēdía</em>, the "noonday demon," and the modern burnout/apathy re-reading. <a href="https://en.wikipedia.org/wiki/Acedia">en.wikipedia.org</a></li>
+        <li>"Purgatorio," Wikipedia — the seven terraces and the "disordered love" ordering (perverted / deficient / excessive). <a href="https://en.wikipedia.org/wiki/Purgatorio">en.wikipedia.org</a></li>
+        <li>"Seven virtues," Wikipedia, and "Seven heavenly virtues," <em>Britannica</em> — the contrary/remedial virtues and their Latin. <a href="https://en.wikipedia.org/wiki/Seven_virtues">en.wikipedia.org</a> · <a href="https://www.britannica.com/topic/seven-heavenly-virtues">britannica.com</a></li>
+        <li>"Psychomachia," Wikipedia — Prudentius' c. 400 AD virtue-vs-vice allegory (a different seven; the tidy pairing came later). <a href="https://en.wikipedia.org/wiki/Psychomachia">en.wikipedia.org</a></li>
+        <li>"The Seven Deadly Sins and the Four Last Things," Wikipedia, and the Prado catalogue — the Bosch tabletop, the eye of God, and <em>Cave, cave, Deus videt</em>. <a href="https://en.wikipedia.org/wiki/The_Seven_Deadly_Sins_and_the_Four_Last_Things">en.wikipedia.org</a> · <a href="https://www.museodelprado.es/en/the-collection/art-work/table-of-the-seven-deadly-sins/3fc0a84e-d77d-4217-b960-8a34b8873b70">museodelprado.es</a></li>
+        <li>"Seven Social Sins," Wikipedia — Gandhi's 1925 <em>Young India</em> list (from Frederick Lewis Donaldson). <a href="https://en.wikipedia.org/wiki/Seven_Social_Sins">en.wikipedia.org</a></li>
+      </ul>
+      <div class="footer" style="padding-top:20px">
+        A curiosity explainer, not a theology seminar. The history (Evagrius → Cassian → Gregory → Aquinas → Dante) is well documented and flagged where the record is reconstructed; the mapping of the seven onto Igor's Three Dragons is a personal lens, offered as a diagnostic and honest about where it fits cleanly (sloth → entropy) versus where it strains (pride, and the modern re-reading of lust). Pairs with the trip's psychology rabbit holes — the <a href="science-of-awe.html">small self</a> of awe and the <a href="flow-state.html">enjoyment-vs-pleasure</a> split of flow are the same argument from other doors.
+      </div>
+    </section>
+  </div>
+</body>
+</html>
