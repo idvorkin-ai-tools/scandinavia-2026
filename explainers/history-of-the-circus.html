@@ -1,0 +1,202 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>A History of the Circus</title>
+  <style>
+    :root{--ink:#172026;--muted:#5d6972;--bg:#f5f2eb;--card:#fffaf2;--accent:#8f3f2f;--accent2:#1f5f78;--line:#ded6c8;--shadow:0 12px 30px rgba(23,32,38,.10);--oil:#2f7d55}
+    *{box-sizing:border-box} body{margin:0;font-family:ui-sans-serif,system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial;color:var(--ink);background:linear-gradient(180deg,#e8eef2 0,#f5f2eb 34%);line-height:1.5}
+    a{color:var(--accent2)} .wrap{max-width:1120px;margin:0 auto;padding:24px} header{padding:54px 0 30px;border-bottom:1px solid var(--line)}
+    .kicker{color:var(--accent);font-weight:800;letter-spacing:.08em;text-transform:uppercase;font-size:13px} h1{font-size:clamp(38px,6vw,72px);line-height:.95;margin:12px 0 18px;letter-spacing:-.06em}
+    h2{font-size:clamp(28px,4vw,44px);letter-spacing:-.04em;margin:0 0 14px} h3{font-size:22px;margin:0 0 8px} p{margin:0 0 14px}.lede{font-size:22px;max-width:900px;color:#2d3a41}.muted{color:var(--muted)}
+    .grid{display:grid;gap:18px}.g2{grid-template-columns:repeat(2,minmax(0,1fr))}.g3{grid-template-columns:repeat(3,minmax(0,1fr))}.g4{grid-template-columns:repeat(4,minmax(0,1fr))}@media(max-width:820px){.g2,.g3,.g4{grid-template-columns:1fr}.wrap{padding:18px}header{padding-top:28px}}
+    .card{background:rgba(255,250,242,.9);border:1px solid var(--line);border-radius:22px;padding:22px;box-shadow:var(--shadow)} .tight p{margin-bottom:8px}
+    .tag{display:inline-block;border:1px solid var(--line);border-radius:999px;padding:6px 10px;margin:4px 6px 4px 0;background:#fffdf8;color:#2d3a41;font-size:13px;font-weight:700}
+    section{padding:32px 0;border-bottom:1px solid var(--line)}
+    .callout{border-left:6px solid var(--accent);background:#fff4e8;padding:18px;border-radius:18px}
+    .callout.good{border-left-color:var(--oil);background:#eef7f0}
+    .callout.blue{border-left-color:var(--accent2);background:#eef4f7}
+    .route{font-weight:800;color:var(--accent2)}.oiled{font-weight:800;color:var(--oil)}
+    .stat{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:14px;margin:6px 0 4px}
+    .stat .n{font-size:clamp(30px,4.5vw,46px);font-weight:900;letter-spacing:-.03em;line-height:1;color:var(--accent);margin-bottom:6px}
+    .stat .l{font-size:14px;color:var(--muted);line-height:1.35}
+    table{width:100%;border-collapse:collapse;background:#fffaf2;border-radius:18px;overflow:hidden} th,td{padding:13px 14px;border-bottom:1px solid var(--line);text-align:left;vertical-align:top} th{background:#efe7da} tr:last-child td{border-bottom:0}
+    .mono{font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-weight:800;color:var(--accent2)}
+    .small{font-size:14px}.footer{padding:28px 0;color:var(--muted);font-size:14px}.hero{display:grid;grid-template-columns:1.15fr .85fr;gap:22px;align-items:stretch}@media(max-width:900px){.hero{grid-template-columns:1fr}}
+    .steps{counter-reset:step}
+    .step-n{display:inline-flex;align-items:center;justify-content:center;width:30px;height:30px;border-radius:50%;background:var(--accent2);color:#fff;font-weight:900;font-size:15px;margin-bottom:10px}
+    .cmd{margin:6px 0 0;padding-left:0;list-style:none;counter-reset:cmd}
+    .cmd li{position:relative;padding:9px 0 9px 40px;border-bottom:1px solid var(--line);font-size:15.5px}
+    .cmd li:last-child{border-bottom:0}
+    .cmd li:before{counter-increment:cmd;content:counter(cmd);position:absolute;left:0;top:8px;width:26px;height:26px;border-radius:50%;background:#efe7da;color:var(--accent);font-weight:900;font-size:13px;display:inline-flex;align-items:center;justify-content:center}
+    .eq{font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:clamp(24px,4vw,38px);font-weight:900;letter-spacing:-.02em;color:var(--accent);text-align:center;margin:8px 0 14px}
+    .xlinks{display:flex;gap:12px;flex-wrap:wrap;margin-top:8px}
+    .xlink{display:block;flex:1 1 240px;background:rgba(255,250,242,.9);border:1px solid var(--line);border-radius:16px;padding:16px 18px;box-shadow:var(--shadow);text-decoration:none;color:inherit}
+    .xlink b{color:var(--accent2)}
+    .src{margin:0;padding-left:0;list-style:none}.src li{padding:8px 0;border-bottom:1px solid var(--line);font-size:14.5px}.src li:last-child{border-bottom:0}
+  </style>
+</head>
+<body>
+<a href="../index.html" aria-label="Back to the trip map" style="display:inline-block;margin:14px 24px 4px;padding:7px 14px;border-radius:8px;border:1px solid rgba(128,128,128,.42);background:rgba(128,128,128,.14);color:inherit;font-family:ui-sans-serif,system-ui,-apple-system,Segoe UI,Roboto,sans-serif;font-weight:700;font-size:13px;text-decoration:none">← Back to the trip map</a>
+  <div class="wrap">
+    <header>
+      <div class="callout good" style="margin:14px 0 4px;font-size:16px"><strong>TL;DR —</strong> The circus you're picturing — a ring, a ringmaster, clowns and acrobats between the acts — was <em>invented</em>, and we can nearly date it to the day: London, 1768, by a former cavalry sergeant named <strong>Philip Astley</strong> who noticed that if he cantered a horse in a tight circle and stood on its back, the spin pinned him in place. The ring he settled on — <strong>42 feet</strong> across — is still the standard. He never called it a "circus"; a rival poached that word. It became a giant American railroad spectacle under <strong>Barnum</strong> and the <strong>Ringlings</strong>, gave the world the flying trapeze and the human cannonball, then collapsed under television, costs, and the animal-welfare reckoning — Ringling shut in 2017. What replaced it lost the animals and kept the wonder: <strong>Cirque du Soleil</strong> and the "new circus." And it shares a bloodline with juggling, clowning, and magic — for centuries these were all one traveling trade.</div>
+      <div class="kicker">Context guide · cross-cutting rabbit hole</div>
+      <h1>A History<br />of the Circus</h1>
+      <p class="lede">Almost every part of the circus feels timeless, so it's a shock to learn how young and how <em>engineered</em> it is. The whole form was worked out by one showman in one field in South London in the 1760s, spread across the Atlantic, ballooned into the largest travelling entertainment on Earth, and then had to reinvent itself from scratch when the world decided it no longer wanted lions in a cage. Here's the arc — the ring, the golden age, the great acts, the fall, and the animal-free second act.</p>
+      <div><span class="tag">Astley · London 1768</span><span class="tag">the 42-foot ring</span><span class="tag">Hughes steals the word "circus"</span><span class="tag">Barnum · Ringling</span><span class="tag">trapeze · cannonball</span><span class="tag">Ringling closes 2017</span><span class="tag">Cirque du Soleil</span></div>
+    </header>
+
+    <section class="hero">
+      <div class="card">
+        <h2>The short version</h2>
+        <p>The circus is one of the rare art forms with a birthday. In <strong>1768</strong>, an English trick-rider named <strong>Philip Astley</strong> discovered that riding in a circle let him do stunts standing on a moving horse, and he built a business around it — a ring, a permanent audience, and short filler acts (acrobats, rope-dancers, a clown) to cover the gaps between rides. That bundle <em>is</em> the circus. Everything since is variation.</p>
+        <p>He didn't invent the <em>word</em>, though. "Circus" is Latin for ring or circle, and it was a business-rival, <strong>Charles Hughes</strong>, who slapped it on his competing "Royal Circus" in 1782. The name stuck to the whole form. (The ancient Roman "circus" — the Circus Maximus — was a chariot-racing track, a different thing entirely that happens to share the shape and the name.)</p>
+        <p>In 19th-century America the idea went big: canvas tents, then private trains, then <strong>three rings at once</strong>, sold by hucksters like <strong>P.T. Barnum</strong> and industrialized by the <strong>Ringling brothers</strong>. That's the "Greatest Show on Earth" era — and also the era of the sideshow, the trapeze, and the lion tamer. Then the 20th century's television, rising costs, and a hard rethink of performing animals brought it down, and a Montreal street troupe showed everyone what came next.</p>
+      </div>
+      <div class="card tight">
+        <h3>Four things worth carrying</h3>
+        <p><span class="route">1 · It was invented.</span> Not evolved from antiquity — designed, in 1768, by one man who noticed a fact about physics and horses.</p>
+        <p><span class="oiled">2 · The ring is the technology.</span> The circle isn't decoration; it's what makes standing on a galloping horse possible. Astley's 42-foot ring is still the world standard.</p>
+        <p><span class="route">3 · America supersized it.</span> Trains, tents, three rings, and Barnum's genius for publicity turned a riding show into the biggest travelling spectacle on the planet.</p>
+        <p><span class="oiled">4 · It had to change or die.</span> Animals fell out of favour, TV ate the audience, and the survivors — Cirque du Soleil above all — kept the acrobatics and dropped the menagerie.</p>
+      </div>
+    </section>
+
+    <section>
+      <h2>Astley invents it: 1768, and the physics of a circle</h2>
+      <p class="lede" style="font-size:18px">The founding insight is almost embarrassingly concrete. It's not an idea about art. It's an observation about what a spinning horse does to a standing rider.</p>
+      <div class="grid g2" style="margin-top:6px">
+        <div class="card">
+          <h3>The trick-rider's discovery</h3>
+          <p><strong>Philip Astley</strong> (1742–1814) was a cavalry veteran — a sergeant-major in the Seven Years' War, a superb horseman — who set up a riding school and trick-riding display in London in <strong>1768</strong>. His discovery was practical: if you gallop a horse in a tight circle and stand on its back, <strong>centrifugal force</strong> (and the horse's lean) presses you down and steadies you, so you can balance and perform stunts you couldn't manage on a straight line. The circle wasn't for the audience's benefit first — it was for the <em>rider's</em> physics.</p>
+          <p>He built a wooden fence around his performing area — a ring — so people paid to sit around it. That single move, a ring you charge admission to watch, is the seed of everything.</p>
+        </div>
+        <div class="card">
+          <h3>The 42-foot ring</h3>
+          <p>Astley tuned the ring's size by trial and error, balancing rider safety against sightlines. His first ring ran about <strong>62 feet</strong> across; he eventually settled on roughly <strong>42 feet</strong> (13 metres) — small enough to keep the horse in a steady, bankable canter, big enough to perform in. That 42-foot figure became the international standard, and traditional circus rings are still built to it today. It is, in a real sense, the oldest surviving piece of circus engineering.</p>
+          <p>Then, around <strong>1770</strong>, Astley did the other decisive thing: he hired <strong>acrobats, tightrope-walkers, jugglers, and a clown</strong> to fill the pauses between the riding numbers. That mix — equestrian spine, variety acts in the gaps — is the format the whole world would copy.</p>
+        </div>
+      </div>
+      <div class="callout blue" style="margin-top:20px">
+        <p style="margin-bottom:0"><strong>Where the word comes from (and a Roman red herring):</strong> Astley called his venue an "amphitheatre," never a "circus." The name we use was introduced by a former Astley rider turned competitor, <strong>Charles Hughes</strong>, who opened the <strong>"Royal Circus"</strong> nearby in <strong>1782</strong>. "Circus" is simply Latin for <em>ring / circle</em>, and it caught on as the label for the entire art form. Don't confuse it with the <strong>ancient Roman circus</strong> — the <em>Circus Maximus</em> — which was a long oval track for chariot races and had no acrobats, clowns, or performing ring in the modern sense. Same word, same circular shape, unrelated entertainment separated by 1,500 years.</p>
+      </div>
+    </section>
+
+    <section>
+      <h2>The American golden age: tents, trains, and three rings</h2>
+      <p class="lede" style="font-size:18px">The circus crossed to America and mutated. Where European circuses stayed in permanent buildings, Americans put the show under canvas and — crucially — on the railroad, which let one company play a different town almost every day. Scale became the whole point.</p>
+      <div class="grid g2" style="margin-top:6px">
+        <div class="card">
+          <h3>P.T. Barnum and the art of humbug</h3>
+          <p><strong>Phineas Taylor Barnum</strong> (1810–1891) was a showman before he was ever a circus man. He'd made his name running <strong>Barnum's American Museum</strong> in New York, a temple of half-truths and "human curiosities" — the notorious <strong>Feejee Mermaid</strong> (a monkey's torso sewn to a fish tail, 1842), the four-year-old billed as <strong>General Tom Thumb</strong>, later <strong>Jumbo</strong> the elephant. Barnum cheerfully called his hoaxes "humbug" and treated outrage as free advertising; he's why "there's a sucker born every minute" attaches to his name (even though he probably never said it).</p>
+          <p>In <strong>1871</strong>, aged 60, he lent that publicity machine to a travelling circus — "P.T. Barnum's Grand Traveling Museum, Menagerie, Caravan &amp; Circus" — and by <strong>1872</strong> was billing it as <strong>"The Greatest Show on Earth,"</strong> now moving by rail. The sideshow — the "freak show" of human oddities — travelled with it as a core attraction, an uncomfortable part of the history that's inseparable from Barnum's.</p>
+        </div>
+        <div class="card">
+          <h3>Barnum &amp; Bailey, then Ringling</h3>
+          <p>Barnum's chief rival was <strong>James A. Bailey</strong>, a quieter organizational genius. Rather than fight, they merged on <strong>28 March 1881</strong>, creating <strong>Barnum &amp; Bailey's "Greatest Show on Earth."</strong> Meanwhile five brothers from Baraboo, Wisconsin — the <strong>Ringlings</strong> — had built their own circus from 1884 and steadily grown into the dominant American act.</p>
+          <p>When Bailey died in 1906 the Ringlings <strong>bought Barnum &amp; Bailey (1907)</strong> and ran the two shows separately until, in <strong>1919</strong>, they fused everything into <strong>Ringling Bros. and Barnum &amp; Bailey Combined Shows</strong> — one colossus employing well over a thousand people and travelling in roughly 100 rail cars. The <strong>three-ring format</strong> — three acts running at once under one enormous "big top," so a distant spectator always had something to watch — became the American signature. It's also why "three-ring circus" means glorious chaos.</p>
+        </div>
+      </div>
+      <div class="stat" style="margin-top:20px">
+        <div class="card"><div class="n">1871</div><div class="l">Barnum's first circus opens in Brooklyn; "Greatest Show on Earth" branding follows in 1872, along with rail travel</div></div>
+        <div class="card"><div class="n">1919</div><div class="l">Ringling Bros. and Barnum &amp; Bailey merge into one three-ring show, debuting at Madison Square Garden</div></div>
+        <div class="card"><div class="n">146</div><div class="l">years the Ringling show ran, counting its Barnum roots — from 1871 to its close in 2017</div></div>
+      </div>
+      <div class="callout" style="margin-top:18px">
+        <p style="margin-bottom:0"><strong>Fact worth flagging:</strong> the three-ring circus is usually credited to the American railroad era of the early 1880s (Barnum &amp; Bailey are the names most often attached, with the Ringlings later perfecting it), but exact "who was first" claims vary between sources — treat it as an <em>1880s American innovation</em> rather than a single inventor's patent. The clean, checkable facts are the merger dates: Barnum + Bailey in 1881, Ringling buying them in 1907, the full combine in 1919.</p>
+      </div>
+    </section>
+
+    <section>
+      <h2>The acts: what actually happened in the ring</h2>
+      <p class="lede" style="font-size:18px">Strip away the branding and the circus is a stack of specialist acts, several of which were <em>invented</em> on the circus stage and then escaped into the wider culture. Four are worth knowing by name.</p>
+      <div class="grid g2" style="margin-top:6px">
+        <div class="card">
+          <h3>The flying trapeze — and a garment</h3>
+          <p>On <strong>12 November 1859</strong>, a young Frenchman named <strong>Jules Léotard</strong> performed the first <strong>flying trapeze</strong> act at the Cirque Napoléon in Paris, swinging between bars above the crowd. He sold it not on danger but on "ease and grace," and it became the defining image of circus aerial work. Léotard also designed the tight one-piece knit he performed in — he called it a <em>maillot</em>; the English-speaking world later named it after him: the <strong>leotard</strong>. One performer, two lasting inventions — the act and the outfit.</p>
+        </div>
+        <div class="card">
+          <h3>The human cannonball</h3>
+          <p>The device was worked out in the early 1870s by <strong>"The Great Farini"</strong> (William Leonard Hunt), who patented a spring-launched "projectile" apparatus. The first act billed as a <strong>"human cannonball"</strong> was <strong>Zazel</strong> — 17-year-old <strong>Rossa Matilda Richter</strong> — fired from a cannon at London's Royal Aquarium in <strong>1877</strong>. The "cannon" used rubber springs (and later compressed air); the flash and bang were theatre. Zazel toured with Barnum &amp; Bailey before a fall broke her back and ended the act — the risk was always real.</p>
+        </div>
+        <div class="card">
+          <h3>Clowns, acrobats, equestrians</h3>
+          <p>The connective tissue. Clowning goes back to Astley's very first filler acts and became a discipline of its own (the whiteface, the auguste, the tramp). Acrobats and <strong>equestrian</strong> riders were the original spine of the show — the circus is, historically, a <em>horse</em> act with everything else grown around it. Aerialists, wire-walkers, and contortionists all trace to this variety mix.</p>
+        </div>
+        <div class="card">
+          <h3>The wild-animal act</h3>
+          <p>The lion tamer became a headline act in the 20th century, and its most famous American practitioner was <strong>Clyde Beatty</strong> (1903–1965), who worked a "fighting act" — entering a single cage with dozens of lions and tigers armed with a whip, a chair, and a blank-firing pistol, sometimes 40-plus big cats at once. Beatty starred with Ringling in the early 1930s and in films. Thrilling in its day; also exactly the kind of act that would, decades later, become the circus's biggest liability.</p>
+        </div>
+      </div>
+    </section>
+
+    <section>
+      <h2>The decline: television, cost, and the animals</h2>
+      <p class="lede" style="font-size:18px">Nothing killed the circus in a single blow. Three slow pressures stacked up over the second half of the 20th century until the numbers stopped working.</p>
+      <div class="grid g3" style="margin-top:6px">
+        <div class="card"><h3>Television took the audience</h3><p>The circus's core promise — spectacle you couldn't see anywhere else — was undercut by a screen in every living room from the 1950s on. Wonder became cheap and constant, and the once-a-year visit of the big top lost its pull. Amusement parks and mass entertainment competed for the same family dollar.</p></div>
+        <div class="card"><h3>The economics broke</h3><p>Moving a small city by rail — animals, tents, hundreds of staff — is brutally expensive, and it only got worse. As attendance softened, the fixed costs of a traditional railroad circus became impossible to cover. Scale had been the circus's great strength; now it was the millstone.</p></div>
+        <div class="card"><h3>The animal reckoning</h3><p>From the late 20th century, public opinion turned hard against performing wild animals. Welfare campaigns, undercover investigations, and lawsuits made elephants and big cats a reputational hazard rather than a draw — and eventually a legal one.</p></div>
+      </div>
+      <div class="callout" style="margin-top:18px">
+        <p style="margin-bottom:0"><strong>The symbolic ending:</strong> Ringling Bros. and Barnum &amp; Bailey <strong>retired its elephants in 2016</strong>, and then, citing collapsing ticket sales without them plus high operating costs and years of animal-rights pressure, <strong>closed entirely in May 2017</strong> after 146 years. "The Greatest Show on Earth" going dark was treated, rightly, as the end of an era.</p>
+      </div>
+      <div class="callout blue" style="margin-top:18px">
+        <p style="margin-bottom:0"><strong>The legal tide, in numbers:</strong> dozens of countries have now banned or heavily restricted wild animals in travelling circuses. <strong>Bolivia</strong> was first to ban <em>all</em> circus animals (2009); across Europe the list runs to the dozens — England's <strong>Wild Animals in Circuses Act 2019</strong> took effect in January 2020, and Scotland, Ireland, and most of the continent have similar laws. Several U.S. states (Maryland and Massachusetts in 2024, Washington in 2025) followed. The animal circus didn't just fall out of fashion; in much of the world it became illegal.</p>
+      </div>
+    </section>
+
+    <section>
+      <h2>The reinvention: Cirque du Soleil and the "new circus"</h2>
+      <p class="lede" style="font-size:18px">Here's the twist the obituaries missed. While the old railroad circus was dying, a completely different kind of circus was being born — animal-free, theatrical, and, improbably, more commercially successful than the thing it replaced.</p>
+      <div class="grid g2" style="margin-top:6px">
+        <div class="card">
+          <h3>Cirque du Soleil</h3>
+          <p>Founded in <strong>1984</strong> in <strong>Baie-Saint-Paul, Quebec</strong> (its home is now Montreal) by former street performers <strong>Guy Laliberté</strong> and <strong>Gilles Ste-Croix</strong>, <strong>Cirque du Soleil</strong> tore up the template. From the start: <strong>no animals</strong>, no traditional ringmaster, no star names — instead, a single storyline, an original score, elaborate costumes and lighting, and human acrobatics pushed to the edge of dance and theatre. It became one of the largest live-entertainment companies on Earth, its shows seen by tens of millions. It proved the circus's future was <em>art</em>, not menagerie.</p>
+        </div>
+        <div class="card">
+          <h3>The wider "nouveau cirque"</h3>
+          <p>Cirque du Soleil was the giant, not the only one. The <strong>"new circus" / nouveau cirque</strong> movement — fusing circus skills with theatre, dance, and live music — produced companies like Montreal's <strong>Cirque Éloize</strong> (1993) and a wave of contemporary troupes across France, Australia, and the UK. Even Ringling came back: a <strong>relaunched, animal-free Ringling</strong> returned in <strong>2023</strong>, six years after closing — an acknowledgement that the only viable circus now is one without a cage.</p>
+        </div>
+      </div>
+      <div class="callout good" style="margin-top:18px">
+        <p style="margin-bottom:0"><strong>The through-line worth carrying:</strong> the circus, juggling, clowning, and stage magic all grew out of the <em>same</em> traveling performer's world — the itinerant entertainers of fairs and markets who did a bit of everything. Astley's very first show already bundled riders with jugglers and a clown; the flying-trapeze star wore a garment we now see on dancers; the "human curiosities" of the sideshow shaded into the magic hall. When these arts feel like cousins, it's because they are: for centuries they shared a stage, a road, and a reputation.</p>
+      </div>
+    </section>
+
+    <section style="border-bottom:0">
+      <h2>The one-liner</h2>
+      <div class="card"><p class="lede" style="margin:0">The circus is a 250-year-old invention, not an ancient one: a former cavalryman named Astley discovered in 1768 that a horse cantering in a circle lets a rider stand up, built a ring around the idea, and padded the gaps with clowns and acrobats. America turned it into a three-ring railroad spectacle under Barnum and Ringling, gave us the trapeze and the cannonball, then watched it fall to television, cost, and a hard reckoning over performing animals — until Cirque du Soleil rebuilt it without the lions and, somehow, made it bigger than ever.</p></div>
+      <div class="xlinks">
+        <a class="xlink" href="history-of-juggling.html"><b>Deep dive →</b><br />A Short History of Juggling — the circus's oldest sibling, and the one that grew its own branch of mathematics.</a>
+        <a class="xlink" href="history-of-magic.html"><b>Deep dive →</b><br />A History of Magic — the other craft that split off from the same traveling-entertainer root, where "juggler" once meant "conjuror."</a>
+        <a class="xlink" href="balloon-twisting.html"><b>Deep dive →</b><br />Balloon Twisting — the youngest of the ring-adjacent performing arts, and how it found its own place at the party.</a>
+      </div>
+    </section>
+
+    <section style="border-bottom:0;padding-top:8px">
+      <h2>Sources</h2>
+      <p class="muted small">Real links, so you can check the load-bearing claims. Flagged in the text where an attribution is contested (who invented the three-ring format) rather than settled (the merger dates, the closures).</p>
+      <ul class="src">
+        <li>"Philip Astley," Wikipedia — the 1768 founding, the trick-riding origin, the ring-size experiments (62 ft → 42 ft standard), and hiring acrobats/clowns in 1770. <a href="https://en.wikipedia.org/wiki/Philip_Astley">en.wikipedia.org</a></li>
+        <li>"Circus," Encyclopædia Britannica — Astley, centrifugal force, the 42-foot ring, and the modern-circus format. <a href="https://www.britannica.com/art/circus-theatrical-entertainment/Philip-Astley-and-the-first-circuses">britannica.com</a></li>
+        <li>"First modern place of entertainment called a 'circus'," Guinness World Records &amp; "Charles Hughes," Britannica — Hughes's Royal Circus (1782) and the origin of the word "circus." <a href="https://www.guinnessworldrecords.com/world-records/107872-first-modern-place-of-entertainment-called-a-circus">guinnessworldrecords.com</a> · <a href="https://www.britannica.com/biography/Charles-Hughes">britannica.com</a></li>
+        <li>"P. T. Barnum," Wikipedia — the American Museum, the Feejee Mermaid (1842), Tom Thumb, Jumbo, "humbug," the 1871 circus and 1881 Barnum &amp; Bailey merger. <a href="https://en.wikipedia.org/wiki/P._T._Barnum">en.wikipedia.org</a></li>
+        <li>"Ringling Bros. and Barnum &amp; Bailey Circus," Wikipedia — the 1871 debut, "Greatest Show on Earth," rail travel, the 1907 purchase, the 1919 merger and three-ring big top, and the 2017 closure. <a href="https://en.wikipedia.org/wiki/Ringling_Bros._and_Barnum_%26_Bailey_Circus">en.wikipedia.org</a></li>
+        <li>"Greatest Show on Earth," Britannica — the 28 March 1881 Barnum–Bailey combination. <a href="https://www.britannica.com/topic/Greatest-Show-on-Earth">britannica.com</a></li>
+        <li>"Jules Léotard," Wikipedia — the first flying-trapeze act (12 Nov 1859, Cirque Napoléon) and the garment named after him. <a href="https://en.wikipedia.org/wiki/Jules_L%C3%A9otard">en.wikipedia.org</a></li>
+        <li>"Human cannonball," Wikipedia &amp; "Rossa Matilda Richter" (Zazel) — the Great Farini's apparatus and the first "human cannonball," Zazel, 1877, Royal Aquarium. <a href="https://en.wikipedia.org/wiki/Human_cannonball">en.wikipedia.org</a> · <a href="https://en.wikipedia.org/wiki/Rossa_Matilda_Richter">en.wikipedia.org</a></li>
+        <li>"Clyde Beatty," Wikipedia &amp; Britannica — the "fighting act," the whip-and-pistol cage of lions and tigers, and his Ringling and film years. <a href="https://en.wikipedia.org/wiki/Clyde_Beatty">en.wikipedia.org</a> · <a href="https://www.britannica.com/biography/Clyde-Beatty">britannica.com</a></li>
+        <li>Ringling's close and animal-free return — the 2016 elephant retirement, the May 2017 closure, and the 2023 relaunch. National Geographic &amp; Smithsonian. <a href="https://www.nationalgeographic.com/animals/article/ringling-circus-is-back-but-this-time-without-animals">nationalgeographic.com</a> · <a href="https://www.smithsonianmag.com/smart-news/the-greatest-show-on-earth-is-coming-back-without-circus-animals-180980110/">smithsonianmag.com</a></li>
+        <li>"Bans on circus animals," Wikipedia &amp; FOUR PAWS — Bolivia's 2009 all-animal ban, England's Wild Animals in Circuses Act 2019 (effective 2020), and the wider country list. <a href="https://en.wikipedia.org/wiki/Bans_on_circus_animals">en.wikipedia.org</a> · <a href="https://www.four-paws.org/campaigns-topics/topics/wild-animals/worldwide-circus-bans">four-paws.org</a></li>
+        <li>"Cirque du Soleil," Wikipedia &amp; "Cirque Éloize," Wikipedia — the 1984 founding in Baie-Saint-Paul, the no-animals theatrical model, and the 1993 founding of Cirque Éloize. <a href="https://en.wikipedia.org/wiki/Cirque_du_Soleil">en.wikipedia.org</a> · <a href="https://en.wikipedia.org/wiki/Cirque_%C3%89loize">en.wikipedia.org</a></li>
+      </ul>
+      <div class="footer" style="padding-top:20px">
+        A context explainer, not a circus-history monograph — dates and names come from standard references and are cross-checked, with the genuinely contested points flagged in-line (the three-ring format's "first" is disputed; the exact day of Astley's 1768 debut varies by source). The load-bearing claims — Astley's ring, the 1768 invention, the merger and closure dates, Ringling's 2017 end, and Cirque du Soleil's animal-free rebuild — are solid. The shared root with juggling, clowning, and magic is the honest historical record: for centuries these were one traveling trade. See also the <a href="history-of-juggling.html">juggling</a> and <a href="history-of-magic.html">magic</a> explainers.
+      </div>
+    </section>
+  </div>
+</body>
+</html>
