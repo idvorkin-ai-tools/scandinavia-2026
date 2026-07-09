@@ -1,0 +1,192 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Mime &amp; Physical Comedy</title>
+  <style>
+    :root{--ink:#172026;--muted:#5d6972;--bg:#f5f2eb;--card:#fffaf2;--accent:#8f3f2f;--accent2:#1f5f78;--line:#ded6c8;--shadow:0 12px 30px rgba(23,32,38,.10);--oil:#2f7d55}
+    *{box-sizing:border-box} body{margin:0;font-family:ui-sans-serif,system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial;color:var(--ink);background:linear-gradient(180deg,#e8eef2 0,#f5f2eb 34%);line-height:1.5}
+    a{color:var(--accent2)} .wrap{max-width:1120px;margin:0 auto;padding:24px} header{padding:54px 0 30px;border-bottom:1px solid var(--line)}
+    .kicker{color:var(--accent);font-weight:800;letter-spacing:.08em;text-transform:uppercase;font-size:13px} h1{font-size:clamp(38px,6vw,72px);line-height:.95;margin:12px 0 18px;letter-spacing:-.06em}
+    h2{font-size:clamp(28px,4vw,44px);letter-spacing:-.04em;margin:0 0 14px} h3{font-size:22px;margin:0 0 8px} p{margin:0 0 14px}.lede{font-size:22px;max-width:900px;color:#2d3a41}.muted{color:var(--muted)}
+    .grid{display:grid;gap:18px}.g2{grid-template-columns:repeat(2,minmax(0,1fr))}.g3{grid-template-columns:repeat(3,minmax(0,1fr))}.g4{grid-template-columns:repeat(4,minmax(0,1fr))}@media(max-width:820px){.g2,.g3,.g4{grid-template-columns:1fr}.wrap{padding:18px}header{padding-top:28px}}
+    .card{background:rgba(255,250,242,.9);border:1px solid var(--line);border-radius:22px;padding:22px;box-shadow:var(--shadow)} .tight p{margin-bottom:8px}
+    .tag{display:inline-block;border:1px solid var(--line);border-radius:999px;padding:6px 10px;margin:4px 6px 4px 0;background:#fffdf8;color:#2d3a41;font-size:13px;font-weight:700}
+    section{padding:32px 0;border-bottom:1px solid var(--line)}
+    .callout{border-left:6px solid var(--accent);background:#fff4e8;padding:18px;border-radius:18px}
+    .callout.good{border-left-color:var(--oil);background:#eef7f0}
+    .callout.blue{border-left-color:var(--accent2);background:#eef4f7}
+    .route{font-weight:800;color:var(--accent2)}.oiled{font-weight:800;color:var(--oil)}
+    .stat{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:14px;margin:6px 0 4px}
+    .stat .n{font-size:clamp(30px,4.5vw,46px);font-weight:900;letter-spacing:-.03em;line-height:1;color:var(--accent);margin-bottom:6px}
+    .stat .l{font-size:14px;color:var(--muted);line-height:1.35}
+    table{width:100%;border-collapse:collapse;background:#fffaf2;border-radius:18px;overflow:hidden} th,td{padding:13px 14px;border-bottom:1px solid var(--line);text-align:left;vertical-align:top} th{background:#efe7da} tr:last-child td{border-bottom:0}
+    .mono{font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-weight:800;color:var(--accent2)}
+    .small{font-size:14px}.footer{padding:28px 0;color:var(--muted);font-size:14px}.hero{display:grid;grid-template-columns:1.15fr .85fr;gap:22px;align-items:stretch}@media(max-width:900px){.hero{grid-template-columns:1fr}}
+    .steps{counter-reset:step}
+    .step-n{display:inline-flex;align-items:center;justify-content:center;width:30px;height:30px;border-radius:50%;background:var(--accent2);color:#fff;font-weight:900;font-size:15px;margin-bottom:10px}
+    .cmd{margin:6px 0 0;padding-left:0;list-style:none;counter-reset:cmd}
+    .cmd li{position:relative;padding:9px 0 9px 40px;border-bottom:1px solid var(--line);font-size:15.5px}
+    .cmd li:last-child{border-bottom:0}
+    .cmd li:before{counter-increment:cmd;content:counter(cmd);position:absolute;left:0;top:8px;width:26px;height:26px;border-radius:50%;background:#efe7da;color:var(--accent);font-weight:900;font-size:13px;display:inline-flex;align-items:center;justify-content:center}
+    .eq{font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:clamp(24px,4vw,38px);font-weight:900;letter-spacing:-.02em;color:var(--accent);text-align:center;margin:8px 0 14px}
+    .xlinks{display:flex;gap:12px;flex-wrap:wrap;margin-top:8px}
+    .xlink{display:block;flex:1 1 240px;background:rgba(255,250,242,.9);border:1px solid var(--line);border-radius:16px;padding:16px 18px;box-shadow:var(--shadow);text-decoration:none;color:inherit}
+    .xlink b{color:var(--accent2)}
+    .src{margin:0;padding-left:0;list-style:none}.src li{padding:8px 0;border-bottom:1px solid var(--line);font-size:14.5px}.src li:last-child{border-bottom:0}
+  </style>
+</head>
+<body>
+<a href="../index.html" aria-label="Back to the trip map" style="display:inline-block;margin:14px 24px 4px;padding:7px 14px;border-radius:8px;border:1px solid rgba(128,128,128,.42);background:rgba(128,128,128,.14);color:inherit;font-family:ui-sans-serif,system-ui,-apple-system,Segoe UI,Roboto,sans-serif;font-weight:700;font-size:13px;text-decoration:none">← Back to the trip map</a>
+  <div class="wrap">
+    <header>
+      <div class="callout good" style="margin:14px 0 4px;font-size:16px"><strong>TL;DR —</strong> The white-faced guy trapped in an invisible box is the punchline version of mime. The real thing is much older and much broader: telling a story with the body instead of words. The words themselves are a trap — in ancient Rome, <em>pantomime</em> meant a masked solo dancer performing tragedy, while <em>mime</em> (<em>mimus</em>) meant rowdy, often filthy sketch comedy with plenty of talking. The silent-white-face art we picture is a French invention barely two centuries old: <strong>Deburau's</strong> sad Pierrot in a cheap Paris theatre, <strong>Decroux's</strong> rigorous "corporeal mime," and <strong>Marcel Marceau's</strong> Bip, who made walking-against-the-wind famous worldwide. The same wordless-body instinct drove silent-film comedy — <strong>Chaplin, Keaton, Lloyd</strong> — and still trains actors today at the <strong>Lecoq</strong> school in Paris.</div>
+      <div class="kicker">Context guide · cross-cutting rabbit hole</div>
+      <h1>Mime &amp;<br />Physical Comedy</h1>
+      <p class="lede">Mime has an image problem: say the word and most people picture a mediocre street performer in face paint, pretending to lean on a wall. Fair enough — that cliché is real. But it sits on top of one of the oldest ideas in performance: that a body alone, without lines, can tell a whole story and land every joke. Here's the through-line, from Roman dancers and Italian clowns to the sad Pierrot, Marceau's invisible wall, and the silent-film daredevils who were doing the same thing on camera.</p>
+      <div><span class="tag">Roman pantomimus ≠ mimus</span><span class="tag">commedia · lazzi</span><span class="tag">the slapstick</span><span class="tag">Deburau's Pierrot</span><span class="tag">Decroux · corporeal mime</span><span class="tag">Marceau · Bip</span><span class="tag">Chaplin · Keaton · Lloyd</span><span class="tag">the Lecoq school</span></div>
+    </header>
+
+    <section class="hero">
+      <div class="card">
+        <h2>The short version</h2>
+        <p>Strip out the face paint and mime is just <strong>physical storytelling</strong> — meaning carried by the body instead of the voice. That instinct is ancient and shows up in wildly different forms, which is why the vocabulary is such a mess.</p>
+        <p>In <strong>ancient Rome</strong> the two words we now blur together meant nearly opposite things. <em>Pantomimus</em> was a serious, masked solo dancer who played every role in a mythological story without speaking. <em>Mimus</em> was the opposite: loud, bawdy, spoken sketch comedy, closer to burlesque. Neither is the silent artist we picture today.</p>
+        <p>That silent artist is a <strong>modern, mostly French, invention</strong>. A 19th-century Parisian named Deburau built a wistful silent Pierrot; Étienne Decroux turned mime into a rigorous physical grammar he called <em>corporeal mime</em>; and his student Marcel Marceau made it a global act. Meanwhile the <strong>same physical comedy</strong> — pratfalls, timing, the body as the whole joke — jumped to film with Chaplin, Keaton, and Lloyd, and never really left.</p>
+      </div>
+      <div class="card tight">
+        <h3>Four things worth carrying</h3>
+        <p><span class="route">1 · The words lie.</span> Roman "pantomime" and "mime" were near-opposites, and neither meant "silent person in white face." That came much later.</p>
+        <p><span class="oiled">2 · The cliché is young.</span> White-face-in-a-box mime is a 19th–20th-century French thing, not an ancient one.</p>
+        <p><span class="route">3 · Comedy is the other half.</span> "Slapstick" is a literal prop from Italian commedia, and the silent-film clowns are mime's screen cousins.</p>
+        <p><span class="oiled">4 · It's a serious craft.</span> Behind the street-corner cliché sits real training — Decroux's grammar, and the Lecoq school that still feeds theatre and film today.</p>
+      </div>
+    </section>
+
+    <section>
+      <h2>Ancient roots: two Roman words, nearly opposite</h2>
+      <p class="lede" style="font-size:18px">The single most useful thing to know about mime is that its own name is a false friend. The Greeks and Romans had two different popular entertainments — <em>pantomime</em> and <em>mime</em> — and modern usage has almost swapped their meanings.</p>
+      <div class="grid g2" style="margin-top:6px">
+        <div class="card">
+          <h3>Pantomimus — the silent masked dancer</h3>
+          <p>The Roman <strong>pantomimus</strong> ("imitator of everything") was a <em>nonspeaking</em> solo dancer who acted out an entire mythological story — playing every character in turn — through masks, posture, and rhythmic gesture, backed by an orchestra and a chorus that sang the narrative. It became fashionable under the emperor <strong>Augustus</strong> and stayed popular for centuries. Its themes were lofty and tragic; the performer wore a series of masks, which meant <em>no facial expression at all</em> — the exact opposite of the modern mime, whose whole face is the instrument.</p>
+        </div>
+        <div class="card">
+          <h3>Mimus — the loud, dirty comedy</h3>
+          <p>The Roman <strong>mimus</strong> was the rowdy sibling: spoken farce and burlesque, often obscene, mocking the gods and everyday life, and — unusually for the ancient stage — featuring women performers. It was closer to a raunchy sketch show than to anything wordless. So the ancestor of the word "mime" is <em>talky, coarse comedy</em>, while the ancestor of "pantomime" is <em>silent, serious dance</em>. Every modern mix-up traces back to this pair.</p>
+        </div>
+      </div>
+      <div class="callout blue" style="margin-top:20px">
+        <p style="margin-bottom:0"><strong>Ancient celebrity culture, on brand:</strong> Roman pantomime had genuine superstars. Two freed slaves, <strong>Pylades</strong> (from Cilicia, tragic themes) and <strong>Bathyllus</strong> (from Alexandria, comic ones), are credited with popularizing the form under Augustus. Their fan factions rioted in the streets — Augustus briefly banished Pylades over the violence — and when the emperor complained, Pylades reportedly answered that letting the crowd obsess over dancers kept them distracted from politics. Leading pantomimes grew rich and politically connected. The through-line to Chaplin's fame is not as long as it looks.</p>
+      </div>
+    </section>
+
+    <section>
+      <h2>Commedia dell'arte: where the physical bits got codified</h2>
+      <p class="lede" style="font-size:18px">Fast-forward to 16th–17th-century Italy. <strong>Commedia dell'arte</strong> was improvised, masked comedy played by touring professional troupes working from a bare plot outline. What they carried instead of a script was a bank of physical comic routines — and that's the direct ancestor of a lot of modern physical comedy.</p>
+      <div class="grid g2" style="margin-top:6px">
+        <div class="card">
+          <h3>Lazzi — the reusable comic bits</h3>
+          <p>The <strong>lazzi</strong> (singular <em>lazzo</em>) were rehearsed, repeatable units of comic business — a pratfall, an acrobatic gag, a bit of slapstick, a running physical joke — that an actor could drop into any scene to get a laugh or rescue a sagging plot. They usually did <em>not</em> advance the story; they were pure comic craft. Troupes literally <strong>catalogued and numbered</strong> their best bits so any actor could call one up, and star performers became famous for their signature lazzi, which audiences waited for like a band's hit song.</p>
+        </div>
+        <div class="card">
+          <h3>Harlequin and the word "slapstick"</h3>
+          <p>The trickster servant <strong>Arlecchino</strong> (Harlequin) was the great physical role — nimble, acrobatic, always scheming. His signature prop gives us a word we still use: the <strong>slapstick</strong>. It's a real object — the Italian <em>batacchio</em>, two thin wooden slats hinged at a handle. Whack someone with it and the loose slat claps against the other, making a loud <em>crack</em> with almost no actual force. Big sound, no injury, guaranteed laugh. When we call broad physical comedy "slapstick," we're naming it after this stick.</p>
+        </div>
+      </div>
+      <div class="callout" style="margin-top:18px">
+        <p style="margin-bottom:0"><strong>Why it's the hinge:</strong> commedia is where wordless physical comedy became a <em>portable, teachable technology</em> — masks, stock characters, and a numbered library of gags any troupe could carry across borders and language barriers. That's exactly why it travelled so well, and why its DNA is visible everywhere downstream: the sad clown Pierrot is a commedia character, Harlequin's stick names an entire film genre, and the Lecoq school (below) still teaches commedia as core training.</p>
+      </div>
+    </section>
+
+    <section>
+      <h2>Modern silent mime: Deburau → Decroux → Marceau</h2>
+      <p class="lede" style="font-size:18px">Here's the surprise: the silent, white-faced mime everyone pictures is not ancient at all. It's a French lineage that runs through three men across about 150 years — a sad clown, a theorist, and a superstar.</p>
+      <div class="grid g3" style="margin-top:6px">
+        <div class="card">
+          <h3>Deburau — the sad Pierrot (1796–1846)</h3>
+          <p><strong>Jean-Gaspard Deburau</strong>, a Bohemian-born performer, worked at the <strong>Théâtre des Funambules</strong> on Paris's "Boulevard of Crime." Because that cheap theatre wasn't licensed to stage spoken plays, it did wordless pantomime — a legal restriction that forced an art form. Deburau reshaped the commedia <strong>Pierrot</strong> from a clumsy oaf into a wistful, white-clad, silent dreamer, the lovelorn everyman. Baudelaire and Gautier adored him. That melancholy white figure became the template for a century of Pierrots — and the founding image of "mime" as we mean it.</p>
+        </div>
+        <div class="card">
+          <h3>Decroux — corporeal mime (1898–1991)</h3>
+          <p><strong>Étienne Decroux</strong> is usually called the "father of modern mime," though he'd have narrowed that: he fathered <em>his</em> style, <strong>corporeal mime</strong> (<em>mime corporel</em>) — a rigorous physical grammar built on the trunk of the body, isolation, weight, and resistance, more Rodin sculpture than street gag. He treated mime as a serious, decades-long discipline rather than a party trick. His two most famous students carried it to the world: <strong>Jean-Louis Barrault</strong> and <strong>Marcel Marceau</strong>.</p>
+        </div>
+        <div class="card">
+          <h3>Marceau — "Bip" and the art of silence (1923–2007)</h3>
+          <p><strong>Marcel Marceau</strong> is the one who made mime a household word. In <strong>1947</strong> he created <strong>Bip</strong> — a white-faced clown in a striped pullover and a battered, be-flowered opera hat, his alter ego the way the Tramp was Chaplin's. He called the art "the art of silence" and toured it for 60 years. His set pieces — <em>Walking Against the Wind</em>, <em>The Cage</em>, the mask maker — are the conventions everyone now imitates: the invisible wall, the wind that bends the body, the room with no door.</p>
+        </div>
+      </div>
+      <div class="callout blue" style="margin-top:20px">
+        <p style="margin-bottom:0"><strong>The whole lineage, in one film:</strong> Marcel Carné's <em>Children of Paradise</em> (<em>Les Enfants du paradis</em>, shot under Nazi occupation, released 1945) is built around Deburau's world — <strong>Jean-Louis Barrault plays the mime Baptiste Deburau</strong>, and his teacher <strong>Étienne Decroux plays Baptiste's father</strong>, with the two of them staging the film's pantomime sequences. Deburau, Decroux, and (through Decroux) Marceau are effectively all present in a single movie. If you watch one thing after reading this, watch that.</p>
+      </div>
+      <div class="callout" style="margin-top:14px">
+        <p style="margin-bottom:0"><strong>A human note worth flagging:</strong> Marceau was born <strong>Marcel Mangel</strong> to a Jewish family in Strasbourg; his father died at Auschwitz. During the war he worked with the French Resistance and the Jewish relief network run by his cousin Georges Loinger, forging documents and guiding children toward the Swiss border — reportedly miming to keep them quiet during crossings. The exact number he helped save is retold in different sizes (a commonly cited figure is around 70; some accounts say more), so treat the headcount as approximate — but the wartime rescue work is well documented, and it's a striking origin for "the art of silence."</p>
+      </div>
+    </section>
+
+    <section class="steps">
+      <h2>Screen slapstick: the silent clowns did the same job</h2>
+      <p class="lede" style="font-size:18px">When film arrived, it arrived <em>silent</em> — no dialogue, just images. That handed the whole medium to performers who could tell a story and land a joke with the body alone. The three giants of that moment are mime's screen cousins, working the same muscle in a different room.</p>
+      <div class="grid g3" style="margin-top:6px">
+        <div class="card"><div class="step-n">1</div><h3>Charlie Chaplin — the Tramp</h3><p>The most famous physical comedian who ever lived. Chaplin's <strong>Little Tramp</strong> told entire feature-length stories — pathos, romance, social satire — through a walk, a twirl of the cane, a tip of the hat, and impeccably timed pratfalls. He built jokes that were pure choreography, and he did his own stunts. Marceau openly framed Bip as the stage counterpart to Chaplin's Tramp.</p></div>
+        <div class="card"><div class="step-n">2</div><h3>Buster Keaton — the Great Stone Face</h3><p>Keaton played it <strong>deadpan</strong> — never cracking a smile while the world collapsed around him — and did jaw-dropping, genuinely dangerous stunts himself. The signature: in <em>Steamboat Bill, Jr.</em> (1928) a two-ton building façade falls flat on him, and he's saved only because an open attic window passes cleanly over his body. One wrong foot-mark and it kills him. He shot it for real.</p></div>
+        <div class="card"><div class="step-n">3</div><h3>Harold Lloyd — the clock-hang</h3><p>Lloyd played the eager, bespectacled go-getter, and specialized in "thrill comedy." The immortal image — him <strong>dangling from the hands of a giant clock</strong> high over the street in <em>Safety Last!</em> (1923) — was done on a façade set built atop a real building, shot from an angle that put actual downtown Los Angeles far below him. Terrifying, funny, and largely real.</p></div>
+      </div>
+      <div class="callout blue" style="margin-top:20px">
+        <p style="margin-bottom:0"><strong>The tradition didn't die with sound.</strong> France's <strong>Jacques Tati</strong> built near-silent comedies around the bumbling <strong>Monsieur Hulot</strong> (<em>Monsieur Hulot's Holiday</em>, 1953), telling stories through sound design and precise physical gags rather than dialogue — a recurring wordless everyman, much like the Tramp. And <strong>Rowan Atkinson's Mr. Bean</strong> is a direct descendant: Atkinson has named both Keaton and Tati as influences and built Bean as an almost entirely <em>visual</em>, near-silent character. When Bean can't get a deckchair to work, you're watching a lazzo with a British accent.</p>
+      </div>
+    </section>
+
+    <section>
+      <h2>The Lecoq school: where the craft still lives</h2>
+      <p class="lede" style="font-size:18px">If mime were only a street-corner cliché it wouldn't matter much. It survives as a serious discipline largely because of one Paris school and the pedagogy behind it.</p>
+      <div class="grid g2" style="margin-top:6px">
+        <div class="card">
+          <h3>Jacques Lecoq and his school</h3>
+          <p><strong>Jacques Lecoq</strong> (1921–1999) founded his <strong>École Internationale de Théâtre</strong> in Paris in <strong>1956</strong>. Rather than teach "mime" as fixed routines, he taught actors to be <em>physically articulate</em> — to build theatre out of the body, movement, and space. His famous tools include the <strong>neutral mask</strong> (a blank mask that strips away personality so students learn pure, uncluttered movement) and a scale of bodily <strong>states of tension</strong>. The curriculum runs through mime, commedia, mask, and — crucially — <strong>clown</strong>. He distrusted book-learning and taught almost entirely through doing.</p>
+        </div>
+        <div class="card">
+          <h3>Why it matters beyond mime</h3>
+          <p>Lecoq's real legacy is <strong>physical theatre</strong>, not "mime" in the narrow sense. His graduates and their descendants populate serious theatre, devised performance, and the "new clowning" movement — companies like Complicité and countless film and stage actors trace technique back to his room. So the honest map is: the white-face act is one small, dated branch; the living trunk is a whole approach to acting through the body that quietly feeds a lot of the theatre and film you already like.</p>
+        </div>
+      </div>
+      <div class="callout" style="margin-top:18px">
+        <p style="margin-bottom:0"><strong>The honest note this whole page is built around:</strong> "mime" as a white-faced person silently leaning on an invisible wall is now, fairly, a bit of a punchline — even mimes joke about it. But that cliché is a thin, recent slice of something much larger and older: <em>physical theatre</em>, the craft of telling a story and landing a joke with the body. Roman dancers, Italian clowns with numbered gags, a sad Parisian Pierrot, Chaplin falling down beautifully, and a Lecoq student building a play from a neutral mask are all doing the same fundamental thing. The box is the cliché; the body is the art.</p>
+      </div>
+    </section>
+
+    <section style="border-bottom:0">
+      <h2>The one-liner</h2>
+      <div class="card"><p class="lede" style="margin:0">Mime isn't the guy in the invisible box — that's the punchline. It's the oldest trick in performance: telling a whole story with the body and no words. The name is a false friend (Rome's "pantomime" was silent tragic dance, its "mime" was dirty spoken farce), the silent-white-face version is a 200-year-old French invention running Deburau → Decroux → <strong>Marceau</strong>, and its screen twin is the silent-film clown — <strong>Chaplin, Keaton, Lloyd</strong> — with the craft still taught today at the <strong>Lecoq</strong> school as physical theatre.</p></div>
+      <div class="xlinks">
+        <a class="xlink" href="history-of-juggling.html"><b>Deep dive →</b><br />A Short History of Juggling — the sibling craft that shared a single word ("juggler" = trickster-entertainer) with magic and mime for a thousand years.</a>
+        <a class="xlink" href="history-of-magic.html"><b>Deep dive →</b><br />A History of Magic — the other descendant of the medieval jack-of-all-trades performer, built on the same manual dexterity and stagecraft.</a>
+      </div>
+    </section>
+
+    <section style="border-bottom:0;padding-top:8px">
+      <h2>Sources</h2>
+      <p class="muted small">Real links, so you can check the load-bearing claims. Flagged in the text where a figure is retold at different sizes (Marceau's rescue headcount) or a title is a term of art with caveats ("father of modern mime").</p>
+      <ul class="src">
+        <li>"Mime and pantomime" &amp; "Pantomimus," Encyclopædia Britannica — the Roman <em>pantomimus</em> (silent masked solo dancer, lofty/tragic themes) vs. <em>mimus</em> (bawdy spoken farce with women performers), and the popularity under Augustus. <a href="https://www.britannica.com/art/mime-and-pantomime">britannica.com/art/mime-and-pantomime</a> · <a href="https://www.britannica.com/art/pantomimus">britannica.com/art/pantomimus</a></li>
+        <li>"Bathyllus and Pylades," Encyclopedia.com &amp; purple motes — the two freed-slave star pantomimes under Augustus, their comic/tragic split, fan riots, and Pylades's "let the people kill their time with us" retort. <a href="https://www.encyclopedia.com/humanities/culture-magazines/bathyllus-and-pylades">encyclopedia.com</a> · <a href="https://www.purplemotes.net/2010/02/07/ancient-roman-pantomime/">purplemotes.net</a></li>
+        <li>"Lazzi (Comic Gags of the Commedia)" &amp; "Commedia dell'arte," Britannica / Wikipedia — lazzi as rehearsed, catalogued comic bits that don't advance the plot, and star actors' signature routines. <a href="https://learningthroughtheatre.co.uk/lazzi">learningthroughtheatre.co.uk/lazzi</a> · <a href="https://www.britannica.com/art/commedia-dellarte">britannica.com/art/commedia-dellarte</a></li>
+        <li>"Slapstick," Wikipedia — the word from the Italian <em>batacchio</em>/<em>bataccio</em>, two hinged wooden slats used by Harlequin: big <em>crack</em>, little force. <a href="https://en.wikipedia.org/wiki/Slapstick">en.wikipedia.org/wiki/Slapstick</a></li>
+        <li>"Jean-Gaspard Deburau," Wikipedia &amp; Britannica — the Théâtre des Funambules, the wordless-pantomime licensing restriction, and his reshaping of Pierrot into the melancholy white figure. <a href="https://en.wikipedia.org/wiki/Jean-Gaspard_Deburau">en.wikipedia.org</a> · <a href="https://www.britannica.com/biography/Jean-Gaspard-Deburau">britannica.com</a></li>
+        <li>"Étienne Decroux," Wikipedia — "father of modern mime" (with his own caveat), the development of <em>corporeal mime</em>, and his students Barrault and Marceau. <a href="https://en.wikipedia.org/wiki/%C3%89tienne_Decroux">en.wikipedia.org/wiki/Étienne_Decroux</a></li>
+        <li>"Marcel Marceau," Wikipedia — Bip (1947), "the art of silence," <em>Walking Against the Wind</em> / <em>The Cage</em>, the Bip-as-Tramp framing, and the Strasbourg/Resistance biography. <a href="https://en.wikipedia.org/wiki/Marcel_Marceau">en.wikipedia.org/wiki/Marcel_Marceau</a></li>
+        <li>"The French Resistance's Secret Weapon? The Mime Marcel Marceau," HISTORY &amp; Snopes fact-check — the wartime rescue work with Georges Loinger's network, and the caution that the number of children is reported inconsistently. <a href="https://www.history.com/articles/marcel-marceau-wwii-french-resistance-georges-loinger">history.com</a> · <a href="https://www.snopes.com/fact-check/marcel-marceau-saved-children-nazis/">snopes.com</a></li>
+        <li>"Children of Paradise," Wikipedia — Barrault as Baptiste Deburau, Decroux as his father, and the two staging the film's pantomime sequences (released 1945, shot under occupation). <a href="https://en.wikipedia.org/wiki/Children_of_Paradise">en.wikipedia.org/wiki/Children_of_Paradise</a></li>
+        <li>"Buster Keaton," Britannica / Wikipedia — the "Great Stone Face," self-performed stunts, and the <em>Steamboat Bill, Jr.</em> (1928) falling-façade gag. <a href="https://www.britannica.com/biography/Buster-Keaton">britannica.com</a> · <a href="https://en.wikipedia.org/wiki/Buster_Keaton">en.wikipedia.org</a></li>
+        <li>"Safety Last!," Rotten Tomatoes / Open Culture — Harold Lloyd's clock-hang (1923), built on a rooftop façade over real downtown LA. <a href="https://editorial.rottentomatoes.com/article/safety-last-10-of-the-most-daring-stunts-of-the-silent-era/">rottentomatoes.com</a> · <a href="https://www.openculture.com/2025/05/how-charlie-chaplin-buster-keaton-harold-lloyd-pulled-off-their-spectacular-stunts-during-silent-films-golden-age.html">openculture.com</a></li>
+        <li>"Jacques Lecoq" &amp; "L'École Internationale de Théâtre Jacques Lecoq," Wikipedia — the 1956 Paris school, "physically articulate," the neutral mask and states of tension, and the mime/commedia/clown curriculum. <a href="https://en.wikipedia.org/wiki/Jacques_Lecoq">en.wikipedia.org/wiki/Jacques_Lecoq</a> · <a href="https://en.wikipedia.org/wiki/L'%C3%89cole_Internationale_de_Th%C3%A9%C3%A2tre_Jacques_Lecoq">en.wikipedia.org (the school)</a></li>
+        <li>"Mr. Bean" &amp; "Mr. Bean's Holiday," Wikipedia / Grokipedia — Rowan Atkinson's near-silent visual character and his stated debt to Buster Keaton and Jacques Tati's Monsieur Hulot. <a href="https://en.wikipedia.org/wiki/Mr._Bean%27s_Holiday">en.wikipedia.org/wiki/Mr._Bean's_Holiday</a></li>
+      </ul>
+      <div class="footer" style="padding-top:20px">
+        A travel-atlas context explainer, not a theatre-history dissertation — dates and names are from standard references and cross-checked, with the shakier bits flagged in-line (Marceau's rescue headcount is reported at different sizes; "father of modern mime" is a term of art Decroux himself qualified). The one genuinely load-bearing argument here is the honest one: the invisible-box mime is a thin recent cliché sitting on top of a much older, broader craft — physical storytelling — that runs from Roman dancers through Chaplin to the Lecoq school. See also the <a href="history-of-juggling.html">juggling</a> and <a href="history-of-magic.html">magic</a> explainers, mime's cousins in the old trickster-entertainer family.
+      </div>
+    </section>
+  </div>
+</body>
+</html>
